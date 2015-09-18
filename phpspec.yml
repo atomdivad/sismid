@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SisMid
+        psr4_prefix: SisMid
+        src_path: app
