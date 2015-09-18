@@ -2,7 +2,8 @@
 
 namespace SisMid\Http\Controllers\Auth;
 
-use SisMid\User;
+use Artesaos\Defender\Facades\Defender;
+use SisMid\Models\Usuario;
 use Validator;
 use SisMid\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -42,8 +43,9 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'nome' => 'required|max:255',
+            'sobrenome' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:usuarios',
             'password' => 'required|confirmed|min:6',
         ]);
     }
@@ -56,10 +58,16 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user = Usuario::create([
+            'nome' => $data['nome'],
+            'sobrenome' => $data['sobrenome'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $role = Defender::findRole('A2');
+        $user->attachRole($role);
+
+        return $user;
     }
 }

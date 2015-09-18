@@ -29,5 +29,11 @@ class Kernel extends HttpKernel
         'auth' => \SisMid\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \SisMid\Http\Middleware\RedirectIfAuthenticated::class,
+
+        // Access control using permissions
+        'needsPermission' => \Artesaos\Defender\Middlewares\NeedsPermissionMiddleware::class,
+
+        // Simpler access control, uses only the groups
+        'needsRole' => \Artesaos\Defender\Middlewares\NeedsRoleMiddleware::class
     ];
 }

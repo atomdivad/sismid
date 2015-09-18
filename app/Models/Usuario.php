@@ -1,6 +1,6 @@
 <?php
 
-namespace SisMid;
+namespace SisMid\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Laracasts\Presenter\PresentableTrait;
 
-class User extends Model implements AuthenticatableContract,
+class Usuario extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
 {
@@ -23,21 +23,28 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var string
      */
-    protected $presenter = 'SisMid\Presenters\UserPresenter';
+    protected $presenter = 'SisMid\Presenters\UsuarioPresenter';
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'users';
+    protected $table = 'usuarios';
+
+    /**
+     * The primary key of table used by the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'idUsuario';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['nome', 'sobrenome', 'email', 'password'];
 
     /**
      * The attributes excluded from the model's JSON form.

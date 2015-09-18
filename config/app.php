@@ -146,9 +146,14 @@ return [
         SisMid\Providers\RouteServiceProvider::class,
 
         /*
-         * HTML and Forms Sevice Providers
+         * HTML and Forms Service Provider
          */
         Illuminate\Html\HtmlServiceProvider::class,
+
+        /*
+         * Defender Service Provider
+         */
+        \Artesaos\Defender\Providers\DefenderServiceProvider::class,
 
     ],
 
@@ -204,6 +209,7 @@ return [
          */
         'Form'      =>  Illuminate\Html\FormFacade::class,
         'Html'      =>  Illuminate\Html\HtmlFacade::class,
+        'Defender' => \Artesaos\Defender\Facades\Defender::class,
 
     ],
 
