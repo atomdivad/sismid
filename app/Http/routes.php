@@ -11,36 +11,60 @@
 |
 */
 
+Route::pattern('id', '[0-9]+');
+
 Route::get('/', function () {
     return view('app');
 });
 
-Route::get('/home',['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'any' => true, function () {
-    return view('home');
-}]);
+Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'any' => true], function() {
+
+    Route::get('/home', ['as' => 'home', function () {
+        return view('home');
+    }]);
+
+    Route::group(['prefix' => 'pid'], function() {
+
+        Route::get('create', ['as' => 'pid.create', 'uses' => 'PidController@create']);
+        Route::post('/', ['as' => 'pid.store', 'uses' => 'PidController@store']);
+    });
+
+});
+
+Route::group(['prefix' => 'api'], function(){
+
+    Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);
+});
 
 
-/*
- * Authentication routes
- */
-Route::get('auth/login', ['as' => 'auth.formLogin', 'uses' => 'Auth\AuthController@getLogin']);
-Route::post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@postLogin']);
-Route::get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@getLogout']);
+route::group(['prefix' => 'auth'], function(){
 
-/*
- * Registration routes
- */
-Route::get('auth/register', ['as' => 'auth.formRegister', 'uses' => 'Auth\AuthController@getRegister']);
-Route::post('auth/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@postRegister']);
+    /*
+     * Authentication routes
+     */
+    Route::get('/login', ['as' => 'auth.formLogin', 'uses' => 'Auth\AuthController@getLogin']);
+    Route::post('/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@postLogin']);
+    Route::get('/logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@getLogout']);
 
-/*
- * Password reset link request routes
- */
-Route::get('password/email', 'Auth\PasswordController@getEmail');
-Route::post('password/email', 'Auth\PasswordController@postEmail');
+    /*
+     * Registration routes
+     */
+    Route::get('/register', ['as' => 'auth.formRegister', 'uses' => 'Auth\AuthController@getRegister']);
+    Route::post('/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@postRegister']);
+});
 
-/*
- * Password reset routes
- */
-Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-Route::post('password/reset', 'Auth\PasswordController@postReset');
+
+route::group(['prefix' => 'password'], function() {
+
+  /*
+  * Password reset link request routes
+  */
+    Route::get('/email', 'Auth\PasswordController@getEmail');
+    Route::post('/email', 'Auth\PasswordController@postEmail');
+
+    /*
+     * Password reset routes
+     */
+    Route::get('/reset/{token}', 'Auth\PasswordController@getReset');
+    Route::post('/reset', 'Auth\PasswordController@postReset');
+});

@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SISMID</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link href="{{ asset('/assets/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -30,9 +30,9 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastrar <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Sub-menu</a></li>
+                            <li><a href="{{ route('pid.create') }}">Cadastrar PID</a></li>
                             <li><a href="#">Sub-menu 2</a></li>
                         </ul>
                     </li>
@@ -63,9 +63,14 @@
     @yield('content')
 </div>
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<hr/>
+<footer>
+    &copy;
+</footer>
+
+<script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
+<script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
+@yield('script')
 
 </body>
 </html>
