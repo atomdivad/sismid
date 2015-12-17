@@ -30,8 +30,10 @@ class PidController extends Controller
     public function create()
     {
         $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
+        $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
+        $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
 
-        return view('pids.create', compact('uf'));
+        return view('pids.create', compact('uf','localidades','localizacoes'));
     }
 
     /**
@@ -56,9 +58,6 @@ class PidController extends Controller
             'latitude' => 'required',
             'longitude' => 'required'
         ]);
-
-        $request['localidade_id'] = 1;
-        $request['localizacao_id'] = 1;
 
         $endereco = Endereco::create($request->all());
         $endereco->pid()->create($request->all());

@@ -59,7 +59,6 @@
 </nav>
 
 <div class="container" style="padding-top:70px;">
-    @include('errors.list')
     @yield('content')
 </div>
 
@@ -70,6 +69,8 @@
 
 <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
 <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('/assets/js/vue.min.js') }}"></script>
+<script src="{{ asset('/assets/js/vue-resource.min.js') }}"></script>
 @yield('script')
 
 </body>

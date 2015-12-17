@@ -1,11 +1,68 @@
 Vue.http.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content');
 
 var app = new Vue({
-    el: "#app",
+    el: "#PID",
 
-    data: {},
+    data: {
+        pid: {
+            nome: '',
+            email: '',
+            url: '',
+            endereco: {
+                cep: '',
+                logradouro: '',
+                numero: '',
+                complemento: '',
+                bairro: '',
+                cidade_id: '',
+                latitude: '',
+                longitude: '',
+                localidade_id: '',
+                localizacao_id: ''
+            },
+            telefones: [],
+            instituicoes: [],
+            iniciativas: []
+        },
+        novoTelefone: {
+            telefone: '',
+            responsavel: '',
+            tipoTelefone_id: ''
+        }
+    },
 
-    method: {},
+    methods: {
+        cadastrarTelefone: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            self.pid.telefones.push(jQuery.extend({}, self.novoTelefone));
+            self.novoTelefone.telefone = '';
+            self.novoTelefone.responsavel = '';
+            self.novoTelefone.tipoTelefone_id = '';
+            jQuery('#novoTelefone').modal('toggle');
+        },
+
+        cancelarTelefone: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            self.novoTelefone.telefone = '';
+            self.novoTelefone.responsavel = '';
+            self.novoTelefone.tipoTelefone_id = '';
+            jQuery('#novoTelefone').modal('toggle');
+        },
+
+        removerTelefone: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            self.pid.telefones.splice(index, 1);
+            /* Retirar no BD */
+        },
+
+        cancelarInstituicoes: function(ev) {
+            ev.preventDefault();
+            jQuery('#modalIntituicoes').modal('toggle');
+        }
+    },
 
     ready: function() {},
 

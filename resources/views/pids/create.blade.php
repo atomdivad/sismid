@@ -6,9 +6,13 @@
         </div>
     </div>
 
-    <div class="row">
+    @include('errors.list')
+
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+
+    <div class="row" id="PID">
         <div class="col-sm-12">
-            {!! Form::open(['method' => 'POST', 'route' => 'pid.store']) !!}
+
 
             @include('pids.partials.form', $uf)
 
@@ -23,7 +27,6 @@
                 </div>
             </div>
 
-            {!! Form::close() !!}
         </div>
     </div>
 @endsection

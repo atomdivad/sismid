@@ -3,25 +3,25 @@
 namespace SisMid\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Pid extends Model
+class Instituicao extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'pids';
+    protected $table = 'instituicoes';
 
-    protected $primaryKey = 'idPid';
+    protected $primaryKey = 'idInstituicao';
 
     protected $fillable = [
         'nome',
+        'endereco_id',
+        'naturezaJuridica_id',
         'email',
-        'url',
-        'endereco_id'
+        'url'
     ];
 
     protected $guarded = [
-        'idPid',
+        'idInstituicao',
     ];
 
     protected $dates = [
@@ -30,17 +30,20 @@ class Pid extends Model
         'deleted_at'
     ];
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function endereco()
     {
         return $this->belongsTo('SisMid\Models\Endereco');
     }
-
     /**
      * Relacionamento many to many
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function telefones()
     {
-        return $this->belongsToMany('SisMid\Gestao\Telefone', 'pid_telefones', 'idPid', 'idTelefone');
+        return $this->belongsToMany('SisMid\Gestao\Telefone', 'instituicao_telefones', 'idInstituicao', 'idTelefone');
     }
 }
