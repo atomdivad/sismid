@@ -41,6 +41,6 @@ class Pid extends Model
      */
     public function telefones()
     {
-        return $this->belongsToMany('SisMid\Gestao\Telefone', 'pid_telefones', 'idPid', 'idTelefone');
+        return $this->belongsToMany('SisMid\Models\Telefone', 'pid_telefones', 'idPid', 'idTelefone');
     }
 }

@@ -3,6 +3,7 @@
 namespace SisMid\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Instituicao extends Model
 {
@@ -44,6 +45,6 @@ class Instituicao extends Model
      */
     public function telefones()
     {
-        return $this->belongsToMany('SisMid\Gestao\Telefone', 'instituicao_telefones', 'idInstituicao', 'idTelefone');
+        return $this->belongsToMany('SisMid\Models\Telefone', 'instituicao_telefones', 'idInstituicao', 'idTelefone');
     }
 }

@@ -1,6 +1,6 @@
 Vue.http.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content');
 
-var app = new Vue({
+var pid = new Vue({
     el: "#PID",
 
     data: {
@@ -117,30 +117,3 @@ function geocodeAddress(geocoder, resultsMap) {
         }
     });
 }
-
-/* Busca as cidades do estado selecionado */
-function getCidades(uf)
-{
-    $.get("/api/uf/"+uf+"/cidades/",
-        function (data) {
-            var cidade = $('#cidade_id');
-            cidade.empty();
-
-            cidade.append('<option value="" selected>Selecione a cidade</a>');
-            for ($i = 0; $i < data.length; $i++) {
-                cidade.append('<option value="' + data[$i].idCidade + '">' + data[$i].nomeCidade + '</a>');
-            }
-        }
-    );
-}
-
-(function() {
-    $("#uf").change(function() {
-
-        var uf =  $(this)
-        getCidades(uf.val());
-
-    });
-}).call(this);
-
-$(getCidades($("#uf").val()));

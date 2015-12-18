@@ -33,6 +33,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastrar <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ route('pid.create') }}">Cadastrar PID</a></li>
+                            <li><a href="{{ route('instituicao.create') }}">Cadastrar Instituição</a></li>
                             <li><a href="#">Sub-menu 2</a></li>
                         </ul>
                     </li>

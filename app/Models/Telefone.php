@@ -13,7 +13,7 @@ class Telefone extends Model
     protected $fillable = [
         'telefone',
         'responsavel',
-        'telefone_tipo_id'
+        'telefoneTipo_id'
     ];
 
     protected $guarded = ['idTelefone'];

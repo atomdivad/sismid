@@ -33,7 +33,7 @@
                     <label for="name">Tipo Telefone</label>
                     <div class="row">
                         <div class="col-sm-12">
-                            <input type="text" name="tipoTelefone_id" class="form-control" v-model="novoTelefone.tipoTelefone_id"/>
+                            <input type="text" name="telefoneTipo_id" class="form-control" v-model="novoTelefone.telefoneTipo_id"/>
                         </div>
                     </div>
                 </div>
