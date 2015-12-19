@@ -27,6 +27,12 @@ var instituicao = new Vue({
             telefone: '',
             responsavel: '',
             telefoneTipo_id: ''
+        },
+
+        response: {
+            show: false,
+            error: false,
+            msg:[]
         }
     },
 
@@ -61,26 +67,35 @@ var instituicao = new Vue({
             ev.preventDefault();
             var self = this;
             if(self.instituicao.idInstituicao === null) {
-                self.$http.post('/instituicao/', self.instituicao, function (response){
-                    alert("Salvo");
+                self.$http.post('/instituicao/store', self.instituicao, function (response){
+                    self.alerta(false, {msg:['Salvo com sucesso!']})
                     self.$set('instituicao', response);
                     window.location.pathname = '/instituicao/'+response.idInstituicao+'/edit';
 
                 }).error(function (response){
-                    alert('ERROR');
+                    self.alerta(true, response);
                 });
             }
             else {
-                self.$http.put('/instituicao/', self.instituicao, function (response){
-                    alert("Atualizado");
+                self.$http.post('/instituicao/update', self.instituicao, function (response){
+                    self.alerta(false, {msg:['Atualizado com sucesso!']})
                     self.$set('instituicao', response);
-                    //window.location.pathname = '/instituicao/'+response.idInstituicao+'/edit';
 
                 }).error(function (response){
-                    alert('ERROR');
+                    self.alerta(true, response);
                 });
             }
+        },
+
+        alerta: function(error, msg) {
+            var self = this;
+            self.$set('response.error', error);
+            self.$set('response.msg', msg);
+            self.$set('response.show', true);
+            if(!self.response.error)
+                setTimeout(function(){ self.$set('response.show', false);}, 5000);
         }
+
     },
 
     ready: function() {

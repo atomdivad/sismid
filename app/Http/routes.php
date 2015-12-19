@@ -32,11 +32,13 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
     Route::group(['prefix' => 'instituicao'], function() {
 
         Route::get('create', ['as' => 'instituicao.create', 'uses' => 'InstituicaoController@create']);
-        Route::post('/', ['as' => 'instituicao.store', 'uses' => 'InstituicaoController@store']);
+        Route::post('/store', ['as' => 'instituicao.store', 'uses' => 'InstituicaoController@store']);
         Route::get('/{id}/show/', ['as' => 'instituicao.show', 'uses' => 'InstituicaoController@show']);
         Route::get('/{id}/edit/', ['as' => 'instituicao.edit', 'uses' => 'InstituicaoController@edit']);
-        Route::put('/', ['as' => 'instituicao.update', 'uses' => 'InstituicaoController@update']);
+        Route::post('/update', ['as' => 'instituicao.update', 'uses' => 'InstituicaoController@update']);
     });
+
+        Route::resource('iniciativa', 'IniciativaController');
 
 });
 

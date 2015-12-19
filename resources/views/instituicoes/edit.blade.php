@@ -11,6 +11,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
     <div class="row" id="instituicao">
+
+        {{-- Div Mensagem Alerta --}}
+        <div class="alert" v-bind:class="{ 'alert-danger':response.error, 'alert-success':!response.error }" v-show="response.show">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <div v-for="er in response.msg"><strong>@{{ er }}</strong><br/></div>
+        </div>
+        {{-- Fim Div Mensagem Alerta --}}
+
         <div class="col-sm-12">
             @include('instituicoes.partials.form')
             <div class="form-group">
