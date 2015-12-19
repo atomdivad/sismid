@@ -2,7 +2,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            <legend><i class="glyphicon glyphicon-edit"></i> Cadastrar PID</legend>
+            <legend><i class="glyphicon glyphicon-edit"></i> Cadastrar Iniciativas</legend>
         </div>
     </div>
 
@@ -10,16 +10,13 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-    <div class="row" id="PID">
+    <div class="row" id="iniciativa">
         <div class="col-sm-12">
-
-
-            @include('pids.partials.form', $uf)
-
+            @include('iniciativas.partials.form')
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
-                        <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save"></span> Cadastrar</button>
+                        <button class="btn btn-success" type="submit" v-on:click="salvarInstituicao($event)"><span class="glyphicon glyphicon-save"></span> Cadastrar</button>
                     </div>
                     <div class="col-sm-6 text-right">
                         <a class="btn btn-default" href="{{route('home')}}">Cancerlar</a>

@@ -27,6 +27,22 @@ class CreatePidsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        /*
+         * Tabela de relacionamento PID-TELEFONES (many to many)
+         */
+        Schema::create('pid_telefones', function (Blueprint $table) {
+            $table->unsignedInteger('idPid');
+            $table->foreign('idPid')
+                ->references('idPid')
+                ->on('pids')
+                ->onDelete('cascade');
+
+            $table->unsignedInteger('idTelefone');
+            $table->foreign('idTelefone')
+                ->references('idTelefone')
+                ->on('telefones');
+        });
     }
 
     /**
@@ -36,6 +52,7 @@ class CreatePidsTable extends Migration
      */
     public function down()
     {
+        Schema::drop('pid_telefones');
         Schema::drop('pids');
     }
 }

@@ -33,6 +33,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastrar <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ route('pid.create') }}">Cadastrar PID</a></li>
+                            <li><a href="{{ route('instituicao.create') }}">Cadastrar Instituição</a></li>
                             <li><a href="#">Sub-menu 2</a></li>
                         </ul>
                     </li>
@@ -59,7 +60,6 @@
 </nav>
 
 <div class="container" style="padding-top:70px;">
-    @include('errors.list')
     @yield('content')
 </div>
 
@@ -70,6 +70,8 @@
 
 <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
 <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('/assets/js/vue.min.js') }}"></script>
+<script src="{{ asset('/assets/js/vue-resource.min.js') }}"></script>
 @yield('script')
 
 </body>

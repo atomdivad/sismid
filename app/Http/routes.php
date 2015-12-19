@@ -29,6 +29,15 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
         Route::post('/', ['as' => 'pid.store', 'uses' => 'PidController@store']);
     });
 
+    Route::group(['prefix' => 'instituicao'], function() {
+
+        Route::get('create', ['as' => 'instituicao.create', 'uses' => 'InstituicaoController@create']);
+        Route::post('/', ['as' => 'instituicao.store', 'uses' => 'InstituicaoController@store']);
+        Route::get('/{id}/show/', ['as' => 'instituicao.show', 'uses' => 'InstituicaoController@show']);
+        Route::get('/{id}/edit/', ['as' => 'instituicao.edit', 'uses' => 'InstituicaoController@edit']);
+        Route::put('/', ['as' => 'instituicao.update', 'uses' => 'InstituicaoController@update']);
+    });
+
 });
 
 Route::group(['prefix' => 'api'], function(){
