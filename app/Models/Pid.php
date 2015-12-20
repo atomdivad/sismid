@@ -30,6 +30,9 @@ class Pid extends Model
         'deleted_at'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function endereco()
     {
         return $this->belongsTo('SisMid\Models\Endereco');

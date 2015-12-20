@@ -26,7 +26,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
     Route::group(['prefix' => 'pid'], function() {
 
         Route::get('create', ['as' => 'pid.create', 'uses' => 'PidController@create']);
-        Route::post('/', ['as' => 'pid.store', 'uses' => 'PidController@store']);
+        Route::post('/store', ['as' => 'pid.store', 'uses' => 'PidController@store']);
     });
 
     Route::group(['prefix' => 'instituicao'], function() {
@@ -38,7 +38,13 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
         Route::post('/update', ['as' => 'instituicao.update', 'uses' => 'InstituicaoController@update']);
     });
 
-        Route::resource('iniciativa', 'IniciativaController');
+    Route::group(['prefix' => 'iniciativa'], function() {
+        Route::get('create', ['as' => 'iniciativa.create', 'uses' => 'IniciativaController@create']);
+        Route::post('/store', ['as' => 'iniciativa.store', 'uses' => 'IniciativaController@store']);
+        Route::get('/{id}/show/', ['as' => 'iniciativa.show', 'uses' => 'IniciativaController@show']);
+        Route::get('/{id}/edit/', ['as' => 'iniciativa.edit', 'uses' => 'IniciativaController@edit']);
+        Route::post('/update', ['as' => 'iniciativa.update', 'uses' => 'IniciativaController@update']);
+    });
 
 });
 

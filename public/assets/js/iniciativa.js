@@ -1,14 +1,14 @@
 Vue.http.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content');
 
-var instituicao = new Vue({
-    el: "#instituicao",
+var iniciativa = new Vue({
+    el: "#iniciativa",
 
     data: {
-        instituicao: {
-            idInstituicao: null,
+        iniciativa: {
+            idIniciativa: null,
+            tipo_id: '',
             nome: '',
-            email: '',
-            url: '',
+            sigla: '',
             endereco: {
                 cep: '',
                 logradouro: '',
@@ -17,16 +17,32 @@ var instituicao = new Vue({
                 bairro: '',
                 uf: '',
                 cidade_id: '',
+                latitude: '',
+                longitude: '',
                 localidade_id: '',
                 localizacao_id: ''
             },
-            telefones: []
+            naturezaJuridica_id: '',
+            email: '',
+            url: '',
+            objetivo: '',
+            informacaoComplementar: '',
+            categoria_id: '',
+            fonte: '',
+            telefones: [],
+            instituicoes: []
         },
         novoTelefone: {
             idTelefone: null,
             telefone: '',
             responsavel: '',
             telefoneTipo_id: ''
+        },
+
+        response: {
+            show: false,
+            error: false,
+            msg:[]
         }
     },
 
@@ -34,7 +50,7 @@ var instituicao = new Vue({
         cadastrarTelefone: function(ev) {
             ev.preventDefault();
             var self = this;
-            self.instituicao.telefones.push(jQuery.extend({}, self.novoTelefone));
+            self.iniciativa.telefones.push(jQuery.extend({}, self.novoTelefone));
             self.novoTelefone.telefone = '';
             self.novoTelefone.responsavel = '';
             self.novoTelefone.telefoneTipo_id = '';
@@ -53,33 +69,41 @@ var instituicao = new Vue({
         removerTelefone: function(ev, index) {
             ev.preventDefault();
             var self = this;
-            self.instituicao.telefones.splice(index, 1);
+            self.iniciativa.telefones.splice(index, 1);
             /* Retirar no BD */
         },
 
-        salvarInstituicao: function(ev) {
+        salvarIniciativa: function(ev) {
             ev.preventDefault();
             var self = this;
-            if(self.instituicao.idInstituicao === null) {
-                self.$http.post('/instituicao/', self.instituicao, function (response){
-                    alert("Salvo");
-                    self.$set('instituicao', response);
-                    window.location.pathname = '/instituicao/'+response.idInstituicao+'/edit';
+            if(self.iniciativa.idIniciativa === null) {
+                self.$http.post('/iniciativa/store', self.iniciativa, function (response){
+                    self.alerta(false, {msg:['Salvo com sucesso!']})
+                    self.$set('iniciativa', response);
+                    window.location.pathname = '/iniciativa/'+response.idIniciativa+'/edit';
 
                 }).error(function (response){
-                    alert('ERROR');
+                    self.alerta(true, response);
                 });
             }
             else {
-                self.$http.put('/instituicao/', self.instituicao, function (response){
-                    alert("Atualizado");
-                    self.$set('instituicao', response);
-                    //window.location.pathname = '/instituicao/'+response.idInstituicao+'/edit';
+                self.$http.post('/iniciativa/update', self.iniciativa, function (response){
+                    self.alerta(false, {msg:['Atualizado com sucesso!']})
+                    self.$set('iniciativa', response);
 
                 }).error(function (response){
-                    alert('ERROR');
+                    self.alerta(true, response);
                 });
             }
+        },
+
+        alerta: function(error, msg) {
+            var self = this;
+            self.$set('response.error', error);
+            self.$set('response.msg', msg);
+            self.$set('response.show', true);
+            if(!self.response.error)
+                setTimeout(function(){ self.$set('response.show', false);}, 5000);
         }
     },
 
@@ -89,12 +113,12 @@ var instituicao = new Vue({
         var param = window.location.pathname.split( '/' )[2];
 
         if(param != 'create') {
-            url = '/instituicao/'+param+'/show/';
+            url = '/iniciativa/'+param+'/show/';
 
             self.$http.get(url, function(response) {
                 /* Adicionando os dados retornados */
-                self.$set('instituicao', response);
-                jQuery(getCidades(self.instituicao.endereco.uf,self.instituicao.endereco.cidade_id ));
+                self.$set('iniciativa', response);
+                jQuery(getCidades(self.iniciativa.endereco.uf,self.iniciativa.endereco.cidade_id ));
 
             });
         }
@@ -102,3 +126,51 @@ var instituicao = new Vue({
 
     attached: function() {}
 });
+
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: {lat: -15.780, lng: -47.929}
+    });
+    var geocoder = new google.maps.Geocoder();
+
+    document.getElementById('latlngSearch').addEventListener('click', function() {
+        geocodeAddress(geocoder, map);
+    });
+
+    //HTML5 geolocation.
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            map.setCenter(pos);
+        });
+    }
+}
+
+function geocodeAddress(geocoder, resultsMap) {
+    var logradouro = document.getElementById('logradouro').value;
+    var numero = document.getElementById('numero').value;
+    var bairro = document.getElementById('bairro').value;
+    var cidade = $('#cidade_id').find(":selected").text();
+    var uf = $('#uf').find(":selected").text();
+    var cep = document.getElementById('cep').value;
+    var address = logradouro+','+numero+','+bairro+','+cidade+','+uf+','+cep;
+    geocoder.geocode({'address': address}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location
+            });
+            /*Adiconar o valor de lat a lng aos inputs*/
+            var latlng = results[0].geometry.location.toJSON();
+            $("#latitude").val(latlng.lat);
+            $("#longitude").val(latlng.lng);
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}

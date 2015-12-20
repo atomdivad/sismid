@@ -216,7 +216,7 @@
 
 @section('script')
     @parent
-<script src="{{ asset('/assets/js/cidades.js') }}"></script>
-<script src="{{ asset('/assets/js/pid.js') }}"></script>
+    <script src="{{ asset('/assets/js/cidades.js') }}"></script>
+    <script src="{{ asset('/assets/js/pid.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsOdEoVwUQhPynqvu6OeA6qC9jsVniSlE&signed_in=true&callback=initMap" async defer></script>
 @stop
