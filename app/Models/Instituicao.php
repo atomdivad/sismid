@@ -47,4 +47,10 @@ class Instituicao extends Model
     {
         return $this->belongsToMany('SisMid\Models\Telefone', 'instituicao_telefones', 'idInstituicao', 'idTelefone');
     }
+
+    public function iniciativa()
+    {
+        return $this->belongsToMany('SisMid\Models\Iniciativa', 'iniciativa_instituicoes', 'iniciativa_id', 'instituicao_id')
+            ->withPivot('tipoVinculo');
+    }
 }

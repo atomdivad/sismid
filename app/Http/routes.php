@@ -51,6 +51,10 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
 Route::group(['prefix' => 'api'], function(){
 
     Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);
+
+    Route::post('/pesquisar/instituicoes', ['as' => 'pesquisarInstituicoes', 'uses' => 'ApiController@getInstituicoes']);
+
+
 });
 
 

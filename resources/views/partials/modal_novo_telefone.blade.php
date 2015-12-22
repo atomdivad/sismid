@@ -33,7 +33,11 @@
                     <label for="name">Tipo Telefone</label>
                     <div class="row">
                         <div class="col-sm-12">
-                            <input type="text" name="telefoneTipo_id" class="form-control" v-model="novoTelefone.telefoneTipo_id"/>
+                            <select name="telefoneTipo_id" class="form-control" v-model="novoTelefone.telefoneTipo_id">
+                                @foreach($telefoneTipos as $index => $tipo)
+                                    <option value="{{ $index }}">{{ $tipo }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

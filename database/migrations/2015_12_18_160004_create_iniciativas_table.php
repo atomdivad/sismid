@@ -53,6 +53,20 @@ class CreateIniciativasTable extends Migration
         });
 
         /**
+         * Relacionamento many to many instituicoes
+         */
+        Schema::create('iniciativa_instituicoes', function (Blueprint $table) {
+            $table->unsignedInteger('iniciativa_id');
+            $table->foreign('iniciativa_id')->references('idIniciativa')->on('iniciativas');
+
+            $table->unsignedInteger('instituicao_id');
+            $table->foreign('instituicao_id')->references('idInstituicao')->on('instituicoes');
+
+            $table->unsignedInteger('tipoVinculo');
+
+        });
+
+        /**
          * Relacionamento many to many iniciativas
          */
         Schema::create('iniciativa_servicos', function (Blueprint $table) {
@@ -85,6 +99,7 @@ class CreateIniciativasTable extends Migration
     public function down()
     {
         Schema::drop('iniciativa_telefones');
+        Schema::drop('iniciativa_instituicoes');
         Schema::drop('iniciativa_servicos');
         Schema::drop('iniciativa_dimensoes');
         Schema::drop('iniciativas');

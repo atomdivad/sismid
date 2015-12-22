@@ -17,11 +17,34 @@ function getCidades(uf, selected)
     );
 }
 
+function getCidadesInstituicoes(uf)
+{
+    $.get("/api/uf/"+uf+"/cidades/",
+        function (data) {
+            var cidade = $('#buscaCidade');
+            cidade.empty();
+
+            cidade.append('<option value="0"> </a>');
+            for ($i = 0; $i < data.length; $i++) {
+                cidade.append('<option value="' + data[$i].idCidade + '">' + data[$i].nomeCidade + '</a>');
+            }
+        }
+    );
+}
+
+
 (function() {
     $("#uf").change(function() {
 
         var uf =  $(this)
         getCidades(uf.val(), null);
+
+    });
+
+    $("#buscaUF").change(function() {
+
+        var uf =  $(this)
+        getCidadesInstituicoes(uf.val());
 
     });
 }).call(this);

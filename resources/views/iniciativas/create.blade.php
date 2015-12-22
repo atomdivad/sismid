@@ -6,8 +6,6 @@
         </div>
     </div>
 
-    @include('errors.list')
-
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
     <div class="row" id="iniciativa">

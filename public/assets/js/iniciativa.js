@@ -30,7 +30,10 @@ var iniciativa = new Vue({
             categoria_id: '',
             fonte: '',
             telefones: [],
-            instituicoes: []
+            instituicoes: [],
+            dimensoes: [],
+            servicos: []
+
         },
         novoTelefone: {
             idTelefone: null,
@@ -38,6 +41,8 @@ var iniciativa = new Vue({
             responsavel: '',
             telefoneTipo_id: ''
         },
+
+        instituicoes: [],
 
         response: {
             show: false,
@@ -47,6 +52,38 @@ var iniciativa = new Vue({
     },
 
     methods: {
+
+        pesquisarInstituicoes: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            var busca = {
+                nome: jQuery('input[name="buscaNome"]').val(),
+                uf: jQuery('select[name="buscaUF"]').val(),
+                cidade_id: jQuery('select[name="buscaCidade"]').val()
+            }
+
+            self.$http.post('/api/pesquisar/instituicoes/', busca, function(response){
+                self.$set('instituicoes', response);
+            });
+        },
+
+        adicionarInstituicao: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            self.instituicoes[index].tipoVinculo = 0;
+            self.iniciativa.instituicoes.push(jQuery.extend({}, self.instituicoes[index]))
+        },
+
+        removerInstituicao: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            self.iniciativa.instituicoes.splice(index, 1);
+        },
+
+        cancelarInstituicoes: function(ev) {
+            jQuery('#modalIntituicoes').modal('toggle');
+        },
+
         cadastrarTelefone: function(ev) {
             ev.preventDefault();
             var self = this;
@@ -54,7 +91,7 @@ var iniciativa = new Vue({
             self.novoTelefone.telefone = '';
             self.novoTelefone.responsavel = '';
             self.novoTelefone.telefoneTipo_id = '';
-            jQuery('#novoTelefone').modal('toggle');
+            //jQuery('#novoTelefone').modal('toggle');
         },
 
         cancelarTelefone: function(ev) {
@@ -76,6 +113,8 @@ var iniciativa = new Vue({
         salvarIniciativa: function(ev) {
             ev.preventDefault();
             var self = this;
+            self.$set('iniciativa.endereco.latitude', jQuery("#latitude").val());
+            self.$set('iniciativa.endereco.longitude', jQuery("#longitude").val());
             if(self.iniciativa.idIniciativa === null) {
                 self.$http.post('/iniciativa/store', self.iniciativa, function (response){
                     self.alerta(false, {msg:['Salvo com sucesso!']})
@@ -99,6 +138,7 @@ var iniciativa = new Vue({
 
         alerta: function(error, msg) {
             var self = this;
+            jQuery('html,body').scrollTop(0);
             self.$set('response.error', error);
             self.$set('response.msg', msg);
             self.$set('response.show', true);
@@ -170,7 +210,7 @@ function geocodeAddress(geocoder, resultsMap) {
             $("#latitude").val(latlng.lat);
             $("#longitude").val(latlng.lng);
         } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            alert('Falha ao buscar endereço!');
         }
     });
 }

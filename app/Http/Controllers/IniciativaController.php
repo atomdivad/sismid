@@ -3,11 +3,15 @@
 namespace SisMid\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use SisMid\Models\Dimensao;
 use SisMid\Models\Endereco;
 use SisMid\Models\Iniciativa;
+use SisMid\Models\Servico;
+use SisMid\Models\Telefone;
 
 class IniciativaController extends Controller
 {
@@ -32,8 +36,11 @@ class IniciativaController extends Controller
         $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
         $naturezasJuridicas = DB::table('naturezasJuridicas')->orderBy('naturezaJuridica')->lists('naturezaJuridica','idNatureza');
+        $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
+        $dimensoes = Dimensao::all()->lists('dimensao', 'idDimensao');
+        $servicos = Servico::all()->lists('servico', 'idServico');
 
-        return view('iniciativas.create', compact('uf','localidades','localizacoes','naturezasJuridicas'));
+        return view('iniciativas.create', compact('uf','localidades','localizacoes','naturezasJuridicas','telefoneTipos', 'dimensoes', 'servicos'));
     }
 
     /**
@@ -44,12 +51,42 @@ class IniciativaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'tipo_id' => 'required|exists:iniciativaTipos,idTipo',
+            'nome' => 'required|min:3|max:255',
+            'sigla' => 'min:2|max:10',
+            'endereco.logradouro' => 'required|min:3|max:150',
+            'endereco.bairro' => 'required|min:3|max:150',
+            'endereco.uf' => 'required',
+            'endereco.cidade_id' => 'required|exists:cidades,idCidade',
+            'endereco.latitude' => 'numeric',
+            'endereco.longitude' => 'numeric',
+            'endereco.localidade_id'=> 'exists:localidades,idLocalidade',
+            'endereco.localizacao_id'=> 'exists:localizacoes,idLocalizacao',
+            'naturezaJuridica_id' => 'exists:naturezasJuridicas,idNatureza',
+            'email' => 'required|email',
+            'url' => 'url',
+            'objetivo' => 'min:3|max:255',
+            'informacaoComplementar' => 'min:3|max:255',
+            'categoria_id' => 'required|exists:iniciativaCategorias,idCategoria',
+            'fonte' => 'required|min:3|max:255',
+        ]);
+
         $endereco = Endereco::create($request['endereco']);
         $iniciativa = $endereco->iniciativa()->create($request->all());
 
         foreach($request['telefones'] as $telefone) {
             $iniciativa->telefones()->create($telefone);
         }
+
+        $instituicoes = [];
+        foreach($request['instituicoes'] as $instituicao) {
+            $instituicoes[$instituicao['idInstituicao']] = array('tipoVinculo' => $instituicao['tipoVinculo']);
+        }
+        $iniciativa->instituicoes()->sync($instituicoes);
+
+        $iniciativa->dimensoes()->sync($request['dimensoes']);
+        $iniciativa->servicos()->sync($request['serrvicos']);
 
         return $this->show($iniciativa->idIniciativa);
     }
@@ -64,6 +101,31 @@ class IniciativaController extends Controller
     {
         if($id) {
             $iniciativa = Iniciativa::findOrFail($id);
+
+            $instituicoes = [];
+            foreach($iniciativa->instituicoes as $instituicao) {
+
+                $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $instituicao->endereco->cidade_id)->first();
+                $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
+
+                $instituicoes[] = array (
+                    'idInstituicao' => $instituicao->idInstituicao,
+                    'nome' => $instituicao->nome,
+                    'nomeCidade' => $cidade->nomeCidade,
+                    'uf' => $uf->uf,
+                    'tipoVinculo' => $instituicao->pivot->tipoVinculo
+                );
+            }
+
+            $dimensoes = [];
+            foreach($iniciativa->dimensoes as $dimensao) {
+                $dimensoes[] = $dimensao->idDimensao;
+            }
+
+            $servicos = [];
+            foreach($iniciativa->servicos as $servico) {
+                $servicos[] = $servico->idServico;
+            }
 
             return [
                 'idIniciativa' =>  $iniciativa->idIniciativa,
@@ -90,8 +152,10 @@ class IniciativaController extends Controller
                 'informacaoComplementar' => $iniciativa->informacaoComplementar,
                 'categoria_id' => $iniciativa->categoria_id,
                 'fonte' => $iniciativa->fonte,
-                'telefones' => [],
-                'instituicoes' => []
+                'telefones' => $iniciativa->telefones,
+                'instituicoes' => $instituicoes,
+                'dimensoes' => $dimensoes,
+                'servicos' => $servicos
             ];
         }
     }
@@ -108,8 +172,11 @@ class IniciativaController extends Controller
         $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
         $naturezasJuridicas = DB::table('naturezasJuridicas')->orderBy('naturezaJuridica')->lists('naturezaJuridica','idNatureza');
+        $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
+        $dimensoes = Dimensao::all()->lists('dimensao', 'idDimensao');
+        $servicos = Servico::all()->lists('servico', 'idServico');
 
-        return view('iniciativas.edit', compact('uf','localidades','localizacoes','naturezasJuridicas'));
+        return view('iniciativas.edit', compact('uf','localidades','localizacoes','naturezasJuridicas','telefoneTipos', 'dimensoes', 'servicos'));
     }
 
     /**
@@ -121,16 +188,54 @@ class IniciativaController extends Controller
      */
     public function update(Request $request)
     {
+        $this->validate($request, [
+            'tipo_id' => 'required|exists:iniciativaTipos,idTipo',
+            'nome' => 'required|min:3|max:255',
+            'sigla' => 'min:2|max:10',
+            'endereco.logradouro' => 'required|min:3|max:150',
+            'endereco.bairro' => 'required|min:3|max:150',
+            'endereco.uf' => 'required',
+            'endereco.cidade_id' => 'required|exists:cidades,idCidade',
+            'endereco.latitude' => 'numeric',
+            'endereco.longitude' => 'numeric',
+            'endereco.localidade_id'=> 'exists:localidades,idLocalidade',
+            'endereco.localizacao_id'=> 'exists:localizacoes,idLocalizacao',
+            'naturezaJuridica_id' => 'exists:naturezasJuridicas,idNatureza',
+            'email' => 'required|email',
+            'url' => 'url',
+            'objetivo' => 'min:3|max:255',
+            'informacaoComplementar' => 'min:3|max:255',
+            'categoria_id' => 'required|exists:iniciativaCategorias,idCategoria',
+            'fonte' => 'required|min:3|max:255',
+        ]);
+
         $iniciativa = Iniciativa::findOrFail($request['idIniciativa']);
 
         $iniciativa->endereco()->update($request['endereco']);
         $iniciativa->update($request->all());
 
-
+        $telefones = [];
         foreach($request['telefones'] as $telefone) {
-            if($telefone['idTelefone'] == null)
-                $iniciativa->telefones()->create($telefone);
+            if($telefone['idTelefone'] == null) {
+                $tel = $iniciativa->telefones()->create($telefone);
+                $telefones[] = $tel->idTelefone;
+            }
+            else {
+                $tel = Telefone::find($telefone['idTelefone']);
+                $tel->update($telefone);
+                $telefones[] = $tel->idTelefone;
+            }
         }
+        $iniciativa->telefones()->sync($telefones);
+
+        $instituicoes = [];
+        foreach($request['instituicoes'] as $instituicao) {
+            $instituicoes[$instituicao['idInstituicao']] = array('tipoVinculo' => $instituicao['tipoVinculo']);
+        }
+        $iniciativa->instituicoes()->sync($instituicoes);
+
+        $iniciativa->dimensoes()->sync($request['dimensoes']);
+        $iniciativa->servicos()->sync($request['servicos']);
 
         return $this->show($iniciativa->idIniciativa);
     }
