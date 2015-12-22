@@ -44,23 +44,12 @@ var instituicao = new Vue({
             self.novoTelefone.telefone = '';
             self.novoTelefone.responsavel = '';
             self.novoTelefone.telefoneTipo_id = '';
-            jQuery('#novoTelefone').modal('toggle');
-        },
-
-        cancelarTelefone: function(ev) {
-            ev.preventDefault();
-            var self = this;
-            self.novoTelefone.telefone = '';
-            self.novoTelefone.responsavel = '';
-            self.novoTelefone.telefoneTipo_id = '';
-            jQuery('#novoTelefone').modal('toggle');
         },
 
         removerTelefone: function(ev, index) {
             ev.preventDefault();
             var self = this;
             self.instituicao.telefones.splice(index, 1);
-            /* Retirar no BD */
         },
 
         salvarInstituicao: function(ev) {
@@ -89,6 +78,7 @@ var instituicao = new Vue({
 
         alerta: function(error, msg) {
             var self = this;
+            jQuery('html,body').scrollTop(0);
             self.$set('response.error', error);
             self.$set('response.msg', msg);
             self.$set('response.show', true);

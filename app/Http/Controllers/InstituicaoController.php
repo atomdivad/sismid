@@ -8,6 +8,7 @@ use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use SisMid\Models\Endereco;
 use SisMid\Models\Instituicao;
+use SisMid\Models\Telefone;
 
 
 class InstituicaoController extends Controller
@@ -33,8 +34,9 @@ class InstituicaoController extends Controller
         $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
         $naturezasJuridicas = DB::table('naturezasJuridicas')->orderBy('naturezaJuridica')->lists('naturezaJuridica','idNatureza');
+        $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
 
-        return view('instituicoes.create', compact('uf','localidades','localizacoes','naturezasJuridicas'));
+        return view('instituicoes.create', compact('uf','localidades','localizacoes','naturezasJuridicas', 'telefoneTipos'));
     }
 
     /**
@@ -48,10 +50,13 @@ class InstituicaoController extends Controller
         $this->validate($request, [
             'nome' => 'required',
             'email' => 'required',
-            'endereco.cep' => 'required',
-            'endereco.logradouro' => 'required',
-            'endereco.bairro' => 'required',
-            'endereco.cidade_id' => 'required',
+            'url' => 'url',
+            'endereco.logradouro' => 'required|min:3|max:150',
+            'endereco.bairro' => 'required|min:3|max:150',
+            'endereco.uf' => 'required',
+            'endereco.cidade_id' => 'required|exists:cidades,idCidade',
+            'endereco.localidade_id'=> 'exists:localidades,idLocalidade',
+            'endereco.localizacao_id'=> 'exists:localizacoes,idLocalizacao',
         ]);
 
         $endereco = Endereco::create($request['endereco']);
@@ -111,8 +116,9 @@ class InstituicaoController extends Controller
         $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
         $naturezasJuridicas = DB::table('naturezasJuridicas')->orderBy('naturezaJuridica')->lists('naturezaJuridica','idNatureza');
+        $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
 
-        return view('instituicoes.edit', compact('uf','localidades','localizacoes','naturezasJuridicas'));
+        return view('instituicoes.edit', compact('uf','localidades','localizacoes','naturezasJuridicas', 'telefoneTipos'));
     }
 
     /**
@@ -127,10 +133,13 @@ class InstituicaoController extends Controller
         $this->validate($request, [
             'nome' => 'required',
             'email' => 'required',
-            'endereco.cep' => 'required',
-            'endereco.logradouro' => 'required',
-            'endereco.bairro' => 'required',
-            'endereco.cidade_id' => 'required',
+            'url' => 'url',
+            'endereco.logradouro' => 'required|min:3|max:150',
+            'endereco.bairro' => 'required|min:3|max:150',
+            'endereco.uf' => 'required',
+            'endereco.cidade_id' => 'required|exists:cidades,idCidade',
+            'endereco.localidade_id'=> 'exists:localidades,idLocalidade',
+            'endereco.localizacao_id'=> 'exists:localizacoes,idLocalizacao',
         ]);
 
         $instituicao = Instituicao::findOrFail($request['idInstituicao']);
@@ -139,10 +148,19 @@ class InstituicaoController extends Controller
         $instituicao->update($request->all());
 
 
+        $telefones = [];
         foreach($request['telefones'] as $telefone) {
-            if($telefone['idTelefone'] == null)
-                $instituicao->telefones()->create($telefone);
+            if($telefone['idTelefone'] == null) {
+                $tel = $instituicao->telefones()->create($telefone);
+                $telefones[] = $tel->idTelefone;
+            }
+            else {
+                $tel = Telefone::find($telefone['idTelefone']);
+                $tel->update($telefone);
+                $telefones[] = $tel->idTelefone;
+            }
         }
+        $instituicao->telefones()->sync($telefones);
 
         return $this->show($instituicao->idInstituicao);
     }

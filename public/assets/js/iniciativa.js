@@ -94,20 +94,10 @@ var iniciativa = new Vue({
             //jQuery('#novoTelefone').modal('toggle');
         },
 
-        cancelarTelefone: function(ev) {
-            ev.preventDefault();
-            var self = this;
-            self.novoTelefone.telefone = '';
-            self.novoTelefone.responsavel = '';
-            self.novoTelefone.telefoneTipo_id = '';
-            jQuery('#novoTelefone').modal('toggle');
-        },
-
         removerTelefone: function(ev, index) {
             ev.preventDefault();
             var self = this;
             self.iniciativa.telefones.splice(index, 1);
-            /* Retirar no BD */
         },
 
         salvarIniciativa: function(ev) {
