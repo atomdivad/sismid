@@ -33,6 +33,22 @@ function getCidadesInstituicoes(uf)
 }
 
 
+function getCidadesIniciativas(uf)
+{
+    $.get("/api/uf/"+uf+"/cidades/",
+        function (data) {
+            var cidade = $('#iniciativaBuscaCidade');
+            cidade.empty();
+
+            cidade.append('<option value="0"> </a>');
+            for ($i = 0; $i < data.length; $i++) {
+                cidade.append('<option value="' + data[$i].idCidade + '">' + data[$i].nomeCidade + '</a>');
+            }
+        }
+    );
+}
+
+
 (function() {
     $("#uf").change(function() {
 
@@ -45,6 +61,13 @@ function getCidadesInstituicoes(uf)
 
         var uf =  $(this)
         getCidadesInstituicoes(uf.val());
+
+    });
+
+    $("#iniciativaBuscaUF").change(function() {
+
+        var uf =  $(this)
+        getCidadesIniciativas(uf.val());
 
     });
 }).call(this);

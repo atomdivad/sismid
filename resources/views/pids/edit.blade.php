@@ -2,7 +2,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            <legend><i class="glyphicon glyphicon-edit"></i> Cadastrar PID</legend>
+            <legend><i class="glyphicon glyphicon-edit"></i> Editar PID</legend>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
-                        <button class="btn btn-primary" type="submit" v-on:click="salvarPid($event)"><span class="glyphicon glyphicon-save"></span> Cadastrar</button>
+                        <button class="btn btn-success" type="submit" v-on:click="salvarPid($event)"><span class="glyphicon glyphicon-save"></span> Salvar</button>
                     </div>
                     <div class="col-sm-6 text-right">
                         <a class="btn btn-default" href="{{route('home')}}">Cancerlar</a>

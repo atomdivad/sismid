@@ -26,7 +26,7 @@ var instituicao = new Vue({
             idTelefone: null,
             telefone: '',
             responsavel: '',
-            telefoneTipo_id: ''
+            telefoneTipo_id: '1'
         },
 
         response: {
@@ -41,9 +41,6 @@ var instituicao = new Vue({
             ev.preventDefault();
             var self = this;
             self.instituicao.telefones.push(jQuery.extend({}, self.novoTelefone));
-            self.novoTelefone.telefone = '';
-            self.novoTelefone.responsavel = '';
-            self.novoTelefone.telefoneTipo_id = '';
         },
 
         removerTelefone: function(ev, index) {

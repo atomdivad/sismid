@@ -5,15 +5,18 @@ var pid = new Vue({
 
     data: {
         pid: {
+            idPid: null,
             nome: '',
             email: '',
             url: '',
+            tipo_id: 'null',
             endereco: {
                 cep: '',
                 logradouro: '',
                 numero: '',
                 complemento: '',
                 bairro: '',
+                uf: '',
                 cidade_id: '',
                 latitude: '',
                 longitude: '',
@@ -27,7 +30,16 @@ var pid = new Vue({
         novoTelefone: {
             telefone: '',
             responsavel: '',
-            tipoTelefone_id: ''
+            telefoneTipo_id: '1'
+        },
+
+        instituicoes: [],
+        iniciativas: [],
+
+        response: {
+            show: false,
+            error: false,
+            msg:[]
         }
     },
 
@@ -36,35 +48,128 @@ var pid = new Vue({
             ev.preventDefault();
             var self = this;
             self.pid.telefones.push(jQuery.extend({}, self.novoTelefone));
-            self.novoTelefone.telefone = '';
-            self.novoTelefone.responsavel = '';
-            self.novoTelefone.tipoTelefone_id = '';
-            jQuery('#novoTelefone').modal('toggle');
-        },
-
-        cancelarTelefone: function(ev) {
-            ev.preventDefault();
-            var self = this;
-            self.novoTelefone.telefone = '';
-            self.novoTelefone.responsavel = '';
-            self.novoTelefone.tipoTelefone_id = '';
-            jQuery('#novoTelefone').modal('toggle');
         },
 
         removerTelefone: function(ev, index) {
             ev.preventDefault();
             var self = this;
             self.pid.telefones.splice(index, 1);
-            /* Retirar no BD */
+        },
+
+        pesquisarInstituicoes: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            var busca = {
+                nome: jQuery('input[name="buscaNome"]').val(),
+                uf: jQuery('select[name="buscaUF"]').val(),
+                cidade_id: jQuery('select[name="buscaCidade"]').val()
+            }
+
+            self.$http.post('/api/pesquisar/instituicoes/', busca, function(response){
+                self.$set('instituicoes', response);
+            });
+        },
+
+        adicionarInstituicao: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            self.instituicoes[index].tipoVinculo = 0;
+            self.pid.instituicoes.push(jQuery.extend({}, self.instituicoes[index]))
+        },
+
+        removerInstituicao: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            self.pid.instituicoes.splice(index, 1);
         },
 
         cancelarInstituicoes: function(ev) {
-            ev.preventDefault();
             jQuery('#modalIntituicoes').modal('toggle');
+        },
+
+        pesquisarIniciativas: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            var busca = {
+                nome: jQuery('input[name="iniciativaBuscaNome"]').val(),
+                uf: jQuery('select[name="iniciativaBuscaUF"]').val(),
+                cidade_id: jQuery('select[name="iniciativaBuscaCidade"]').val()
+            }
+
+            self.$http.post('/api/pesquisar/iniciativas/', busca, function(response){
+                self.$set('iniciativas', response);
+            });
+        },
+
+        adicionarIniciativa: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            self.pid.iniciativas.push(jQuery.extend({}, self.iniciativas[index]))
+        },
+
+        removerIniciativa: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            self.pid.iniciativas.splice(index, 1);
+        },
+
+        cancelarIniciativas: function(ev) {
+            jQuery('#modalIniciativas').modal('toggle');
+        },
+
+        salvarPid: function(ev) {
+            ev.preventDefault();
+            var self = this;
+            self.$set('pid.endereco.latitude', jQuery("#latitude").val());
+            self.$set('pid.endereco.longitude', jQuery("#longitude").val());
+            if(self.pid.idPid === null) {
+                self.$http.post('/pid/store', self.pid, function (response){
+                    self.alerta(false, {msg:['Salvo com sucesso!']})
+                    self.$set('pid', response);
+                    window.location.pathname = '/pid/'+response.idPid+'/edit';
+
+                }).error(function (response){
+                    self.alerta(true, response);
+                });
+            }
+            else {
+                self.$http.post('/pid/update', self.pid, function (response){
+                    self.alerta(false, {msg:['Atualizado com sucesso!']})
+                    self.$set('pid', response);
+
+                }).error(function (response){
+                    self.alerta(true, response);
+                });
+            }
+        },
+
+        alerta: function(error, msg) {
+            var self = this;
+            jQuery('html,body').scrollTop(0);
+            self.$set('response.error', error);
+            self.$set('response.msg', msg);
+            self.$set('response.show', true);
+            if(!self.response.error)
+                setTimeout(function(){ self.$set('response.show', false);}, 5000);
         }
     },
 
-    ready: function() {},
+    ready: function() {
+        var self = this, url;
+
+        var param = window.location.pathname.split( '/' )[2];
+
+        if(param != 'create') {
+            url = '/pid/'+param+'/show/';
+
+            self.$http.get(url, function(response) {
+                /* Adicionando os dados retornados */
+                self.$set('pid', response);
+                jQuery(getCidades(self.pid.endereco.uf,self.pid.endereco.cidade_id ));
+
+            });
+        }
+    },
 
     attached: function() {}
 });
@@ -113,7 +218,7 @@ function geocodeAddress(geocoder, resultsMap) {
             $("#latitude").val(latlng.lat);
             $("#longitude").val(latlng.lng);
         } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            alert('Falha ao buscar endereço!');
         }
     });
 }

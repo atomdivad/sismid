@@ -39,7 +39,7 @@ var iniciativa = new Vue({
             idTelefone: null,
             telefone: '',
             responsavel: '',
-            telefoneTipo_id: ''
+            telefoneTipo_id: '1'
         },
 
         instituicoes: [],
@@ -88,10 +88,6 @@ var iniciativa = new Vue({
             ev.preventDefault();
             var self = this;
             self.iniciativa.telefones.push(jQuery.extend({}, self.novoTelefone));
-            self.novoTelefone.telefone = '';
-            self.novoTelefone.responsavel = '';
-            self.novoTelefone.telefoneTipo_id = '';
-            //jQuery('#novoTelefone').modal('toggle');
         },
 
         removerTelefone: function(ev, index) {

@@ -27,6 +27,9 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
 
         Route::get('create', ['as' => 'pid.create', 'uses' => 'PidController@create']);
         Route::post('/store', ['as' => 'pid.store', 'uses' => 'PidController@store']);
+        Route::get('/{id}/show/', ['as' => 'pid.show', 'uses' => 'PidController@show']);
+        Route::get('/{id}/edit/', ['as' => 'pid.edit', 'uses' => 'PidController@edit']);
+        Route::post('/update', ['as' => 'pid.update', 'uses' => 'PidController@update']);
     });
 
     Route::group(['prefix' => 'instituicao'], function() {
@@ -53,6 +56,7 @@ Route::group(['prefix' => 'api'], function(){
     Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);
 
     Route::post('/pesquisar/instituicoes', ['as' => 'pesquisarInstituicoes', 'uses' => 'ApiController@getInstituicoes']);
+    Route::post('/pesquisar/iniciativas', ['as' => 'pesquisarIniciativas', 'uses' => 'ApiController@getIniciativas']);
 
 
 });
