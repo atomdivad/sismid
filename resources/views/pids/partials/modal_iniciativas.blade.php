@@ -37,23 +37,7 @@
                     </div>
 
                 </div>
-                <table class="table table-responsive table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Município</th>
-                        <th colspan="2">UF</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="i in iniciativas">
-                        <td>@{{ i.nome }}</td>
-                        <td>@{{ i.nomeCidade }}</td>
-                        <td>@{{ i.uf }}</td>
-                        <td><button class="btn btn-sm btn-primary" v-on:click="adicionarIniciativa($event, $index)"><i class="glyphicon glyphicon-plus-sign"></i></button></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <listagem :lista="iniciativas" :container.sync="pid.iniciativas" v-ref:lista-iniciativas></listagem>
 
             </div>
             <div class="modal-footer">

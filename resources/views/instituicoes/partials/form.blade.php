@@ -29,7 +29,7 @@
     <div class="row">
         <div class="col-sm-6">
             {!! Form::label('cep', 'CEP') !!}
-            {!! Form::text('cep', null, ["class" => "form-control", "v-model" => "instituicao.endereco.cep"]) !!}
+            {!! Form::text('cep', null, ["class" => "form-control cep", "v-model" => "instituicao.endereco.cep"]) !!}
         </div>
         <div class="col-sm-4">
             {!! Form::label('logradouro', 'Logradouro') !!}
@@ -106,7 +106,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="t in instituicao.telefones">
-                        <td><input type="text" class="form-control" v-model="t.telefone"/></td>
+                        <td><input type="text" class="form-control telefone" v-model="t.telefone"/></td>
                         <td><input type="text" class="form-control" v-model="t.responsavel"/></td>
                         <td>
                             <select name="telefoneTipo_id" class="form-control" v-model="t.telefoneTipo_id">
@@ -135,4 +135,5 @@
     @parent
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
     <script src="{{ asset('/assets/js/instituicao.js') }}"></script>
+    <script src="{{ asset('/assets/js/masks.js') }}"></script>
 @stop

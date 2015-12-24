@@ -8,6 +8,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
+    @include('partials.template_listagem')
+
     <div class="row" id="PID">
 
         {{-- Div Mensagem Alerta --}}

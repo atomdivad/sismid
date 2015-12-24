@@ -63,15 +63,9 @@ var iniciativa = new Vue({
             }
 
             self.$http.post('/api/pesquisar/instituicoes/', busca, function(response){
-                self.$set('instituicoes', response);
+                self.$set('instituicoes', _.chunk(response,5));
+                iniciativa.$refs.listaInstituicoes.$data.page = 0;
             });
-        },
-
-        adicionarInstituicao: function(ev, index) {
-            ev.preventDefault();
-            var self = this;
-            self.instituicoes[index].tipoVinculo = 0;
-            self.iniciativa.instituicoes.push(jQuery.extend({}, self.instituicoes[index]))
         },
 
         removerInstituicao: function(ev, index) {
@@ -82,6 +76,7 @@ var iniciativa = new Vue({
 
         cancelarInstituicoes: function(ev) {
             jQuery('#modalIntituicoes').modal('toggle');
+            iniciativa.$refs.listaInstituicoes.$data.page = 0;
         },
 
         cadastrarTelefone: function(ev) {

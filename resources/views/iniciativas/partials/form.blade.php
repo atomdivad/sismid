@@ -68,7 +68,7 @@
     <div class="row">
         <div class="col-sm-6">
             {!! Form::label('cep', 'CEP') !!}
-            {!! Form::text('cep', null, ["class" => "form-control", "v-model" => "iniciativa.endereco.cep"]) !!}
+            {!! Form::text('cep', null, ["class" => "form-control cep", "v-model" => "iniciativa.endereco.cep"]) !!}
         </div>
         <div class="col-sm-4">
             {!! Form::label('logradouro', 'Logradouro*') !!}
@@ -180,7 +180,7 @@
                         <td>@{{ i.nomeCidade }}</td>
                         <td>@{{ i.uf }}</td>
                         <td>
-                            <select name="tipoVinculo" id="tipoVinculo" class="form-control" v-model="i.tipoVinculo">
+                            <select name="tipoVinculo" id="tipoVinculo" class="form-control" v-model="i.tipoVinculo" required="required">
                                 <option value="0">Selecione</option>
                                 <option value="1">Apoiador</option>
                                 <option value="2">Mantenendor</option>
@@ -192,11 +192,9 @@
                 </table>
             </div>
         </div>
-        {{--<div class="col-sm-2 text-right">
-            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalIntituicoes"><i class="glyphicon glyphicon-plus"></i> Adicionar Instituição</button>
-        </div>--}}
     </div>
 </div>
+@{{ iniciativa.instituicoes | json }}
 {{-- Fim Instituições Apoiadoras/Mantenedoras --}}
 
 {{-- Telefones --}}
@@ -224,7 +222,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="t in iniciativa.telefones">
-                        <td><input type="text" class="form-control" v-model="t.telefone"/></td>
+                        <td><input type="text" class="form-control telefone" v-model="t.telefone"/></td>
                         <td><input type="text" class="form-control" v-model="t.responsavel"/></td>
                         <td>
                             <select name="telefoneTipo_id" class="form-control" v-model="t.telefoneTipo_id">
@@ -240,10 +238,6 @@
                 <div class="text-center" v-else><strong>Nenhum telefone cadastrado</strong></div>
             </div>
         </div>
-
-        {{--<div class="col-sm-2 text-right">
-            <button class="btn btn-sm btn-primary" v-on:click="cadastrarTelefone($event)"><i class="glyphicon glyphicon-plus"></i> Cadastrar Telefone</button>
-        </div>--}}
     </div>
 </div>
 {{-- Fim Telefones --}}
@@ -289,6 +283,8 @@
 @section('script')
     @parent
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
+    <script src="{{ asset('/assets/js/component-listagem.js') }}"></script>
     <script src="{{ asset('/assets/js/iniciativa.js') }}"></script>
+    <script src="{{ asset('/assets/js/masks.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsOdEoVwUQhPynqvu6OeA6qC9jsVniSlE&signed_in=true&callback=initMap" async defer></script>
 @stop

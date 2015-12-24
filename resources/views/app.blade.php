@@ -70,9 +70,11 @@
 </footer>
 
 <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
+<script src="{{ asset('/assets/js/lodash.min.js') }}"></script>
 <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/assets/js/vue.min.js') }}"></script>
 <script src="{{ asset('/assets/js/vue-resource.min.js') }}"></script>
+<script src="{{ asset('/assets/js/jquery.mask.min.js') }}"></script>
 @yield('script')
 
 </body>

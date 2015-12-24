@@ -29,15 +29,15 @@
     <div class="row">
         <div class="col-sm-6">
             {!! Form::label('cep', 'CEP') !!}
-            {!! Form::text('cep', '78600-000', ["class" => "form-control", 'v-model' => 'pid.endereco.cep']) !!}
+            {!! Form::text('cep', null, ["class" => "form-control cep", 'v-model' => 'pid.endereco.cep']) !!}
         </div>
         <div class="col-sm-4">
             {!! Form::label('logradouro', 'Logradouro') !!}
-            {!! Form::text('logradouro', 'Rua 27', ["class" => "form-control", 'v-model' => 'pid.endereco.logradouro']) !!}
+            {!! Form::text('logradouro', null, ["class" => "form-control", 'v-model' => 'pid.endereco.logradouro']) !!}
         </div>
         <div class="col-sm-2">
             {!! Form::label('numero', 'Nº') !!}
-            {!! Form::text('numero', '74', ["class" => "form-control", 'v-model' => 'pid.endereco.numero']) !!}
+            {!! Form::text('numero', null, ["class" => "form-control", 'v-model' => 'pid.endereco.numero']) !!}
         </div>
     </div>
 </div>
@@ -55,7 +55,7 @@
     <div class="row">
         <div class="col-sm-6">
             {!! Form::label('bairro', 'Bairro') !!}
-            {!! Form::text('bairro', 'Santo Antonio', ["class" => "form-control", 'v-model' => 'pid.endereco.bairro']) !!}
+            {!! Form::text('bairro', null, ["class" => "form-control", 'v-model' => 'pid.endereco.bairro']) !!}
         </div>
         <div class="col-sm-2">
             {!! Form::label('uf', 'UF') !!}
@@ -136,7 +136,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="t in pid.telefones">
-                        <td><input type="text" class="form-control" v-model="t.telefone"/></td>
+                        <td><input type="text" class="form-control telefone" v-model="t.telefone"/></td>
                         <td><input type="text" class="form-control" v-model="t.responsavel"/></td>
                         <td>
                             <select name="telefoneTipo_id" class="form-control" v-model="t.telefoneTipo_id">
@@ -233,6 +233,8 @@
 @section('script')
     @parent
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
+    <script src="{{ asset('/assets/js/component-listagem.js') }}"></script>
     <script src="{{ asset('/assets/js/pid.js') }}"></script>
+    <script src="{{ asset('/assets/js/masks.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsOdEoVwUQhPynqvu6OeA6qC9jsVniSlE&signed_in=true&callback=initMap" async defer></script>
 @stop

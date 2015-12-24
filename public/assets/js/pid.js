@@ -66,15 +66,9 @@ var pid = new Vue({
             }
 
             self.$http.post('/api/pesquisar/instituicoes/', busca, function(response){
-                self.$set('instituicoes', response);
+                self.$set('instituicoes', _.chunk(response,5));
+                pid.$refs.listaInstituicoes.$data.page = 0;
             });
-        },
-
-        adicionarInstituicao: function(ev, index) {
-            ev.preventDefault();
-            var self = this;
-            self.instituicoes[index].tipoVinculo = 0;
-            self.pid.instituicoes.push(jQuery.extend({}, self.instituicoes[index]))
         },
 
         removerInstituicao: function(ev, index) {
@@ -84,7 +78,9 @@ var pid = new Vue({
         },
 
         cancelarInstituicoes: function(ev) {
+            this.instituicoes = [];
             jQuery('#modalIntituicoes').modal('toggle');
+            pid.$refs.listaInstituicoes.$data.page = 0;
         },
 
         pesquisarIniciativas: function(ev) {
@@ -97,14 +93,9 @@ var pid = new Vue({
             }
 
             self.$http.post('/api/pesquisar/iniciativas/', busca, function(response){
-                self.$set('iniciativas', response);
+                self.$set('iniciativas', _.chunk(response,5));
+                pid.$refs.listaIniciativas.$data.page = 0;
             });
-        },
-
-        adicionarIniciativa: function(ev, index) {
-            ev.preventDefault();
-            var self = this;
-            self.pid.iniciativas.push(jQuery.extend({}, self.iniciativas[index]))
         },
 
         removerIniciativa: function(ev, index) {
@@ -114,7 +105,9 @@ var pid = new Vue({
         },
 
         cancelarIniciativas: function(ev) {
+            this.iniciativas = [];
             jQuery('#modalIniciativas').modal('toggle');
+            pid.$refs.listaIniciativas.$data.page = 0;
         },
 
         salvarPid: function(ev) {
