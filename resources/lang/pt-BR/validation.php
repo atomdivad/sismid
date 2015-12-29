@@ -109,6 +109,7 @@ return [
         'naturezaJuridica_id' => 'natureza jurídica',
         'informacaoComplementar' => 'informação complementar',
         'categoria_id' => 'categoria',
+        'iniciativa_id' => 'iniciativa',
 
         'endereco' => [
             'logradouro' => 'logradouro',

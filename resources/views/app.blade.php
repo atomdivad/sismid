@@ -30,14 +30,13 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastrar <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
-                            <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciativa <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
                             <li><a href="{{ route('iniciativa.index') }}">Iniciativas</a></li>
-                            <li><a href="#">Sub-menu 2</a></li>
+                            <li><a href="{{ route('gestor.index') }}">Gestor de Iniciativa</a></li>
                         </ul>
-                    </li>
+                    <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
+                    <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -62,18 +61,21 @@
 
 <div class="container" style="padding-top:70px;">
     @yield('content')
-</div>
 
-<hr/>
-<footer class="text-center">
-    <small>
-        <p><strong>Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)</strong></p>
-        <p>Em Brasília: Setor de Autarquias Sul (SAUS) - Quadra 05 Lote 06 Bloco H</p>
-        <p>Cep: 70070-912 - Plano Piloto - DF</p>
-        <p>No Rio de Janeiro: Rua Lauro Muller, 455 - 4º Andar</p>
-        <p>Cep: 22290-160 - Botafogo - RJ</p>
-    </small>
-</footer>
+    <hr/>
+
+    <footer class="text-center">
+        <small>
+            <p>
+                <strong>Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)</strong><br/>
+                Em Brasília: Setor de Autarquias Sul (SAUS) - Quadra 05 Lote 06 Bloco H <br/>
+                CEP: 70070-912 - Plano Piloto - DF <br/>
+                No Rio de Janeiro: Rua Lauro Muller, 455 - 4º Andar <br/>
+                CEP: 22290-160 - Botafogo - RJ
+            </p>
+        </small>
+    </footer>
+</div>
 
 <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
 <script src="{{ asset('/assets/js/lodash.min.js') }}"></script>

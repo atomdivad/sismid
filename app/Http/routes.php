@@ -51,6 +51,16 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
         Route::get('/{id}/show/', ['as' => 'iniciativa.show', 'uses' => 'IniciativaController@show']);
         Route::get('/{id}/edit/', ['as' => 'iniciativa.edit', 'uses' => 'IniciativaController@edit']);
         Route::post('/update', ['as' => 'iniciativa.update', 'uses' => 'IniciativaController@update']);
+
+        Route::group(['prefix' => 'gestor'], function() {
+
+            Route::get('/index',      ['as' => 'gestor.index',  'uses' => 'IniciativaGestorController@index']);
+            Route::get('/create',     ['as' => 'gestor.create', 'uses' => 'IniciativaGestorController@create']);
+            Route::post('/store',     ['as' => 'gestor.store',  'uses' => 'IniciativaGestorController@store']);
+            Route::get('/{id}/show/', ['as' => 'gestor.show',   'uses' => 'IniciativaGestorController@show']);
+            Route::get('/{id}/edit/', ['as' => 'gestor.edit',   'uses' => 'IniciativaGestorController@edit']);
+            Route::post('/update',    ['as' => 'gestor.update', 'uses' => 'IniciativaGestorController@update']);
+        });
     });
 
 });

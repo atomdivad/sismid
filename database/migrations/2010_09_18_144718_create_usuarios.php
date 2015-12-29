@@ -17,9 +17,12 @@ class CreateUsuarios extends Migration
             $table->string('nome');
             $table->string('sobrenome');
             $table->string('email')->unique();
+            $table->unsignedInteger('iniciativa_id')->nullable();
             $table->string('password', 60);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('iniciativa_id')->references('idIniciativa')->on('iniciativas');
         });
     }
 

@@ -16,6 +16,7 @@ Vue.component('listagem', {
             var self = this;
             self.lista[this.page][index].tipoVinculo = 0;
             self.container.push(jQuery.extend({}, self.lista[this.page][index]))
+            jQuery('#modalIniciativas').modal('hide');
         },
 
         doNext: function() {
