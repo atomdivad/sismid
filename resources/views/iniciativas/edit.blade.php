@@ -31,7 +31,7 @@
                         <button class="btn btn-success" type="submit" v-on:click="salvarIniciativa($event)"><span class="glyphicon glyphicon-save"></span> Salvar</button>
                     </div>
                     <div class="col-sm-6 text-right">
-                        <a class="btn btn-default" href="{{route('home')}}">Cancerlar</a>
+                        <a class="btn btn-default" href="{{route('iniciativa.index')}}">Cancerlar</a>
                     </div>
                 </div>
             </div>

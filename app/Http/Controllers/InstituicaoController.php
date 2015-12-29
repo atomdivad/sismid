@@ -20,7 +20,14 @@ class InstituicaoController extends Controller
      */
     public function index()
     {
-        //
+        $instituicoes = DB::table('instituicoes')
+            ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
+            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+            ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
+            ->get();
+
+        return view('instituicoes.index', compact('instituicoes'));
     }
 
     /**

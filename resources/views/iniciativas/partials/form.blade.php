@@ -194,7 +194,6 @@
         </div>
     </div>
 </div>
-@{{ iniciativa.instituicoes | json }}
 {{-- Fim Instituições Apoiadoras/Mantenedoras --}}
 
 {{-- Telefones --}}

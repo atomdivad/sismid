@@ -32,9 +32,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastrar <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ route('pid.create') }}">Cadastrar PID</a></li>
-                            <li><a href="{{ route('instituicao.create') }}">Cadastrar Instituição</a></li>
-                            <li><a href="{{ route('iniciativa.create') }}">Cadastrar Iniciativa</a></li>
+                            <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
+                            <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
+                            <li><a href="{{ route('iniciativa.index') }}">Iniciativas</a></li>
                             <li><a href="#">Sub-menu 2</a></li>
                         </ul>
                     </li>
@@ -65,8 +65,14 @@
 </div>
 
 <hr/>
-<footer>
-    &copy;
+<footer class="text-center">
+    <small>
+        <p><strong>Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)</strong></p>
+        <p>Em Brasília: Setor de Autarquias Sul (SAUS) - Quadra 05 Lote 06 Bloco H</p>
+        <p>Cep: 70070-912 - Plano Piloto - DF</p>
+        <p>No Rio de Janeiro: Rua Lauro Muller, 455 - 4º Andar</p>
+        <p>Cep: 22290-160 - Botafogo - RJ</p>
+    </small>
 </footer>
 
 <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>

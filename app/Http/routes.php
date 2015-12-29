@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
 
     Route::group(['prefix' => 'pid'], function() {
 
+        Route::get('/index', ['as' => 'pid.index', 'uses' => 'PidController@index']);
         Route::get('create', ['as' => 'pid.create', 'uses' => 'PidController@create']);
         Route::post('/store', ['as' => 'pid.store', 'uses' => 'PidController@store']);
         Route::get('/{id}/show/', ['as' => 'pid.show', 'uses' => 'PidController@show']);
@@ -34,6 +35,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
 
     Route::group(['prefix' => 'instituicao'], function() {
 
+        Route::get('/index', ['as' => 'instituicao.index', 'uses' => 'InstituicaoController@index']);
         Route::get('create', ['as' => 'instituicao.create', 'uses' => 'InstituicaoController@create']);
         Route::post('/store', ['as' => 'instituicao.store', 'uses' => 'InstituicaoController@store']);
         Route::get('/{id}/show/', ['as' => 'instituicao.show', 'uses' => 'InstituicaoController@show']);
@@ -42,6 +44,8 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
     });
 
     Route::group(['prefix' => 'iniciativa'], function() {
+
+        Route::get('/index', ['as' => 'iniciativa.index', 'uses' => 'IniciativaController@index']);
         Route::get('create', ['as' => 'iniciativa.create', 'uses' => 'IniciativaController@create']);
         Route::post('/store', ['as' => 'iniciativa.store', 'uses' => 'IniciativaController@store']);
         Route::get('/{id}/show/', ['as' => 'iniciativa.show', 'uses' => 'IniciativaController@show']);

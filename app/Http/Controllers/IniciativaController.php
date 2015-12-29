@@ -22,7 +22,14 @@ class IniciativaController extends Controller
      */
     public function index()
     {
-        //
+        $iniciativas = DB::table('iniciativas')
+            ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+            ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
+            ->get();
+
+        return view('iniciativas.index', compact('iniciativas'));
     }
 
     /**
@@ -52,9 +59,9 @@ class IniciativaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'tipo_id' => 'required|exists:iniciativaTipos,idTipo',
             'nome' => 'required|min:3|max:255',
             'sigla' => 'min:2|max:10',
+            'tipo_id' => 'required|exists:iniciativaTipos,idTipo',
             'endereco.logradouro' => 'required|min:3|max:150',
             'endereco.bairro' => 'required|min:3|max:150',
             'endereco.uf' => 'required',
