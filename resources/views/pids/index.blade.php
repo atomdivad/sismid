@@ -34,10 +34,10 @@
                 <tbody>
                 @foreach($pids as $pid)
                     <tr>
-                        <td>{{ $pid->nome }}</td>
-                        <td>{{ $pid->nomeCidade}} / {{ $pid->uf }}</td>
-                        <td>{{ $pid->email }}</td>
-                        <td class="text-center">
+                        <td class="col-md-3">{{ $pid->nome }}</td>
+                        <td class="col-md-1">{{ $pid->nomeCidade}} / {{ $pid->uf }}</td>
+                        <td class="col-md-1">{{ $pid->email }}</td>
+                        <td class="col-md-1 text-center">
                             <a class="btn btn sm btn-primary" title="Exbir PID: {{ $pid->nome }}" href="{{ route('pid.show', $pid->idPid) }}"><i class="glyphicon glyphicon-eye-open"></i></a>
                             <a class="btn btn sm btn-success" title="Editar PID: {{ $pid->nome }}" href="{{ route('pid.edit', $pid->idPid) }}"><i class="glyphicon glyphicon-edit"></i></a>
                         </td>
@@ -45,6 +45,11 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            {!! $pids->render() !!}
         </div>
     </div>
 @endsection

@@ -25,7 +25,8 @@ class PidController extends Controller
             ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
             ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
-            ->get();
+            ->orderBy('pids.nome', 'asc')
+            ->paginate(10);
 
         return view('pids.index', compact('pids'));
     }
