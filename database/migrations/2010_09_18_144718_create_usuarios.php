@@ -21,8 +21,6 @@ class CreateUsuarios extends Migration
             $table->string('password', 60);
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('iniciativa_id')->references('idIniciativa')->on('iniciativas');
         });
     }
 

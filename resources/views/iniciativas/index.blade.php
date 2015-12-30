@@ -47,4 +47,9 @@
             </table>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            {!! $iniciativas->render() !!}
+        </div>
+    </div>
 @endsection

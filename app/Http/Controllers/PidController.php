@@ -132,6 +132,9 @@ class PidController extends Controller
                 );
             }
 
+            $cidade = DB::table('cidades')->select('uf_id')->where('idCidade', '=', $pid->endereco->cidade_id)->first();
+            $uf = DB::table('uf')->select('idUf')->where('idUf', '=', $cidade->uf_id)->first();
+
             return [
                 'idPid' => $pid->idPid,
                 'nome' => $pid->nome,
@@ -144,7 +147,7 @@ class PidController extends Controller
                     'numero' => $pid->endereco->numero,
                     'complemento' => $pid->endereco->complemento,
                     'bairro' => $pid->endereco->bairro,
-                    'uf' => 51, /*ADICIONAR A UF*/
+                    'uf' => $uf->idUf,
                     'cidade_id' => $pid->endereco->cidade_id,
                     'latitude' => $pid->endereco->latitude,
                     'longitude' => $pid->endereco->longitude,

@@ -27,7 +27,8 @@ class IniciativaController extends Controller
             ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
             ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
-            ->get();
+            ->paginate(10);
+
 
         return view('iniciativas.index', compact('iniciativas'));
     }
@@ -134,6 +135,9 @@ class IniciativaController extends Controller
                 $servicos[] = $servico->idServico;
             }
 
+            $cidade = DB::table('cidades')->select('uf_id')->where('idCidade', '=', $iniciativa->endereco->cidade_id)->first();
+            $uf = DB::table('uf')->select('idUf')->where('idUf', '=', $cidade->uf_id)->first();
+
             return [
                 'idIniciativa' =>  $iniciativa->idIniciativa,
                 'tipo_id' => $iniciativa->tipo_id,
@@ -145,7 +149,7 @@ class IniciativaController extends Controller
                     'numero' => $iniciativa->endereco->numero,
                     'complemento' => $iniciativa->endereco->complemento,
                     'bairro' => $iniciativa->endereco->bairro,
-                    'uf' => 51, /*ADICIONAR A UF*/
+                    'uf' => $uf->idUf,
                     'cidade_id' => $iniciativa->endereco->cidade_id,
                     'latitude' => $iniciativa->endereco->latitude,
                     'longitude' => $iniciativa->endereco->longitude,
