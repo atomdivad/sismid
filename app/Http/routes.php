@@ -14,10 +14,12 @@
 Route::pattern('id', '[0-9]+');
 
 Route::get('/', function () {
+    if(Auth::check())
+        return view('home');
     return view('app');
 });
 
-Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'any' => true], function() {
+Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor'], 'any' => true], function() {
 
     Route::get('/home', ['as' => 'home', function () {
         return view('home');
@@ -25,15 +27,57 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
 
     Route::group(['prefix' => 'pid'], function() {
 
+        Route::get('/index', ['as' => 'pid.index', 'uses' => 'PidController@index']);
         Route::get('create', ['as' => 'pid.create', 'uses' => 'PidController@create']);
-        Route::post('/', ['as' => 'pid.store', 'uses' => 'PidController@store']);
+        Route::post('/store', ['as' => 'pid.store', 'uses' => 'PidController@store']);
+        Route::get('/{id}/show/', ['as' => 'pid.show', 'uses' => 'PidController@show']);
+        Route::get('/{id}/edit/', ['as' => 'pid.edit', 'uses' => 'PidController@edit']);
+        Route::post('/update', ['as' => 'pid.update', 'uses' => 'PidController@update']);
     });
 
+    Route::group(['prefix' => 'instituicao'], function() {
+
+        Route::get('/index', ['as' => 'instituicao.index', 'uses' => 'InstituicaoController@index']);
+        Route::get('create', ['as' => 'instituicao.create', 'uses' => 'InstituicaoController@create']);
+        Route::post('/store', ['as' => 'instituicao.store', 'uses' => 'InstituicaoController@store']);
+        Route::get('/{id}/show/', ['as' => 'instituicao.show', 'uses' => 'InstituicaoController@show']);
+        Route::get('/{id}/edit/', ['as' => 'instituicao.edit', 'uses' => 'InstituicaoController@edit']);
+        Route::post('/update', ['as' => 'instituicao.update', 'uses' => 'InstituicaoController@update']);
+    });
+
+});
+
+Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(){
+
+    Route::group(['prefix' => 'iniciativa'], function() {
+
+        Route::get('/index', ['as' => 'iniciativa.index', 'uses' => 'IniciativaController@index']);
+        Route::get('create', ['as' => 'iniciativa.create', 'uses' => 'IniciativaController@create']);
+        Route::post('/store', ['as' => 'iniciativa.store', 'uses' => 'IniciativaController@store']);
+        Route::get('/{id}/show/', ['as' => 'iniciativa.show', 'uses' => 'IniciativaController@show']);
+        Route::get('/{id}/edit/', ['as' => 'iniciativa.edit', 'uses' => 'IniciativaController@edit']);
+        Route::post('/update', ['as' => 'iniciativa.update', 'uses' => 'IniciativaController@update']);
+
+        Route::group(['prefix' => 'gestor'], function() {
+
+            Route::get('/index',      ['as' => 'gestor.index',  'uses' => 'IniciativaGestorController@index']);
+            Route::get('/create',     ['as' => 'gestor.create', 'uses' => 'IniciativaGestorController@create']);
+            Route::post('/store',     ['as' => 'gestor.store',  'uses' => 'IniciativaGestorController@store']);
+            Route::get('/{id}/show/', ['as' => 'gestor.show',   'uses' => 'IniciativaGestorController@show']);
+            Route::get('/{id}/edit/', ['as' => 'gestor.edit',   'uses' => 'IniciativaGestorController@edit']);
+            Route::post('/update',    ['as' => 'gestor.update', 'uses' => 'IniciativaGestorController@update']);
+        });
+    });
 });
 
 Route::group(['prefix' => 'api'], function(){
 
     Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);
+
+    Route::post('/pesquisar/instituicoes', ['as' => 'pesquisarInstituicoes', 'uses' => 'ApiController@getInstituicoes']);
+    Route::post('/pesquisar/iniciativas', ['as' => 'pesquisarIniciativas', 'uses' => 'ApiController@getIniciativas']);
+
+
 });
 
 

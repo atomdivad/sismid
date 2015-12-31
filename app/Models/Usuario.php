@@ -44,12 +44,17 @@ class Usuario extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['nome', 'sobrenome', 'email', 'password'];
+    protected $fillable = ['nome', 'sobrenome', 'email', 'password', 'iniciativa_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
+
+    public function iniciativa()
+    {
+        return $this->belongsTo('SisMid\Models\Iniciativa');
+    }
 }

@@ -29,13 +29,19 @@
         @if(!Auth::guest())
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastrar <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ route('pid.create') }}">Cadastrar PID</a></li>
-                            <li><a href="#">Sub-menu 2</a></li>
-                        </ul>
-                    </li>
+
+                    @is('admin')
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciativa <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('iniciativa.index') }}">Iniciativas</a></li>
+                                <li><a href="{{ route('gestor.index') }}">Gestor de Iniciativa</a></li>
+                            </ul>
+                        </li>
+                    @endis
+
+                    <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
+                    <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -59,17 +65,29 @@
 </nav>
 
 <div class="container" style="padding-top:70px;">
-    @include('errors.list')
     @yield('content')
+
+    <hr/>
+
+    <footer class="text-center">
+        <small>
+            <p>
+                <strong>Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)</strong><br/>
+                Em Brasília: Setor de Autarquias Sul (SAUS) - Quadra 05 Lote 06 Bloco H <br/>
+                CEP: 70070-912 - Plano Piloto - DF <br/>
+                No Rio de Janeiro: Rua Lauro Muller, 455 - 4º Andar <br/>
+                CEP: 22290-160 - Botafogo - RJ
+            </p>
+        </small>
+    </footer>
 </div>
 
-<hr/>
-<footer>
-    &copy;
-</footer>
-
 <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
+<script src="{{ asset('/assets/js/lodash.min.js') }}"></script>
 <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('/assets/js/vue.min.js') }}"></script>
+<script src="{{ asset('/assets/js/vue-resource.min.js') }}"></script>
+<script src="{{ asset('/assets/js/jquery.mask.min.js') }}"></script>
 @yield('script')
 
 </body>

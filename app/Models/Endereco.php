@@ -31,4 +31,14 @@ class Endereco extends Model
     {
         return $this->hasOne('SisMid\Models\Pid');
     }
+
+    public function instituicao()
+    {
+        return $this->hasOne('SisMid\Models\Instituicao');
+    }
+
+    public function iniciativa()
+    {
+        return $this->hasOne('SisMid\Models\Iniciativa');
+    }
 }

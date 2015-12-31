@@ -104,6 +104,23 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'tipo_id' => 'tipo',
+        'naturezaJuridica_id' => 'natureza jurídica',
+        'informacaoComplementar' => 'informação complementar',
+        'categoria_id' => 'categoria',
+        'iniciativa_id' => 'iniciativa',
+
+        'endereco' => [
+            'logradouro' => 'logradouro',
+            'bairro' => 'bairro',
+            'uf' => 'UF',
+            'cidade_id' => 'cidade',
+            'latitude' => 'latitude',
+            'longitude' => 'longitude',
+            'localidade_id' => 'localidade',
+            'localizacao_id' => 'localização'
+        ]
+    ],
 
 ];
