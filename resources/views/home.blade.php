@@ -3,8 +3,9 @@
 @is('admin')
     <h3>Administrador</h3>
 @endis
-@is('A2')
-    <h3>Usuario</h3>
+@is('gestor')
+    <h3>Usuario Gestor</h3>
 @endis
-{{ Auth::user()->present()->nomeCompleto }}
+Bem vindo {{ Auth::user()->present()->nomeCompleto }}!
+
 @endsection

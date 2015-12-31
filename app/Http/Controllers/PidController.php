@@ -2,7 +2,9 @@
 
 namespace SisMid\Http\Controllers;
 
+use Artesaos\Defender\Facades\Defender;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use SisMid\Http\Requests;
@@ -20,13 +22,28 @@ class PidController extends Controller
      */
     public function index()
     {
-        $pids = DB::table('pids')
-            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
-            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
-            ->orderBy('pids.nome', 'asc')
-            ->paginate(10);
+        if(Defender::hasRole('admin')) {
+            $pids = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                ->orderBy('pids.nome', 'asc')
+                ->paginate(10);
+        }
+
+        if(Defender::hasRole('gestor')) {
+            $pids = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                ->orderBy('pids.nome', 'asc')
+                ->paginate(10);
+        }
+
 
         return view('pids.index', compact('pids'));
     }

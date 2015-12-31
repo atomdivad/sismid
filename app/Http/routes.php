@@ -14,10 +14,12 @@
 Route::pattern('id', '[0-9]+');
 
 Route::get('/', function () {
+    if(Auth::check())
+        return view('home');
     return view('app');
 });
 
-Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'any' => true], function() {
+Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor'], 'any' => true], function() {
 
     Route::get('/home', ['as' => 'home', function () {
         return view('home');
@@ -43,6 +45,10 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
         Route::post('/update', ['as' => 'instituicao.update', 'uses' => 'InstituicaoController@update']);
     });
 
+});
+
+Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(){
+
     Route::group(['prefix' => 'iniciativa'], function() {
 
         Route::get('/index', ['as' => 'iniciativa.index', 'uses' => 'IniciativaController@index']);
@@ -62,7 +68,6 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'A2'], 'a
             Route::post('/update',    ['as' => 'gestor.update', 'uses' => 'IniciativaGestorController@update']);
         });
     });
-
 });
 
 Route::group(['prefix' => 'api'], function(){

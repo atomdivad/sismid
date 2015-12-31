@@ -29,12 +29,17 @@
         @if(!Auth::guest())
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciativa <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ route('iniciativa.index') }}">Iniciativas</a></li>
-                            <li><a href="{{ route('gestor.index') }}">Gestor de Iniciativa</a></li>
-                        </ul>
+
+                    @is('admin')
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciativa <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('iniciativa.index') }}">Iniciativas</a></li>
+                                <li><a href="{{ route('gestor.index') }}">Gestor de Iniciativa</a></li>
+                            </ul>
+                        </li>
+                    @endis
+
                     <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
                     <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
                 </ul>

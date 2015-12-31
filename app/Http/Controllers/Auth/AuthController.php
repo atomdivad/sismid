@@ -65,7 +65,7 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $role = Defender::findRole('A2');
+        $role = Defender::findRole('gestor');
         $user->attachRole($role);
 
         return $user;
