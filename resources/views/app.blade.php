@@ -29,6 +29,7 @@
         @if(!Auth::guest())
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
+                    <li><a href="{{ route('mapa.index') }}">Mapa</a></li>
 
                     @is('admin')
                         <li class="dropdown">

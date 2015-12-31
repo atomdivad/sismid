@@ -175,4 +175,14 @@ class ApiController extends Controller
 
         return $iniciativas;
     }
+    public function getMapa()
+    {
+        $pids = DB::table('pids')
+            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+               ->select('pids.*', 'enderecos.latitude', 'enderecos.longitude')
+            ->orderBy('pids.nome', 'asc')
+            ->get();
+        return $pids;
+        //return view("mapa.index");
+    }
 }
