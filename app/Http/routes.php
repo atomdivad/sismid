@@ -53,7 +53,11 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
     });
 
 });
+Route::group(['prefix' => 'mapa'], function() {
 
+    Route::get('/index', ['as' => 'mapa.index', 'uses' => 'MapaController@index']);
+
+});
 Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(){
 
     Route::group(['prefix' => 'iniciativa'], function() {
@@ -77,6 +81,8 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
 Route::group(['prefix' => 'api'], function(){
 
     Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);
+    Route::get('/mapa/{agrupamento?}', ['as' => 'getMapa', 'uses' => 'ApiController@getMapa']);
+
 
     Route::post('/pesquisar/instituicoes', ['as' => 'pesquisarInstituicoes', 'uses' => 'ApiController@getInstituicoes']);
     Route::post('/pesquisar/iniciativas', ['as' => 'pesquisarIniciativas', 'uses' => 'ApiController@getIniciativas']);
