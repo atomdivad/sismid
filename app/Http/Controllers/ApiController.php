@@ -175,14 +175,31 @@ class ApiController extends Controller
 
         return $iniciativas;
     }
-    public function getMapa()
+    public function getMapa($agrupamento = null)
     {
-        $pids = DB::table('pids')
-            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
-               ->select('pids.*', 'enderecos.latitude', 'enderecos.longitude')
-            ->orderBy('pids.nome', 'asc')
-            ->get();
-        return $pids;
+        switch($agrupamento){
+            case "estado":
+                $pids = DB::table('pids')
+                    ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                    ->select('pids.*', 'enderecos.latitude', 'enderecos.longitude')
+                    ->groupBy('uf.uf')
+                    ->get();
+                return $pids;
+                break;
+            case "regiao":
+                break;
+            default:
+                $pids = DB::table('pids')
+                    ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                    ->select('pids.*', 'enderecos.latitude', 'enderecos.longitude')
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->orderBy('pids.nome', 'asc')
+                    ->get();
+                return $pids;
+
+        }
         //return view("mapa.index");
     }
+
 }
