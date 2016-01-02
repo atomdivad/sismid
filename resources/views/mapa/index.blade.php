@@ -2,12 +2,15 @@
 @section('content')
 
 <div id="map" style="width: 100%; height: 500px;"></div>
+<div id="log"></div>
+
 
 @endsection
 @section('script')
     @parent
     <script src="https://maps.googleapis.com/maps/api/js"></script>
-    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/1.0.2/src/markerclusterer.js"></script>
+<!--    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/1.0.2/src/markerclusterer.js"></script>-->
+    <script src="{{ asset('/assets/js/markerclusterer.js') }}"></script>
     <script src="{{ asset('/assets/js/estados/acCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/estados/alCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/estados/amCoords.js') }}"></script>
@@ -40,6 +43,11 @@
     <script src="{{ asset('/assets/js/regioes/neCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/regioes/sCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/regioes/seCoords.js') }}"></script>
+    <script src="{{ asset('/assets/js/infobox.js') }}"></script>
     <script src="{{ asset('/assets/js/mapa.js') }}"></script>
 
 @stop
+{{--@section("css")--}}
+    {{--@parent--}}
+    {{--<script src="{{ asset('/assets/css/infobox.css') }}"></script>--}}
+{{--@endsection--}}

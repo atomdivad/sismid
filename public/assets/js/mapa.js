@@ -1,66 +1,7 @@
-
-//$.get( "/api/mapa", function( data ) {
-//    console.log(JSON.stringify(data));
-//});
-//
-//function initMap() {
-//    var map = new google.maps.Map(document.getElementById('mapa'), {
-//        zoom: 4,
-//        center: {lat: -15.780, lng: -47.929},
-//        mapTypeId: google.maps.MapTypeId.ROADMAP
-//    });
-//    //var mcOptions = {gridSize: 50, maxZoom: 15};
-//    //var mc = new MarkerClusterer(map, [], mcOptions);
-//    //var geocoder = new google.maps.Geocoder();
-//
-//    var markers = [];
-//    for (var i = 0; i < 100; i++) {
-//        var dataPhoto = dados.photos[i];
-//        var latLng = new google.maps.LatLng(dataPhoto.latitude,
-//            dataPhoto.longitude);
-//        var marker = new google.maps.Marker({
-//            position: latLng
-//        });
-//        markers.push(marker);
-//    }
-//    var markerCluster = new MarkerClusterer(mapa, markers);
-//
-////google.maps.event.addDomListener(window, 'load', initMap);
-//    //HTML5 geolocation.
-//    //if (navigator.geolocation) {
-//    //    navigator.geolocation.getCurrentPosition(function(position) {
-//    //        var pos = {
-//    //            lat: position.coords.latitude,
-//    //            lng: position.coords.longitude
-//    //        };
-//    //        map.setCenter(pos);
-//    //    });
-//    //}
-//}
 var map;
 var markers = [];
-var dados = [];
-       // console.log(acCoords);
+var markerCluster = [];
 function initialize() {
-    //var center = new google.maps.LatLng(37.4419, -122.1419);
-    //var markers = [];
-    //
-    //$.get("/api/mapa", function (data) {
-    //       dados.push(data);
-    //       $.each(data, function(i, item) {
-    //           console.log(item.latitude, item.longitude);
-    //
-    //           var latLng = new google.maps.LatLng(item.latitude, item.longitude);
-    //           var marker = new google.maps.Marker({
-    //               position: latLng
-    //           });
-    //           markers.push(marker);
-    //
-    //       });
-    //    var markerCluster = new MarkerClusterer(map, markers);
-    //});
-
-    //acCoords.js
     var options = {
         zoom: 4,
         center: {lat: -15.780, lng: -47.929},
@@ -68,8 +9,8 @@ function initialize() {
 
         zoomControlOptions: {
 
-            style: google.maps.ZoomControlStyle.SMALL
-
+            //style: google.maps.ZoomControlStyle.SMALL
+           style: google.maps.ZoomControlStyle.ROADMAP
         },
         //mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -83,21 +24,49 @@ function initialize() {
         regiao();
     }
     $.get(url, function (data) {
-        dados.push(data);
         $.each(data, function (i, item) {
             //console.log(item.latitude, item.longitude);
 
             var latLng = new google.maps.LatLng(item.latitude, item.longitude);
             var marker = new google.maps.Marker({
-                position: latLng
+                map: map,
+                position: latLng,
+                title: item.idPid.toString(),
+                visible: true
             });
             markers.push(marker);
 
+          marker.addListener('click', function(){
+
+              //https://developers.google.com/maps/documentation/javascript/examples/event-closure
+                log(latLng);
+              //console.log(latLng.toString());
+          });
         });
-        var markerCluster = new MarkerClusterer(map, markers);
+        markerCluster = new MarkerClusterer(map, markers, {averageCenter: true
+                });
+
+        google.maps.event.addListener(markerCluster, "click", function (c) {
+              log("click: ");
+              log("&mdash;Center of cluster: " + c.getCenter());
+              log("&mdash;Number of managed markers in cluster: " + c.getSize());
+              var m = c.getMarkers();
+              var p = [];
+              for (var i = 0; i < m.length; i++ ){
+                p.push(m[i].getPosition());
+              }
+
+              log("&mdash;Locations of managed markers: " + p.join(", "));
+
+            });
     });
+
 }
-function estado(){
+function log(h){
+    document.getElementById("log").innerHTML = h + "<br />";
+}
+
+function AgrupamentoEstado(){
     var polygon = new google.maps.Polygon({
 	    paths: acCoords,
 	    strokeColor: '#8122e5',
@@ -384,7 +353,7 @@ function estado(){
 
 }
 
-function regiao() {
+function AgrupamentoRegiao() {
     // N
     for (var i = 0; i < nCoords.length; i++) {
         var coords = nCoords[i];
@@ -455,19 +424,5 @@ function regiao() {
         polygon.setMap(map);
     }
 
-    //$.get("/api/mapa", function (data) {
-    //    dados.push(data);
-    //    $.each(data, function (i, item) {
-    //        //console.log(item.latitude, item.longitude);
-    //
-    //        var latLng = new google.maps.LatLng(item.latitude, item.longitude);
-    //        var marker = new google.maps.Marker({
-    //            position: latLng
-    //        });
-    //        markers.push(marker);
-    //
-    //    });
-    //    var markerCluster = new MarkerClusterer(map, markers);
-    //});
 }
 google.maps.event.addDomListener(window, 'load', initialize);

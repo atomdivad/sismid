@@ -199,7 +199,6 @@ class ApiController extends Controller
                 return $pids;
 
         }
-        //return view("mapa.index");
     }
 
 }
