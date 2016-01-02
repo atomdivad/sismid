@@ -40,6 +40,10 @@
                         </li>
                     @endis
 
+                    @is('gestor')
+                        <li><a href="{{ route('iniciativa.edit', Auth::user()->iniciativa_id) }}">Iniciativa</a></li>
+                    @endis
+
                     <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
                     <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
                 </ul>
