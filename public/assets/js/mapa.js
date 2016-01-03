@@ -10,23 +10,21 @@ var markerCluster;
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
+var map;
+var markers = [];
+var markerCluster = [];
 function initialize() {
-
-    //acCoords.js
     var options = {
         zoom: 4,
         center: {lat: -15.780, lng: -47.929},
         streetViewControl: false,
-
         zoomControlOptions: {
-
             style: google.maps.ZoomControlStyle.SMALL
-
-        }
-        //mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+        },
+        style: google.maps.ZoomControlStyle.ROADMAP
+    }
+    //mapTypeId: google.maps.MapTypeId.ROADMAP
     map = new google.maps.Map(document.getElementById('map'), options);
-
     buscaDados();
 }
 
@@ -38,13 +36,21 @@ function buscaDados() {
     }
 
     $.post("/api/mapa", dados ,function (data) {
+
         $.each(data, function (i, item) {
             var latLng = new google.maps.LatLng(item.latitude, item.longitude);
             var marker = new google.maps.Marker({
-                position: latLng
+                map: map,
+                position: latLng,
+                //title: item.idPid.toString(),
+                visible: true
             });
             markers.push(marker);
-
+            marker.addListener('click', function () {
+                //https://developers.google.com/maps/documentation/javascript/examples/event-closure
+                log(latLng);
+                //console.log(latLng.toString());
+            });
         });
 
         if(dados.agrupamento == 'estado') {
@@ -63,8 +69,26 @@ function buscaDados() {
         }
         else {
             markerCluster = new MarkerClusterer(map, markers);
+
+            /*google.maps.event.addListener(markerCluster, "click", function (c) {
+                log("click: ");
+                log("&mdash;Center of cluster: " + c.getCenter());
+                log("&mdash;Number of managed markers in cluster: " + c.getSize());
+                var m = c.getMarkers();
+                var p = [];
+                for (var i = 0; i < m.length; i++ ){
+                    p.push(m[i].getPosition());
+                }
+
+                log("&mdash;Locations of managed markers: " + p.join(", "));
+
+            });*/
         }
     });
+}
+
+function log(h){
+    document.getElementById("log").innerHTML = h + "<br />";
 }
 
 var polygon =  [];

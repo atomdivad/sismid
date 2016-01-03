@@ -9,7 +9,7 @@
     <link href="{{ asset('/assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <link href="{{ asset('/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
-
+    @yield('css')
 </head>
 <body>
 
@@ -47,6 +47,17 @@
 
                     <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
                     <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
+                    @is('admin')
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Gerenciar Administradores</a></li>
+                            <li><a href="#">Gerenciar Email</a></li>
+                            <li><a href="#">Gerenciar Endereço/Telefone</a></li>
+                            <li><a href="#">Informações da equipe</a></li>
+                        </ul>
+                    </li>
+                    @endis
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
