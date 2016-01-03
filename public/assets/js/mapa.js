@@ -31,7 +31,8 @@ function initialize() {
             var marker = new google.maps.Marker({
                 map: map,
                 position: latLng,
-                title: item.idPid.toString(),
+                title: item.nome,
+				idpid: item.idPid.toString(),
                 visible: true
             });
             markers.push(marker);
@@ -47,13 +48,13 @@ function initialize() {
                 });
 
         google.maps.event.addListener(markerCluster, "click", function (c) {
-              log("click: ");
-              log("&mdash;Center of cluster: " + c.getCenter());
-              log("&mdash;Number of managed markers in cluster: " + c.getSize());
+              //log("click: ");
+              //log("&mdash;Center of cluster: " + c.getCenter());
+              //log("&mdash;Number of managed markers in cluster: " + c.getSize());
               var m = c.getMarkers();
               var p = [];
               for (var i = 0; i < m.length; i++ ){
-                p.push(m[i].getPosition());
+                p.push(m[i].idPid + " " + m[i].title);
               }
 
               log("&mdash;Locations of managed markers: " + p.join(", "));

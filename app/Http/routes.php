@@ -60,6 +60,12 @@ Route::group(['prefix' => 'mapa'], function() {
 });
 Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(){
 
+    Route::group(['prefix' => 'admin'], function() {
+
+        Route::get('/email/index', ['as' => 'admin.email.index', 'uses' => 'AdminController@index']);
+
+    });
+
     Route::group(['prefix' => 'iniciativa'], function() {
 
         Route::get('/index', ['as' => 'iniciativa.index', 'uses' => 'IniciativaController@index']);
