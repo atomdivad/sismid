@@ -70,7 +70,7 @@ function buscaDados() {
         else {
             markerCluster = new MarkerClusterer(map, markers);
 
-            /*google.maps.event.addListener(markerCluster, "click", function (c) {
+            google.maps.event.addListener(markerCluster, "click", function (c) {
                 log("click: ");
                 log("&mdash;Center of cluster: " + c.getCenter());
                 log("&mdash;Number of managed markers in cluster: " + c.getSize());
@@ -82,7 +82,7 @@ function buscaDados() {
 
                 log("&mdash;Locations of managed markers: " + p.join(", "));
 
-            });*/
+            });
         }
     });
 }
