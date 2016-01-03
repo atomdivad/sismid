@@ -3,6 +3,7 @@
 namespace SisMid\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 
@@ -15,7 +16,8 @@ class MapaController extends Controller
      */
     public function index()
     {
-        return view("mapa.index");
+        $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
+        return view("mapa.index", compact('uf'));
     }
 
     /**
