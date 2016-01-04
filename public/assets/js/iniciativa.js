@@ -62,7 +62,7 @@ var iniciativa = new Vue({
                 cidade_id: jQuery('select[name="buscaCidade"]').val()
             }
 
-            self.$http.post('/api/pesquisar/instituicoes/', busca, function(response){
+            self.$http.post('/api/pesquisar/instituicoes', busca, function(response){
                 self.$set('instituicoes', _.chunk(response,5));
                 iniciativa.$refs.listaInstituicoes.$data.page = 0;
             });

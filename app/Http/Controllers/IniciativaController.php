@@ -215,7 +215,7 @@ class IniciativaController extends Controller
             'email' => 'required|email',
             'url' => 'url',
             'objetivo' => 'min:3|max:255',
-            'informacaoComplementar' => 'min:3|max:255',
+            'informacaoComplementar' => 'min:3|max:1000',
             'categoria_id' => 'required|exists:iniciativaCategorias,idCategoria',
             'fonte' => 'required|min:3|max:255',
         ]);
