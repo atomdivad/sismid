@@ -35,23 +35,51 @@ function buscaDados() {
         cidade: $("#cidade_id").val()
     }
 
+    $("#grid-data").bootgrid('clear');
+
     $.post("/api/mapa", dados ,function (data) {
 
+        var pontos = [];
         $.each(data, function (i, item) {
+
+            pontos.push({
+                nome: item.nome,
+                idPid: item.idPid.toString(),
+                endereco: item.logradouro + ', ' + item.numero,
+                nomeCidade: item.nomeCidade,
+                uf: item.uf
+            });
+
             var latLng = new google.maps.LatLng(item.latitude, item.longitude);
             var marker = new google.maps.Marker({
                 map: map,
                 position: latLng,
-                //title: item.idPid.toString(),
+                title: item.nome,
+                idPid: item.idPid.toString(),
+                nome: item.nome,
+                endereco: item.logradouro + ', ' + item.numero,
+                nomeCidade: item.nomeCidade,
+                uf: item.uf,
                 visible: true
             });
             markers.push(marker);
+
+            /*Ouvir click em marcador*/
             marker.addListener('click', function () {
-                //https://developers.google.com/maps/documentation/javascript/examples/event-closure
-                log(latLng);
-                //console.log(latLng.toString());
+                var self = this;
+                var mk = {
+                    idPid: self.idPid ,
+                    nome: self.nome,
+                    endereco: self.endereco,
+                    nomeCidade: self.nomeCidade,
+                    uf: self.uf
+                };
+                $("#grid-data").bootgrid('clear');
+                $("#grid-data").bootgrid('append', [mk]);
             });
         });
+
+        $("#grid-data").bootgrid('append', pontos);
 
         if(dados.agrupamento == 'estado') {
             markerCluster = new MarkerClusterer(map, markers, {
@@ -69,26 +97,24 @@ function buscaDados() {
         }
         else {
             markerCluster = new MarkerClusterer(map, markers);
-
+            /*Ouvir click em cluster*/
             google.maps.event.addListener(markerCluster, "click", function (c) {
-                log("click: ");
-                log("&mdash;Center of cluster: " + c.getCenter());
-                log("&mdash;Number of managed markers in cluster: " + c.getSize());
                 var m = c.getMarkers();
-                var p = [];
+                pontos = [];
                 for (var i = 0; i < m.length; i++ ){
-                    p.push(m[i].getPosition());
+                    pontos.push({
+                        idPid: m[i].idPid ,
+                        nome: m[i].nome,
+                        endereco: m[i].endereco,
+                        nomeCidade: m[i].nomeCidade,
+                        uf: m[i].uf
+                    });
                 }
-
-                log("&mdash;Locations of managed markers: " + p.join(", "));
-
+                $("#grid-data").bootgrid('clear');
+                $("#grid-data").bootgrid('append', pontos);
             });
         }
     });
-}
-
-function log(h){
-    document.getElementById("log").innerHTML = h + "<br />";
 }
 
 var polygon =  [];
@@ -442,6 +468,17 @@ function regiao() {
     }
 }
 
+function estadoRemove() {
+    for(var i = 0; i < polygon.length; i++)
+        polygon[i].setMap(null);
+}
+
+function regiaoRemove() {
+    $.each(allPolygon, function(i, item){
+       item.setMap(null);
+    });
+}
+
 $( "#btnFiltrar" ).click(function() {
     if(polygon.length > 0) {
         estadoRemove();
@@ -470,13 +507,16 @@ $( "#btnClear" ).click(function() {
     }
 });
 
-function estadoRemove() {
-    for(var i = 0; i < polygon.length; i++)
-        polygon[i].setMap(null);
-}
-
-function regiaoRemove() {
-    $.each(allPolygon, function(i, item){
-       item.setMap(null);
-    });
-}
+$("#grid-data").bootgrid({
+    labels: {
+        noResults: "Nenhum resultado",
+        all: 'Todos',
+        search: "Pesquisar",
+        infos: "Exibindo {{ctx.start}} - {{ctx.end}} de {{ctx.total}} entradas"
+    },
+    caseSensitive: false,
+    searchSettings: {
+        delay: 100,
+        characters: 3
+    }
+});

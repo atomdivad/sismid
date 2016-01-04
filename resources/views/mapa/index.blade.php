@@ -36,12 +36,40 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div id="map" style="width: 100%; height: 500px;"></div>
-            <div id="log"></div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="map" style="width: 100%; height: 350px;"></div>
+            </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="grid-data" class="table table-bordered table-condensed table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th data-column-id="idPid" data-visible="false" data-type="numeric">ID</th>
+                        <th data-column-id="nome">Nome</th>
+                        <th data-column-id="endereco">Endereço</th>
+                        <th data-column-id="nomeCidade">Município</th>
+                        <th data-column-id="uf">UF</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <template id="searchDiv">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" name="search" id="search" placeholder="Filtrar Tabela" class="form-control"/>
+            </div>
+        </div>
+    </template>
+
 
 @endsection
 @section('script')
@@ -83,10 +111,7 @@
     <script src="{{ asset('/assets/js/regioes/sCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/regioes/seCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/infobox.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.bootgrid.min.js') }}"></script>
     <script src="{{ asset('/assets/js/mapa.js') }}"></script>
 
 @stop
-{{--@section("css")--}}
-    {{--@parent--}}
-    {{--<script src="{{ asset('/assets/css/infobox.css') }}"></script>--}}
-{{--@endsection--}}
