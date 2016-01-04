@@ -425,9 +425,9 @@ class ApiController extends Controller
                     //cidades
                     $pids = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
-                        ->select('pids.*', 'enderecos.latitude', 'enderecos.longitude')
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                         ->where('cidades.idCidade', '=', $cidade)
                         ->get();
                 }
@@ -435,10 +435,11 @@ class ApiController extends Controller
                     //sem cidade
                     $pids = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
-                        ->select('pids.*', 'enderecos.latitude', 'enderecos.longitude')
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                         ->where('cidades.uf_id', '=', $uf)
+                        ->orderBy('cidades.nomeCidade', 'asc')
                         ->get();
                 }
             }
@@ -446,9 +447,10 @@ class ApiController extends Controller
                 //Sem parametros
                 $pids = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
-                    ->select('pids.*', 'enderecos.latitude', 'enderecos.longitude')
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                    ->orderBy('uf.uf', 'asc')
                     ->get();
             }
         }
