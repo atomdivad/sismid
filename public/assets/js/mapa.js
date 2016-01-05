@@ -55,15 +55,11 @@ function buscaDados() {
                 map: map,
                 position: latLng,
                 title: item.nome,
-<<<<<<< HEAD
-				idpid: item.idPid.toString(),
-=======
                 idPid: item.idPid.toString(),
                 nome: item.nome,
                 endereco: item.logradouro + ', ' + item.numero,
                 nomeCidade: item.nomeCidade,
                 uf: item.uf,
->>>>>>> b2f57ca58559a0260f644f55d824f290218d65b3
                 visible: true
             });
             markers.push(marker);
