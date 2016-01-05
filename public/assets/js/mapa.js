@@ -507,7 +507,7 @@ $( "#btnClear" ).click(function() {
     }
 });
 
-$("#grid-data").bootgrid({
+var pidGrid = $("#grid-data").bootgrid({
     labels: {
         noResults: "Nenhum resultado",
         all: 'Todos',
@@ -518,5 +518,17 @@ $("#grid-data").bootgrid({
     searchSettings: {
         delay: 100,
         characters: 3
+    },
+    formatters: {
+        commands: function (column, row)
+        {
+            return '<a href="#" class="btn btn-xs btn-primary command-edit"><span class="glyphicon glyphicon-eye-open"></span></a>';       }
     }
+}).on("loaded.rs.jquery.bootgrid", function()
+{
+    pidGrid.find(".command-edit").on("click", function(e)
+    {
+        e.preventDefault();
+        $('#modalInfo').modal('toggle');
+    });
 });

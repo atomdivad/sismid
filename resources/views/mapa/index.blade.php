@@ -60,6 +60,7 @@
                         <th data-column-id="endereco">Endereço</th>
                         <th data-column-id="nomeCidade">Município</th>
                         <th data-column-id="uf">UF</th>
+                        <th data-column-id="commands" data-formatter="commands">Visualizar</th>
                     </tr>
                     </thead>
                 </table>
@@ -67,13 +68,7 @@
         </div>
     </div>
 
-    <template id="searchDiv">
-        <div class="row">
-            <div class="col-sm-6">
-                <input type="text" name="search" id="search" placeholder="Filtrar Tabela" class="form-control"/>
-            </div>
-        </div>
-    </template>
+    @include('mapa.partials.modal_info')
 
 
 @endsection
