@@ -116,7 +116,6 @@ function buscaDados() {
                 }
                 $("#grid-data").bootgrid('clear');
                 $("#grid-data").bootgrid('append', pontos);
->>>>>>> b2f57ca58559a0260f644f55d824f290218d65b3
             });
         }
     });
