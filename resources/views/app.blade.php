@@ -27,55 +27,57 @@
             <a class="navbar-brand" href="/">SisMid</a>
         </div>
 
-        @if(!Auth::guest())
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ route('mapa.index') }}">Mapa</a></li>
+                </ul>
 
-                    @is('admin')
+                @if(!Auth::guest())
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ route('mapa.index') }}">Mapa</a></li>
+
+                        @is('admin')
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciativa <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('iniciativa.index') }}">Iniciativas</a></li>
+                                    <li><a href="{{ route('gestor.index') }}">Gestor de Iniciativa</a></li>
+                                </ul>
+                            </li>
+                        @endis
+
+                        @is('gestor')
+                            <li><a href="{{ route('iniciativa.edit', Auth::user()->iniciativa_id) }}">Iniciativa</a></li>
+                        @endis
+
+                        <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
+                        <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
+                        @is('admin')
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciativa <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ route('iniciativa.index') }}">Iniciativas</a></li>
-                                <li><a href="{{ route('gestor.index') }}">Gestor de Iniciativa</a></li>
+                                <li><a href="#">Gerenciar Administradores</a></li>
+                                <li><a href="#">Gerenciar Email</a></li>
+                                <li><a href="#">Gerenciar Endereço/Telefone</a></li>
+                                <li><a href="#">Informações da equipe</a></li>
                             </ul>
                         </li>
-                    @endis
+                        @endis
+                    </ul>
 
-                    @is('gestor')
-                        <li><a href="{{ route('iniciativa.edit', Auth::user()->iniciativa_id) }}">Iniciativa</a></li>
-                    @endis
-
-                    <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
-                    <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
-                    @is('admin')
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Gerenciar Administradores</a></li>
-                            <li><a href="{{ route('admin.email.index') }}">Gerenciar Email</a></li>
-                            <li><a href="#">Gerenciar Endereço/Telefone</a></li>
-                            <li><a href="#">Informações da equipe</a></li>
-                        </ul>
-                    </li>
-                    @endis
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown" role="menuitem">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Sua Conta <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ route('auth.logout') }}">Sair</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        @else
-            <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ route('auth.formLogin') }}">Entrar</a></li>
-                    <li><a href="{{ route('auth.formRegister') }}">Cadastrar-se</a></li>
-                </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown" role="menuitem">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Sua Conta <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ route('auth.logout') }}">Sair</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                @else
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ route('auth.formLogin') }}">Entrar</a></li>
+                        <li><a href="{{ route('auth.formRegister') }}">Cadastrar-se</a></li>
+                    </ul>
             </div>
         @endif
     </div>
