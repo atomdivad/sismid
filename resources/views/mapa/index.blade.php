@@ -55,7 +55,7 @@
                         <th data-column-id="endereco">Endereço</th>
                         <th data-column-id="nomeCidade">Município</th>
                         <th data-column-id="uf">UF</th>
-                        <th data-column-id="commands" data-formatter="commands">Visualizar</th>
+                        <th data-column-id="commands" data-formatter="commands" data-searchable="false" data-sortable="false">Visualizar</th>
                     </tr>
                     </thead>
                 </table>

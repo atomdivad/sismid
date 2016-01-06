@@ -522,7 +522,7 @@ var pidGrid = $("#grid-data").bootgrid({
     formatters: {
         commands: function (column, row)
         {
-            return '<a href="#" class="btn btn-xs btn-primary command-edit"><span class="glyphicon glyphicon-eye-open"></span></a>';       }
+            return '<a href="#" class="btn btn-sm btn-primary command-edit" data-id="'+row.idPid+'"><span class="glyphicon glyphicon-eye-open"></span></a>';       }
     }
 }).on("loaded.rs.jquery.bootgrid", function()
 {
@@ -530,5 +530,26 @@ var pidGrid = $("#grid-data").bootgrid({
     {
         e.preventDefault();
         $('#modalInfo').modal('toggle');
+        info.$data.id = $(this).data('id');
     });
+});
+
+var info = new Vue({
+    el: '#modalInfo',
+
+    data:{
+        id: null,
+        info: ''
+    },
+
+    methods: {},
+
+    watch: {
+        'id': function (val) {
+            var self = this;
+            self.$http.get('/mapa/'+val+'/show', function(response){
+                self.$set('info', response);
+            });
+        }
+    }
 });
