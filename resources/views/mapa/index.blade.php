@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-sm-6">
                 {!! Form::label('agrupamento', 'Agrupamento') !!}
-                {!! Form::select('agrupamento', [0 => 'Sem Agrupamento', 'estado' => 'Agrupar por estado', 'regiao' => 'Agrupar por região'], 'regiao', ["class" => "form-control"]) !!}
+                {!! Form::select('agrupamento', [0 => 'Sem Agrupamento', 'estado' => 'Agrupar por estado', 'regiao' => 'Agrupar por região'], '', ["class" => "form-control"]) !!}
             </div>
         </div>
     </div>
