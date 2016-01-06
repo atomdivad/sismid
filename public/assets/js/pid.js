@@ -65,7 +65,7 @@ var pid = new Vue({
                 cidade_id: jQuery('select[name="buscaCidade"]').val()
             }
 
-            self.$http.post('/api/pesquisar/instituicoes/', busca, function(response){
+            self.$http.post('/api/pesquisar/instituicoes', busca, function(response){
                 self.$set('instituicoes', _.chunk(response,5));
                 pid.$refs.listaInstituicoes.$data.page = 0;
             });
@@ -92,7 +92,7 @@ var pid = new Vue({
                 cidade_id: jQuery('select[name="iniciativaBuscaCidade"]').val()
             }
 
-            self.$http.post('/api/pesquisar/iniciativas/', busca, function(response){
+            self.$http.post('/api/pesquisar/iniciativas', busca, function(response){
                 self.$set('iniciativas', _.chunk(response,5));
                 pid.$refs.listaIniciativas.$data.page = 0;
             });
@@ -153,7 +153,7 @@ var pid = new Vue({
         var param = window.location.pathname.split( '/' )[2];
 
         if(param != 'create') {
-            url = '/pid/'+param+'/show/';
+            url = '/pid/'+param+'/show';
 
             self.$http.get(url, function(response) {
                 /* Adicionando os dados retornados */
