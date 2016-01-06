@@ -335,6 +335,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($norte as $pid) {
+                    $norteTotal = $pid->total;
                     $pid->latitude = $latlng['AM']['latitude'];
                     $pid->longitude = $latlng['AM']['longitude'];
                 }
@@ -353,6 +354,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($nordeste as $pid) {
+                    $nordesteTotal = $pid->total;
                     $pid->latitude = $latlng['PI']['latitude'];
                     $pid->longitude = $latlng['PI']['longitude'];
                 }
@@ -371,6 +373,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($suldeste as $pid) {
+                    $suldesteTotal = $pid->total;
                     $pid->latitude = $latlng['MG']['latitude'];
                     $pid->longitude = $latlng['MG']['longitude'];
                 }
@@ -389,6 +392,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($sul as $pid) {
+                    $sulTotal = $pid->total;
                     $pid->latitude = $latlng['SC']['latitude'];
                     $pid->longitude = $latlng['SC']['longitude'];
                 }
@@ -407,6 +411,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($centroeste as $pid) {
+                    $centroesteTotal = $pid->total;
                     $pid->latitude = $latlng['MT']['latitude'];
                     $pid->longitude = $latlng['MT']['longitude'];
                 }
@@ -417,7 +422,15 @@ class ApiController extends Controller
                 }
             }
 
-            return $estado;
+            return [
+                'pontos' => $estado,
+                'contagem' => [
+                    'norte' => $norteTotal,
+                    'nordeste' => $nordesteTotal,
+                    'sul' => $sulTotal,
+                    'suldeste' => $suldesteTotal,
+                    'centroeste' => $centroesteTotal,
+            ]];
         }
         else {
             if($uf != 0) {
