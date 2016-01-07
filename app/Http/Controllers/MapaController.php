@@ -106,7 +106,8 @@ class MapaController extends Controller
                 ],
                 'telefones' => $pid->telefones,
                 'instituicoes' => $instituicoes,
-                'iniciativas' => $iniciativas
+                'iniciativas' => $iniciativas,
+                'fotos' => $pid->fotos
             ];
         }
     }

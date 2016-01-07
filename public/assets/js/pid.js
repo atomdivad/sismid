@@ -25,7 +25,8 @@ var pid = new Vue({
             },
             telefones: [],
             instituicoes: [],
-            iniciativas: []
+            iniciativas: [],
+            fotos: []
         },
         novoTelefone: {
             telefone: '',
@@ -110,6 +111,19 @@ var pid = new Vue({
             pid.$refs.listaIniciativas.$data.page = 0;
         },
 
+        removerFoto: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            self.$http.post('/pid/fotos/remover', {idFoto: self.pid.fotos[index].idFoto}, function(response){
+                self.pid.fotos.splice(index, 1);
+            });
+        },
+
+        limparModalFotos: function() {
+            jQuery('#progress .progress-bar').css('width', '0%');
+            jQuery('#modalFotos').modal('hide');
+        },
+
         salvarPid: function(ev) {
             ev.preventDefault();
             var self = this;
@@ -160,6 +174,25 @@ var pid = new Vue({
                 self.$set('pid', response);
                 jQuery(getCidades(self.pid.endereco.uf,self.pid.endereco.cidade_id ));
 
+                /*Upload Anexos Projeto*/
+                var fileUpload = jQuery('#fileupload');
+                fileUpload.fileupload({
+                    url: '/pid/fotos',
+                    acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                    dataType: 'json',
+                    formData: {
+                        _token: jQuery('meta[name=csrf-token]').attr('content'),
+                        idPid: self.pid.idPid
+                    },
+                    done: function (e, data) {
+                        self.pid.fotos.push(data.result);
+                    },
+                    progressall: function (e, data) {
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        jQuery('#progress .progress-bar').css('width',progress + '%');
+                    }
+                });
+                /* Fim do upload de anexos */
             });
         }
     },

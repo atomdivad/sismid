@@ -30,9 +30,12 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
         Route::get('/index', ['as' => 'pid.index', 'uses' => 'PidController@index']);
         Route::get('create', ['as' => 'pid.create', 'uses' => 'PidController@create']);
         Route::post('/store', ['as' => 'pid.store', 'uses' => 'PidController@store']);
-        Route::get('/{id}/show/', ['as' => 'pid.show', 'uses' => 'PidController@show']);
-        Route::get('/{id}/edit/', ['as' => 'pid.edit', 'uses' => 'PidController@edit']);
+        Route::get('/{id}/show', ['as' => 'pid.show', 'uses' => 'PidController@show']);
+        Route::get('/{id}/edit', ['as' => 'pid.edit', 'uses' => 'PidController@edit']);
         Route::post('/update', ['as' => 'pid.update', 'uses' => 'PidController@update']);
+        Route::post('/fotos', ['as' => 'pid.fotos.upload', 'uses' => 'PidController@fotosUpload']);
+        Route::post('/fotos/remover', ['as' => 'pid.fotos.remover', 'uses' => 'PidController@fotosDestroy']);
+        Route::get('/{id}/fotos/{nome}', ['as' => 'pid.fotos', 'uses' => 'PidController@fotos']);
     });
 
     Route::group(['prefix' => 'instituicao'], function() {
@@ -86,6 +89,7 @@ Route::group(['prefix' => 'api'], function(){
     Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);
 
     Route::post('/mapa/', ['as' => 'getMapa', 'uses' => 'ApiController@getMapa']);
+    Route::get('/{id}/fotos/{nome}', ['as' => 'geFotos', 'uses' => 'ApiController@getFotos']);
 
     Route::post('/pesquisar/instituicoes', ['as' => 'pesquisarInstituicoes', 'uses' => 'ApiController@getInstituicoes']);
     Route::post('/pesquisar/iniciativas', ['as' => 'pesquisarIniciativas', 'uses' => 'ApiController@getIniciativas']);

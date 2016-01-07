@@ -230,11 +230,49 @@
 </div>
 {{-- Fim Iniciativas Vinculadas --}}
 
+{{-- Fotos --}}
+@include('pids.partials.modal_fotos')
+<div class="form-group">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-6" v-show="pid.fotos.length < 10"><i class="glyphicon glyphicon-picture"></i> Fotos</div>
+                        <div class="col-sm-6 text-right">
+                            <button class="btn btn-xs btn-primary"  data-toggle="modal" data-target="#modalFotos"><i class="glyphicon glyphicon-plus"></i> Fotos</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row" v-show="pid.fotos.length > 0">
+                        <div class="col-xs-6 col-md-3" v-for="foto in pid.fotos">
+                            <div class="thumbnail">
+                                <button type="button" class="close" aria-label="Remover" v-on:click="removerFoto($event, $index)"><span aria-hidden="true">&times;</span></button>
+                                <img src="/pid/@{{ pid.idPid }}/fotos/@{{ foto.nome }}" alt="@{{ foto.nome }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Fim Fotos --}}
+
 @section('script')
     @parent
+    <script src="{{ asset('/assets/js/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('/assets/js/jquery.fileupload.js') }}"></script>
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
     <script src="{{ asset('/assets/js/component-listagem.js') }}"></script>
     <script src="{{ asset('/assets/js/pid.js') }}"></script>
     <script src="{{ asset('/assets/js/masks.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsOdEoVwUQhPynqvu6OeA6qC9jsVniSlE&signed_in=true&callback=initMap" async defer></script>
+@endsection
+
+@section('css')
+    @parent
+    <link href="{{ asset('/assets/css/jquery.fileupload.css') }}" rel="stylesheet">
 @stop
+

@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 use SisMid\Models\Endereco;
 use SisMid\Models\Pid;
 use SisMid\Models\Telefone;
+use SisMid\Models\Foto;
+
 
 class PidController extends Controller
 {
@@ -173,7 +176,8 @@ class PidController extends Controller
                 ],
                 'telefones' => $pid->telefones,
                 'instituicoes' => $instituicoes,
-                'iniciativas' => $iniciativas
+                'iniciativas' => $iniciativas,
+                'fotos' => $pid->fotos
             ];
         }
     }
@@ -262,5 +266,65 @@ class PidController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param $id
+     * @param $nome
+     * @return mixed
+     */
+    public function fotos($id, $nome)
+    {
+        $pid = Pid::findOrFail($id);
+        $foto = $pid->fotos()->where('nome', '=', $nome)->first();
+        $img = Image::make($foto->arquivo);
+
+        $img->resize(171, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        return $img->response();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fotosUpload(Request $request)
+    {
+        if($request->file('foto')->isValid()) {
+            $file = $request->file('foto');
+
+            $fileExtension = strtolower($file->getClientOriginalExtension());
+
+            $extensions = ['gif', 'jpg', 'jpeg', 'png'];
+            if(!in_array($fileExtension, $extensions))
+                abort(406);
+
+            $pid = Pid::findOrFail($request['idPid']);
+
+            $storagePath = storage_path().'/imagens/'.$pid->idPid.'/';
+
+            $fileName = str_random(32);//$file->getClientOriginalName();
+
+            $truePath = $file->move($storagePath, $fileName);
+
+            /*SALVAR NO BD*/
+            $foto = new Foto(['nome' => $fileName, 'arquivo' => $truePath]);
+            $foto = $pid->fotos()->save($foto);
+
+            return response()->json($foto);
+        }
+        abort(406);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function fotosDestroy(Request $request)
+    {
+        $foto = Foto::findOrFail($request['idFoto']);
+        unlink($foto->arquivo);
+        $foto->delete();
+        return;
     }
 }

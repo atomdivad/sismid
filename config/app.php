@@ -144,6 +144,7 @@ return [
         SisMid\Providers\AuthServiceProvider::class,
         SisMid\Providers\EventServiceProvider::class,
         SisMid\Providers\RouteServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * HTML and Forms Service Provider
@@ -210,6 +211,7 @@ return [
         'Form'      =>  Illuminate\Html\FormFacade::class,
         'Html'      =>  Illuminate\Html\HtmlFacade::class,
         'Defender' => \Artesaos\Defender\Facades\Defender::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

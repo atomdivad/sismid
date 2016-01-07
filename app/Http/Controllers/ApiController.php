@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use SisMid\Models\Instituicao;
+use SisMid\Models\Pid;
+use Intervention\Image\Facades\Image;
 
 class ApiController extends Controller
 {
@@ -469,5 +471,18 @@ class ApiController extends Controller
         }
 
         return $pids;
+    }
+
+
+    public function getFotos($id, $nome)
+    {
+        $pid = Pid::findOrFail($id);
+        $foto = $pid->fotos()->where('nome', '=', $nome)->first();
+        $img = Image::make($foto->arquivo);
+
+        $img->resize(171, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        return $img->response();
     }
 }
