@@ -128,6 +128,7 @@ var pid = new Vue({
         },
 
         salvarPid: function(ev) {
+            jQuery('#loading').modal('show');
             ev.preventDefault();
             var self = this;
             self.$set('pid.endereco.latitude', jQuery("#latitude").val());
@@ -139,15 +140,19 @@ var pid = new Vue({
                     window.location.pathname = '/pid/'+response.idPid+'/edit';
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
             else {
+                jQuery('#loading').modal('show');
                 self.$http.post('/pid/update', self.pid, function (response){
-                    self.alerta(false, {msg:['Atualizado com sucesso!']})
                     self.$set('pid', response);
+                    jQuery('#loading').modal('hide');
+                    self.alerta(false, {msg:['Atualizado com sucesso!']})
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
@@ -170,12 +175,14 @@ var pid = new Vue({
         var param = window.location.pathname.split( '/' )[2];
 
         if(param != 'create') {
+            jQuery('#loading').modal('show');
             url = '/pid/'+param+'/show';
 
             self.$http.get(url, function(response) {
                 /* Adicionando os dados retornados */
                 self.$set('pid', response);
                 jQuery(getCidades(self.pid.endereco.uf,self.pid.endereco.cidade_id ));
+                jQuery('#loading').modal('hide');
 
                 /*Upload Anexos Projeto*/
                 var fileUpload = jQuery('#fileupload');

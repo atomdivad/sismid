@@ -87,14 +87,16 @@ class IniciativaController extends Controller
             $iniciativa->telefones()->create($telefone);
         }
 
-        $instituicoes = [];
-        foreach($request['instituicoes'] as $instituicao) {
-            $instituicoes[$instituicao['idInstituicao']] = array('tipoVinculo' => $instituicao['tipoVinculo']);
+        if(count($request['instituicoes']) > 0) {
+            $instituicoes = [];
+            foreach($request['instituicoes'] as $instituicao) {
+                $instituicoes[$instituicao['idInstituicao']] = array('tipoVinculo' => $instituicao['tipoVinculo']);
+            }
+            $iniciativa->instituicoes()->sync($instituicoes);
         }
-        $iniciativa->instituicoes()->sync($instituicoes);
 
         $iniciativa->dimensoes()->sync($request['dimensoes']);
-        $iniciativa->servicos()->sync($request['serrvicos']);
+        $iniciativa->servicos()->sync($request['servicos']);
 
         return $this->show($iniciativa->idIniciativa);
     }

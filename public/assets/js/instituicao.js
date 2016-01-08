@@ -51,6 +51,7 @@ var instituicao = new Vue({
 
         salvarInstituicao: function(ev) {
             ev.preventDefault();
+            jQuery('#loading').modal('show');
             var self = this;
             if(self.instituicao.idInstituicao === null) {
                 self.$http.post('/instituicao/store', self.instituicao, function (response){
@@ -59,15 +60,18 @@ var instituicao = new Vue({
                     window.location.pathname = '/instituicao/'+response.idInstituicao+'/edit';
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
             else {
                 self.$http.post('/instituicao/update', self.instituicao, function (response){
-                    self.alerta(false, {msg:['Atualizado com sucesso!']})
                     self.$set('instituicao', response);
+                    jQuery('#loading').modal('hide');
+                    self.alerta(false, {msg:['Atualizado com sucesso!']})
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
@@ -91,12 +95,14 @@ var instituicao = new Vue({
         var param = window.location.pathname.split( '/' )[2];
 
         if(param != 'create') {
+            jQuery('#loading').modal('show');
             url = '/instituicao/'+param+'/show/';
 
             self.$http.get(url, function(response) {
                 /* Adicionando os dados retornados */
                 self.$set('instituicao', response);
                 jQuery(getCidades(self.instituicao.endereco.uf,self.instituicao.endereco.cidade_id ));
+                jQuery('#loading').modal('hide');
 
             });
         }

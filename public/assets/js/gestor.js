@@ -52,10 +52,12 @@ var gestor = new Vue({
 
         salvarGestor: function(ev) {
             ev.preventDefault();
+            jQuery('#loading').modal('show');
             var self = this;
 
             /*Verifica agora para evitar error ao capturar o dados a seguir*/
             if(self.gestor.iniciativa.length == 0) {
+                jQuery('#loading').modal('hide');
                 self.alerta(true,{msg:['Escolha a iniciativa!']});
                 return false;
             }
@@ -70,20 +72,24 @@ var gestor = new Vue({
 
             if(self.gestor.idUsuario === null) {
                 self.$http.post('/iniciativa/gestor/store', dados, function (response){
-                    self.alerta(false, {msg:['Salvo com sucesso!']})
+                    jQuery('#loading').modal('hide');
+                    self.alerta(false, {msg:['Salvo com sucesso!']});
                     self.$set('gestor', response);
                     window.location.pathname = '/iniciativa/gestor/'+response.idUsuario+'/edit';
 
                 }).error(function (response){
                     self.alerta(true, response);
+                    jQuery('#loading').modal('hide');
                 });
             }
             else {
                 self.$http.post('/iniciativa/gestor/update', dados, function (response){
-                    self.alerta(false, {msg:['Atualizado com sucesso!']})
                     self.$set('gestor', response);
+                    jQuery('#loading').modal('hide');
+                    self.alerta(false, {msg:['Atualizado com sucesso!']})
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
@@ -106,11 +112,12 @@ var gestor = new Vue({
         var param = window.location.pathname.split( '/' )[3];
 
         if(param != 'create') {
+            jQuery('#loading').modal('show');
             url = '/iniciativa/gestor/'+param+'/show/';
-
             self.$http.get(url, function(response) {
                 /* Adicionando os dados retornados */
                 self.$set('gestor', response);
+                jQuery('#loading').modal('hide');
 
             });
         }
