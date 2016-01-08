@@ -114,8 +114,11 @@ var pid = new Vue({
         removerFoto: function(ev, index) {
             ev.preventDefault();
             var self = this;
+            jQuery('#removeFoto-'+index).html('<i class="fa fa-refresh fa-spin"></i>');
             self.$http.post('/pid/fotos/remover', {idFoto: self.pid.fotos[index].idFoto}, function(response){
                 self.pid.fotos.splice(index, 1);
+            }).error(function() {
+                jQuery('#removeFoto-'+index).html('<span>&times;</span>');
             });
         },
 

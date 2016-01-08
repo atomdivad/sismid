@@ -10,7 +10,11 @@
 
     <link href="{{ asset('/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('/assets/css/font-awesome.min.css') }}" rel="stylesheet">
+
     <link href="{{ asset('/assets/css/jquery.bootgrid.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('/assets/css/custom.css') }}" rel="stylesheet">
 
     @yield('css')
 </head>
@@ -84,6 +88,13 @@
 </nav>
 
 <div class="container" style="padding-top:70px;">
+
+    <div class="modal fade" id="loading">
+        <div class="centro">
+            <i style="color: white;" class="fa fa-cog fa-spin fa-5x"></i>
+        </div>
+    </div>
+
     @yield('content')
 
     <hr/>

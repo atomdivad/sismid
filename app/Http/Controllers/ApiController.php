@@ -424,15 +424,7 @@ class ApiController extends Controller
                 }
             }
 
-            return [
-                'pontos' => $estado,
-                'contagem' => [
-                    'norte' => $norteTotal,
-                    'nordeste' => $nordesteTotal,
-                    'sul' => $sulTotal,
-                    'suldeste' => $suldesteTotal,
-                    'centroeste' => $centroesteTotal,
-            ]];
+            return $estado;
         }
         else {
             if($uf != 0) {

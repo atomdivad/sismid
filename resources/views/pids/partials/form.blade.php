@@ -248,7 +248,7 @@
                     <div class="row" v-show="pid.fotos.length > 0">
                         <div class="col-xs-6 col-md-3" v-for="foto in pid.fotos">
                             <div class="thumbnail">
-                                <button type="button" class="close" aria-label="Remover" v-on:click="removerFoto($event, $index)"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" id="removeFoto-@{{ $index }}" class="close" aria-label="Remover" v-on:click="removerFoto($event, $index)"><span>&times;</span></button>
                                 <img src="/pid/@{{ pid.idPid }}/fotos/@{{ foto.nome }}" alt="@{{ foto.nome }}">
                             </div>
                         </div>

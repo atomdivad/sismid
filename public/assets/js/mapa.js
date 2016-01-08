@@ -4,6 +4,7 @@ $.ajaxSetup({
     }
 });
 
+//$('#loading').modal('show');
 google.maps.event.addDomListener(window, 'load', initialize);
 
 var map;
@@ -25,6 +26,7 @@ function initialize() {
 }
 
 function buscaDados() {
+    $('#loading').modal('show');
     var dados = {
         agrupamento: $("#agrupamento").val(),
         uf: $("#uf").val(),
@@ -104,6 +106,9 @@ function markerDesagrupados(list) {
         $("#grid-data").bootgrid('clear');
         $("#grid-data").bootgrid('append', pontos);
     });
+    google.maps.event.addListener(markerCluster, 'clusteringend', function(){
+        $('#loading').modal('hide');
+    });
 }
 
 function markerAgrupadosEstado(list) {
@@ -124,6 +129,9 @@ function markerAgrupadosEstado(list) {
         gridSize: 1
     });
     estado();
+    google.maps.event.addListener(markerCluster, 'clusteringend', function(){
+        $('#loading').modal('hide');
+    });
 }
 
 function markerAgrupadosRegiao(list) {
@@ -131,7 +139,7 @@ function markerAgrupadosRegiao(list) {
     $("#piechart").show();
     var latLng;
     var marker;
-    $.each(list.pontos, function (i, item) {
+    $.each(list, function (i, item) {
         latLng = new google.maps.LatLng(item.latitude, item.longitude);
         marker = new google.maps.Marker({
             map: map,
@@ -145,6 +153,9 @@ function markerAgrupadosRegiao(list) {
         gridSize: 1
     });
     regiao();
+    google.maps.event.addListener(markerCluster, 'clusteringend', function(){
+        $('#loading').modal('hide');
+    });
 }
 
 var polygon =  [];

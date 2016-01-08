@@ -322,6 +322,7 @@ class PidController extends Controller
      */
     public function fotosDestroy(Request $request)
     {
+        sleep(5);
         $foto = Foto::findOrFail($request['idFoto']);
         unlink($foto->arquivo);
         $foto->delete();
