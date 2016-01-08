@@ -232,7 +232,7 @@
 
 {{-- Fotos --}}
 @include('pids.partials.modal_fotos')
-<div class="form-group">
+<div class="form-group" v-show="pid.idPid != null">
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
