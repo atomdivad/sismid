@@ -59,6 +59,8 @@ var pid = new Vue({
 
         pesquisarInstituicoes: function(ev) {
             ev.preventDefault();
+            jQuery('#gridLoaded').hide();
+            jQuery('#gridLoading').show();
             var self = this;
             var busca = {
                 nome: jQuery('input[name="buscaNome"]').val(),
@@ -69,6 +71,8 @@ var pid = new Vue({
             self.$http.post('/api/pesquisar/instituicoes', busca, function(response){
                 self.$set('instituicoes', _.chunk(response,5));
                 pid.$refs.listaInstituicoes.$data.page = 0;
+                jQuery('#gridLoading').hide();
+                jQuery('#gridLoaded').show();
             });
         },
 
@@ -84,8 +88,10 @@ var pid = new Vue({
             pid.$refs.listaInstituicoes.$data.page = 0;
         },
 
-        pesquisarIniciativas: function(ev) {
+        pesquisarIniciativas: function(ev, btn) {
             ev.preventDefault();
+            jQuery('#gridLoaded1').hide();
+            jQuery('#gridLoading1').show();
             var self = this;
             var busca = {
                 nome: jQuery('input[name="iniciativaBuscaNome"]').val(),
@@ -96,6 +102,8 @@ var pid = new Vue({
             self.$http.post('/api/pesquisar/iniciativas', busca, function(response){
                 self.$set('iniciativas', _.chunk(response,5));
                 pid.$refs.listaIniciativas.$data.page = 0;
+                jQuery('#gridLoading1').hide();
+                jQuery('#gridLoaded1').show();
             });
         },
 

@@ -55,6 +55,8 @@ var iniciativa = new Vue({
 
         pesquisarInstituicoes: function(ev) {
             ev.preventDefault();
+            jQuery('#gridLoaded').hide();
+            jQuery('#gridLoading').show();
             var self = this;
             var busca = {
                 nome: jQuery('input[name="buscaNome"]').val(),
@@ -65,6 +67,8 @@ var iniciativa = new Vue({
             self.$http.post('/api/pesquisar/instituicoes', busca, function(response){
                 self.$set('instituicoes', _.chunk(response,5));
                 iniciativa.$refs.listaInstituicoes.$data.page = 0;
+                jQuery('#gridLoading').hide();
+                jQuery('#gridLoaded').show();
             });
         },
 

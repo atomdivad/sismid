@@ -1,11 +1,12 @@
 /* Busca as cidades do estado selecionado */
 function getCidades(uf, selected)
 {
-    $.get("/api/uf/"+uf+"/cidades/",
-        function (data) {
-            var cidade = $('#cidade_id');
-            cidade.empty();
+    var cidade = $('#cidade_id');
+    cidade.hide();
+    $('#cidadeLoading').show();
 
+    $.get("/api/uf/"+uf+"/cidades/", function (data) {
+            cidade.empty();
             cidade.append('<option value="">Selecione a cidade</a>');
             for ($i = 0; $i < data.length; $i++) {
                 if(selected == data[$i].idCidade)
@@ -13,21 +14,27 @@ function getCidades(uf, selected)
                 else
                     cidade.append('<option value="' + data[$i].idCidade + '">' + data[$i].nomeCidade + '</a>');
             }
+            cidade.show();
+            $('#cidadeLoading').hide();
         }
     );
 }
 
 function getCidadesInstituicoes(uf)
 {
-    $.get("/api/uf/"+uf+"/cidades/",
-        function (data) {
-            var cidade = $('#buscaCidade');
+    var cidade = $('#buscaCidade');
+    cidade.hide();
+    $('#buscaCidadeLoading').show();
+
+    $.get("/api/uf/"+uf+"/cidades/", function (data) {
             cidade.empty();
 
             cidade.append('<option value="0"> </a>');
             for ($i = 0; $i < data.length; $i++) {
                 cidade.append('<option value="' + data[$i].idCidade + '">' + data[$i].nomeCidade + '</a>');
             }
+            cidade.show();
+            $('#buscaCidadeLoading').hide();
         }
     );
 }
@@ -35,8 +42,11 @@ function getCidadesInstituicoes(uf)
 
 function getCidadesIniciativas(uf)
 {
-    $.get("/api/uf/"+uf+"/cidades/",
-        function (data) {
+    var cidade = $('#iniciativaBuscaCidade');
+    cidade.hide();
+    $('#iniciativaBuscaCidadeLoading').show();
+
+    $.get("/api/uf/"+uf+"/cidades/", function (data) {
             var cidade = $('#iniciativaBuscaCidade');
             cidade.empty();
 
@@ -44,6 +54,8 @@ function getCidadesIniciativas(uf)
             for ($i = 0; $i < data.length; $i++) {
                 cidade.append('<option value="' + data[$i].idCidade + '">' + data[$i].nomeCidade + '</a>');
             }
+            cidade.show();
+            $('#iniciativaBuscaCidadeLoading').hide();
         }
     );
 }

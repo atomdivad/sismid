@@ -23,7 +23,6 @@ class ApiController extends Controller
             ->where('uf_id', '=', $idUf)
             ->orderBy('nomeCidade')
             ->get();
-
         return $cidades;
     }
 
