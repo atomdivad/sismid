@@ -11,6 +11,7 @@ use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 use SisMid\Models\Endereco;
+use SisMid\Models\Iniciativa;
 use SisMid\Models\Pid;
 use SisMid\Models\Telefone;
 use SisMid\Models\Foto;
@@ -23,32 +24,259 @@ class PidController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        if(Defender::hasRole('admin')) {
-            $pids = DB::table('pids')
-                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
-                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
-                ->orderBy('pids.nome', 'asc')
-                ->paginate(10);
+        if(strlen($request['nome']) > 0 ) {
+            if($request['uf'] != 0) {
+                if($request['cidade_id'] != 0) {
+                    //cidade + nome
+                    if(Defender::hasRole('gestor')) {
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->where('pids.nome', 'like', "%$request[nome]%")
+                            ->where('cidades.idCidade', '=', $request['cidade_id'])
+                            ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                            ->orderBy('pids.nome', 'asc')
+                            ->paginate(10);
+                    }
+                    else {
+                        if($request['iniciativa'][0] != 0) {
+                            $pids = DB::table('pids')
+                                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                                ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                                ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
+                                ->where('pids.nome', 'like', "%$request[nome]%")
+                                ->where('cidades.idCidade', '=', $request['cidade_id'])
+                                ->orderBy('pids.nome', 'asc')
+                                ->paginate(10);
+                        }
+                        else {
+                            $pids = DB::table('pids')
+                                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                                ->where('pids.nome', 'like', "%$request[nome]%")
+                                ->where('cidades.idCidade', '=', $request['cidade_id'])
+                                ->orderBy('pids.nome', 'asc')
+                                ->paginate(10);
+                        }
+                    }
+                }
+                else {
+                    //uf + nome
+                    if(Defender::hasRole('gestor')) {
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                            ->where('pids.nome', 'like', "%$request[nome]%")
+                            ->where('uf.idUf', '=', $request['uf'])
+                            ->orderBy('pids.nome', 'asc')
+                            ->paginate(10);
+                    }
+                    else {
+                        if($request['iniciativa'][0] != 0) {
+                            $pids = DB::table('pids')
+                                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                                ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                                ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
+                                ->where('pids.nome', 'like', "%$request[nome]%")
+                                ->where('uf.idUf', '=', $request['uf'])
+                                ->orderBy('pids.nome', 'asc')
+                                ->paginate(10);
+                        }
+                        else {
+                            $pids = DB::table('pids')
+                                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                                ->where('pids.nome', 'like', "%$request[nome]%")
+                                ->where('uf.idUf', '=', $request['uf'])
+                                ->orderBy('pids.nome', 'asc')
+                                ->paginate(10);
+                        }
+                    }
+                }
+            }
+            else {
+                //nome
+                if(Defender::hasRole('gestor')) {
+                    $pids = DB::table('pids')
+                        ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                        ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                        ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                        ->where('pids.nome', 'like', "%$request[nome]%")
+                        ->orderBy('pids.nome', 'asc')
+                        ->paginate(10);
+                }
+                else {
+                    if($request['iniciativa'][0] != 0) {
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
+                            ->where('pids.nome', 'like', "%$request[nome]%")
+                            ->orderBy('pids.nome', 'asc')
+                            ->paginate(10);
+                    }
+                    else {
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->where('pids.nome', 'like', "%$request[nome]%")
+                            ->orderBy('pids.nome', 'asc')
+                            ->paginate(10);
+                    }
+                }
+            }
+
+        }
+        else {
+            if($request['uf'] != 0) {
+                if($request['cidade_id'] != 0) {
+                    //cidade
+                    if(Defender::hasRole('gestor')){
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                            ->where('cidades.idCidade', '=', $request['cidade_id'])
+                            ->orderBy('pids.nome', 'asc')
+                            ->paginate(10);
+                    }
+                    else {
+                        if($request['iniciativa'][0] != 0) {
+                            $pids = DB::table('pids')
+                                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                                ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                                ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
+                                ->where('cidades.idCidade', '=', $request['cidade_id'])
+                                ->orderBy('pids.nome', 'asc')
+                                ->paginate(10);
+                        }
+                        else {
+                            $pids = DB::table('pids')
+                                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                                ->where('cidades.idCidade', '=', $request['cidade_id'])
+                                ->orderBy('pids.nome', 'asc')
+                                ->paginate(10);
+                        }
+                    }
+                }
+                else {
+                    //uf
+                    if(Defender::hasRole('gestor')) {
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                            ->where('uf.idUf', '=', $request['uf'])
+                            ->orderBy('pids.nome', 'asc')
+                            ->paginate(10);
+                    }
+                    else {
+                        if($request['iniciativa'][0] != 0) {
+                            $pids = DB::table('pids')
+                                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                                ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                                ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
+                                ->where('uf.idUf', '=', $request['uf'])
+                                ->orderBy('pids.nome', 'asc')
+                                ->paginate(10);
+                        }
+                        else {
+                            $pids = DB::table('pids')
+                                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                                ->where('uf.idUf', '=', $request['uf'])
+                                ->orderBy('pids.nome', 'asc')
+                                ->paginate(10);
+                        }
+                    }
+                }
+            }
+            else {
+                //todos
+                if(Defender::hasRole('gestor')) {
+                    $pids = DB::table('pids')
+                        ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                        ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                        ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                        ->orderBy('pids.nome', 'asc')
+                        ->paginate(10);
+                }
+                else {
+                    if($request['iniciativa'][0] != 0) {
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
+                            ->orderBy('pids.nome', 'asc')
+                            ->paginate(10);
+                    }
+                    else {
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->orderBy('pids.nome', 'asc')
+                            ->paginate(10);
+                    }
+                }
+            }
         }
 
-        if(Defender::hasRole('gestor')) {
-            $pids = DB::table('pids')
-                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
-                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
-                ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
-                ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
-                ->orderBy('pids.nome', 'asc')
-                ->paginate(10);
-        }
-
-
-        return view('pids.index', compact('pids'));
+        $ufs = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
+        $iniciativas = Iniciativa::all()->lists('nome', 'idIniciativa');
+        $selected = isset($request['iniciativa'])? $request['iniciativa'] : array(0);
+        return view('pids.index', compact('pids', 'ufs', 'iniciativas', 'selected', 'total'));
     }
 
     /**
