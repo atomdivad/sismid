@@ -20,17 +20,74 @@ class IniciativaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $iniciativas = DB::table('iniciativas')
-            ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
-            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-            ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
-            ->paginate(10);
+        if(strlen($request['nome']) > 0 ) {
+            if($request['uf'] != 0) {
+                if($request['cidade_id'] != 0) {
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
+                        ->where('iniciativas.nome', 'like', "%$request[nome]%")
+                        ->where('cidades.idCidade', '=', $request['cidade_id'])
+                        ->paginate(10);
+                }
+                else {
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
+                        ->where('iniciativas.nome', 'like', "%$request[nome]%")
+                        ->where('uf.idUf', '=', $request['uf'])
+                        ->paginate(10);
+                }
+            }
+            else {
+                $iniciativas = DB::table('iniciativas')
+                    ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
+                    ->where('iniciativas.nome', 'like', "%$request[nome]%")
+                    ->paginate(10);
+            }
+        }
+        else {
+            if($request['uf'] != 0) {
+                if($request['cidade_id'] != 0) {
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
+                        ->where('cidades.idCidade', '=', $request['cidade_id'])
+                        ->paginate(10);
+                }
+                else {
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
+                        ->where('uf.idUf', '=', $request['uf'])
+                        ->paginate(10);
+                }
+            }
+            else {
+                $iniciativas = DB::table('iniciativas')
+                    ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->select('iniciativas.*', 'cidades.nomeCidade', 'uf.uf')
+                    ->paginate(10);
+            }
+        }
 
-
-        return view('iniciativas.index', compact('iniciativas'));
+        $ufs = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
+        return view('iniciativas.index', compact('iniciativas', 'ufs'));
     }
 
     /**

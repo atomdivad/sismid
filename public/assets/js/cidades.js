@@ -5,6 +5,10 @@ function getCidades(uf, selected)
     cidade.hide();
     $('#cidadeLoading').show();
 
+    if(typeof cidade.data('selected') != "undefined") {
+        selected = cidade.data('selected');
+    }
+
     $.get("/api/uf/"+uf+"/cidades/", function (data) {
             cidade.empty();
             cidade.append('<option value="">Selecione a cidade</a>');
