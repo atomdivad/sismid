@@ -10,7 +10,13 @@
 
     <link href="{{ asset('/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('/assets/css/font-awesome.min.css') }}" rel="stylesheet">
+
     <link href="{{ asset('/assets/css/jquery.bootgrid.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('/assets/css/custom.css') }}" rel="stylesheet">
+
+    @yield('css')
 </head>
 <body>
 
@@ -34,8 +40,6 @@
 
                 @if(!Auth::guest())
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ route('mapa.index') }}">Mapa</a></li>
-
                         @is('admin')
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Iniciativa <span class="caret"></span></a>
@@ -84,6 +88,13 @@
 </nav>
 
 <div class="container" style="padding-top:70px;">
+
+    <div class="modal fade" id="loading">
+        <div class="centro">
+            <i style="color: white;" class="fa fa-cog fa-spin fa-5x"></i>
+        </div>
+    </div>
+
     @yield('content')
 
     <hr/>

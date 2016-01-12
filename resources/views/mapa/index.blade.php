@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-sm-6">
                 {!! Form::label('agrupamento', 'Agrupamento') !!}
-                {!! Form::select('agrupamento', [0 => 'Sem Agrupamento', 'estado' => 'Agrupar por estado', 'regiao' => 'Agrupar por região'], null, ["class" => "form-control"]) !!}
+                {!! Form::select('agrupamento', [0 => 'Sem Agrupamento', 'estado' => 'Agrupar por estado', 'regiao' => 'Agrupar por região'], '', ["class" => "form-control"]) !!}
             </div>
         </div>
     </div>
@@ -44,12 +44,12 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-12">
-                <div id="map" style="width: 100%; height: 350px;"></div>
+                <div id="map" style="width: 100%; height: 500px;"></div>
             </div>
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" id="grid">
         <div class="row">
             <div class="col-sm-12">
                 <table id="grid-data" class="table table-bordered table-condensed table-hover table-striped">
@@ -76,7 +76,6 @@
     @parent
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
-<!--    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/1.0.2/src/markerclusterer.js"></script>-->
     <script src="{{ asset('/assets/js/markerclusterer.js') }}"></script>
     <script src="{{ asset('/assets/js/estados/acCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/estados/alCoords.js') }}"></script>

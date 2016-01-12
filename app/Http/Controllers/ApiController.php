@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use SisMid\Models\Instituicao;
+use SisMid\Models\Pid;
+use Intervention\Image\Facades\Image;
 
 class ApiController extends Controller
 {
@@ -21,7 +23,6 @@ class ApiController extends Controller
             ->where('uf_id', '=', $idUf)
             ->orderBy('nomeCidade')
             ->get();
-
         return $cidades;
     }
 
@@ -335,6 +336,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($norte as $pid) {
+                    $norteTotal = $pid->total;
                     $pid->latitude = $latlng['AM']['latitude'];
                     $pid->longitude = $latlng['AM']['longitude'];
                 }
@@ -353,6 +355,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($nordeste as $pid) {
+                    $nordesteTotal = $pid->total;
                     $pid->latitude = $latlng['PI']['latitude'];
                     $pid->longitude = $latlng['PI']['longitude'];
                 }
@@ -371,6 +374,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($suldeste as $pid) {
+                    $suldesteTotal = $pid->total;
                     $pid->latitude = $latlng['MG']['latitude'];
                     $pid->longitude = $latlng['MG']['longitude'];
                 }
@@ -389,6 +393,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($sul as $pid) {
+                    $sulTotal = $pid->total;
                     $pid->latitude = $latlng['SC']['latitude'];
                     $pid->longitude = $latlng['SC']['longitude'];
                 }
@@ -407,6 +412,7 @@ class ApiController extends Controller
                     ->get();
 
                 foreach($centroeste as $pid) {
+                    $centroesteTotal = $pid->total;
                     $pid->latitude = $latlng['MT']['latitude'];
                     $pid->longitude = $latlng['MT']['longitude'];
                 }
@@ -456,5 +462,18 @@ class ApiController extends Controller
         }
 
         return $pids;
+    }
+
+
+    public function getFotos($id, $nome)
+    {
+        $pid = Pid::findOrFail($id);
+        $foto = $pid->fotos()->where('nome', '=', $nome)->first();
+        $img = Image::make($foto->arquivo);
+
+        $img->resize(171, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        return $img->response();
     }
 }

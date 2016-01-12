@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use SisMid\Models\Usuario;
+use SisMid\Models\Iniciativa;
 
 class IniciativaGestorController extends Controller
 {
@@ -15,15 +16,53 @@ class IniciativaGestorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $gestores = DB::table('usuarios')
-            ->join('role_user', 'role_user.user_id', '=', 'usuarios.idUsuario')
-            ->join('iniciativas', 'iniciativas.idIniciativa', '=', 'usuarios.iniciativa_id')
-            ->select('usuarios.idUsuario','usuarios.nome', 'usuarios.sobrenome', 'usuarios.email', 'iniciativas.nome as nomeIniciativa')
-            ->where('role_user.role_id', '=', 2)
-            ->get();
-        return view('iniciativas.gestores.index', compact('gestores'));
+        if(strlen($request['nome']) > 0) {
+            if($request['iniciativa'][0] != 0) {
+                $gestores = DB::table('usuarios')
+                    ->join('role_user', 'role_user.user_id', '=', 'usuarios.idUsuario')
+                    ->join('iniciativas', 'iniciativas.idIniciativa', '=', 'usuarios.iniciativa_id')
+                    ->select('usuarios.idUsuario','usuarios.nome', 'usuarios.sobrenome', 'usuarios.email', 'iniciativas.nome as nomeIniciativa')
+                    ->where('usuarios.nome', 'like', "%$request[nome]%")
+                    ->where('role_user.role_id', '=', 2)
+                    ->whereIn('iniciativas.idIniciativa', $request['iniciativa'])
+                    ->paginate(10);
+            }
+            else {
+                $gestores = DB::table('usuarios')
+                    ->join('role_user', 'role_user.user_id', '=', 'usuarios.idUsuario')
+                    ->join('iniciativas', 'iniciativas.idIniciativa', '=', 'usuarios.iniciativa_id')
+                    ->select('usuarios.idUsuario','usuarios.nome', 'usuarios.sobrenome', 'usuarios.email', 'iniciativas.nome as nomeIniciativa')
+                    ->where('usuarios.nome', 'like', "%$request[nome]%")
+                    ->where('role_user.role_id', '=', 2)
+                    ->paginate(10);
+            }
+        }
+        else {
+            if($request['iniciativa'][0] != 0) {
+                $gestores = DB::table('usuarios')
+                    ->join('role_user', 'role_user.user_id', '=', 'usuarios.idUsuario')
+                    ->join('iniciativas', 'iniciativas.idIniciativa', '=', 'usuarios.iniciativa_id')
+                    ->select('usuarios.idUsuario','usuarios.nome', 'usuarios.sobrenome', 'usuarios.email', 'iniciativas.nome as nomeIniciativa')
+                    ->where('role_user.role_id', '=', 2)
+                    ->whereIn('iniciativas.idIniciativa', $request['iniciativa'])
+                    ->paginate(10);
+            }
+            else {
+                $gestores = DB::table('usuarios')
+                    ->join('role_user', 'role_user.user_id', '=', 'usuarios.idUsuario')
+                    ->join('iniciativas', 'iniciativas.idIniciativa', '=', 'usuarios.iniciativa_id')
+                    ->select('usuarios.idUsuario','usuarios.nome', 'usuarios.sobrenome', 'usuarios.email', 'iniciativas.nome as nomeIniciativa')
+                    ->where('role_user.role_id', '=', 2)
+                    ->paginate(10);
+            }
+        }
+
+        $ufs = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
+        $iniciativas = Iniciativa::all()->lists('nome', 'idIniciativa');
+        $selected = isset($request['iniciativa'])? $request['iniciativa'] : array(0);
+        return view('iniciativas.gestores.index', compact('gestores', 'ufs', 'iniciativas', 'selected'));
     }
 
     /**

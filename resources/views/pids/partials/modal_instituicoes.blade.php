@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-sm-9">
                             <div class="form-group">
-                                {!! Form::label('buscaCidade', 'Município') !!}
+                                {!! Form::label('buscaCidade', 'Município') !!} <i class="fa fa-refresh fa-spin" style="display: none;" id="buscaCidadeLoading"></i>
                                 {!! Form::select('buscaCidade', [], null, ["class" => "form-control"]) !!}
                             </div>
                         </div>
@@ -37,7 +37,12 @@
                     </div>
 
                 </div>
-                <listagem :lista="instituicoes" :container.sync="pid.instituicoes" v-ref:lista-instituicoes></listagem>
+                <div id="gridLoading" class="text-center" style="display: none;">
+                    <i class="fa fa-refresh fa-spin fa-3x"></i>
+                </div>
+                <div id="gridLoaded">
+                    <listagem :lista="instituicoes" :container.sync="pid.instituicoes" v-ref:lista-instituicoes></listagem>
+                </div>
 
             </div>
             <div class="modal-footer">

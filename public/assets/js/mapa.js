@@ -4,10 +4,7 @@ $.ajaxSetup({
     }
 });
 
-var map;
-var markers = [];
-var markerCluster;
-
+//$('#loading').modal('show');
 google.maps.event.addDomListener(window, 'load', initialize);
 
 var map;
@@ -29,6 +26,7 @@ function initialize() {
 }
 
 function buscaDados() {
+    $('#loading').modal('show');
     var dados = {
         agrupamento: $("#agrupamento").val(),
         uf: $("#uf").val(),
@@ -38,82 +36,125 @@ function buscaDados() {
     $("#grid-data").bootgrid('clear');
 
     $.post("/api/mapa", dados ,function (data) {
-
-        var pontos = [];
-        $.each(data, function (i, item) {
-
-            pontos.push({
-                nome: item.nome,
-                idPid: item.idPid.toString(),
-                endereco: item.logradouro + ', ' + item.numero,
-                nomeCidade: item.nomeCidade,
-                uf: item.uf
-            });
-
-            var latLng = new google.maps.LatLng(item.latitude, item.longitude);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: latLng,
-                title: item.nome,
-                idPid: item.idPid.toString(),
-                nome: item.nome,
-                endereco: item.logradouro + ', ' + item.numero,
-                nomeCidade: item.nomeCidade,
-                uf: item.uf,
-                visible: true
-            });
-            markers.push(marker);
-
-            /*Ouvir click em marcador*/
-            marker.addListener('click', function () {
-                var self = this;
-                var mk = {
-                    idPid: self.idPid ,
-                    nome: self.nome,
-                    endereco: self.endereco,
-                    nomeCidade: self.nomeCidade,
-                    uf: self.uf
-                };
-                $("#grid-data").bootgrid('clear');
-                $("#grid-data").bootgrid('append', [mk]);
-            });
-        });
-
-        $("#grid-data").bootgrid('append', pontos);
-
-        if(dados.agrupamento == 'estado') {
-            markerCluster = new MarkerClusterer(map, markers, {
-                maxZoom: 9,
-                gridSize: 1
-            });
-            estado();
+        if(dados.agrupamento == 0) {
+            markerDesagrupados(data)
+        }
+        else if(dados.agrupamento == 'estado') {
+            markerAgrupadosEstado(data)
         }
         else if(dados.agrupamento == 'regiao') {
-            markerCluster = new MarkerClusterer(map, markers, {
-                maxZoom: 9,
-                gridSize: 1
-            });
-            regiao();
+            markerAgrupadosRegiao(data)
         }
-        else {
-            markerCluster = new MarkerClusterer(map, markers);
-            /*Ouvir click em cluster*/
-            google.maps.event.addListener(markerCluster, "click", function (c) {
-                var m = c.getMarkers();
-                pontos = [];
-                for (var i = 0; i < m.length; i++ ){
-                    pontos.push({
-                        idPid: m[i].idPid ,
-                        nome: m[i].nome,
-                        endereco: m[i].endereco,
-                        nomeCidade: m[i].nomeCidade,
-                        uf: m[i].uf
-                    });
-                }
-                $("#grid-data").bootgrid('clear');
-                $("#grid-data").bootgrid('append', pontos);
+    });
+}
+
+function markerDesagrupados(list) {
+    var pontos = [];
+    var latLng;
+    var marker;
+    $.each(list, function (i, item) {
+        pontos.push({
+            nome: item.nome,
+            idPid: item.idPid.toString(),
+            endereco: item.logradouro + ', ' + item.numero,
+            nomeCidade: item.nomeCidade,
+            uf: item.uf
+        });
+        latLng = new google.maps.LatLng(item.latitude, item.longitude);
+        marker = new google.maps.Marker({
+            map: map,
+            position: latLng,
+            title: item.nome,
+            idPid: item.idPid.toString(),
+            nome: item.nome,
+            endereco: item.logradouro + ', ' + item.numero,
+            nomeCidade: item.nomeCidade,
+            uf: item.uf,
+            visible: true
+        });
+        markers.push(marker);
+        /*Ouvir click em marcador*/
+        marker.addListener('click', function () {
+            var self = this;
+            var mk = {
+                idPid: self.idPid ,
+                nome: self.nome,
+                endereco: self.endereco,
+                nomeCidade: self.nomeCidade,
+                uf: self.uf
+            };
+            $("#grid-data").bootgrid('clear');
+            $("#grid-data").bootgrid('append', [mk]);
+        });
+    });
+    $("#grid-data").bootgrid('append', pontos);
+    $("#grid").show();
+    markerCluster = new MarkerClusterer(map, markers);
+    /*Ouvir click em cluster*/
+    google.maps.event.addListener(markerCluster, "click", function (c) {
+        var m = c.getMarkers();
+        pontos = [];
+        for (var i = 0; i < m.length; i++ ){
+            pontos.push({
+                idPid: m[i].idPid ,
+                nome: m[i].nome,
+                endereco: m[i].endereco,
+                nomeCidade: m[i].nomeCidade,
+                uf: m[i].uf
             });
         }
+        $("#grid-data").bootgrid('clear');
+        $("#grid-data").bootgrid('append', pontos);
+    });
+    google.maps.event.addListener(markerCluster, 'clusteringend', function(){
+        $('#loading').modal('hide');
+    });
+}
+
+function markerAgrupadosEstado(list) {
+    $("#grid").hide();
+    var latLng;
+    var marker;
+    $.each(list, function (i, item) {
+        latLng = new google.maps.LatLng(item.latitude, item.longitude);
+        marker = new google.maps.Marker({
+            map: map,
+            position: latLng,
+            visible: true
+        });
+        markers.push(marker);
+    });
+    markerCluster = new MarkerClusterer(map, markers, {
+        maxZoom: 9,
+        gridSize: 1
+    });
+    estado();
+    google.maps.event.addListener(markerCluster, 'clusteringend', function(){
+        $('#loading').modal('hide');
+    });
+}
+
+function markerAgrupadosRegiao(list) {
+    $("#grid").hide();
+    $("#piechart").show();
+    var latLng;
+    var marker;
+    $.each(list, function (i, item) {
+        latLng = new google.maps.LatLng(item.latitude, item.longitude);
+        marker = new google.maps.Marker({
+            map: map,
+            position: latLng,
+            visible: true
+        });
+        markers.push(marker);
+    });
+    markerCluster = new MarkerClusterer(map, markers, {
+        maxZoom: 9,
+        gridSize: 1
+    });
+    regiao();
+    google.maps.event.addListener(markerCluster, 'clusteringend', function(){
+        $('#loading').modal('hide');
     });
 }
 
@@ -479,6 +520,11 @@ function regiaoRemove() {
     });
 }
 
+function resetMap() {
+    var newLatLng = new google.maps.LatLng(-15.780,-47.929);
+    map.setCenter(newLatLng);
+    map.setZoom(4);
+}
 $( "#btnFiltrar" ).click(function() {
     if(polygon.length > 0) {
         estadoRemove();
@@ -489,6 +535,7 @@ $( "#btnFiltrar" ).click(function() {
     markerCluster.clearMarkers();
     markers = [];
     buscaDados();
+    resetMap();
 });
 
 $( "#btnClear" ).click(function() {
@@ -505,7 +552,9 @@ $( "#btnClear" ).click(function() {
     if(allPolygon.length > 0) {
         regiaoRemove();
     }
+    resetMap();
 });
+
 
 var pidGrid = $("#grid-data").bootgrid({
     labels: {

@@ -1,11 +1,11 @@
 @extends('app')
 @section('content')
+    <h3>Bem vindo {{ Auth::user()->present()->nomeCompleto }}!</h3>
 @is('admin')
-    <h3>Administrador</h3>
+    <h5>Administrador</h5>
 @endis
 @is('gestor')
-    <h3>Usuario Gestor</h3>
+    <h5>Usuario Gestor</h5>
 @endis
-Bem vindo {{ Auth::user()->present()->nomeCompleto }}!
 
 @endsection

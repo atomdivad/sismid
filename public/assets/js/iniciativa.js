@@ -55,6 +55,8 @@ var iniciativa = new Vue({
 
         pesquisarInstituicoes: function(ev) {
             ev.preventDefault();
+            jQuery('#gridLoaded').hide();
+            jQuery('#gridLoading').show();
             var self = this;
             var busca = {
                 nome: jQuery('input[name="buscaNome"]').val(),
@@ -65,6 +67,8 @@ var iniciativa = new Vue({
             self.$http.post('/api/pesquisar/instituicoes', busca, function(response){
                 self.$set('instituicoes', _.chunk(response,5));
                 iniciativa.$refs.listaInstituicoes.$data.page = 0;
+                jQuery('#gridLoading').hide();
+                jQuery('#gridLoaded').show();
             });
         },
 
@@ -93,25 +97,29 @@ var iniciativa = new Vue({
 
         salvarIniciativa: function(ev) {
             ev.preventDefault();
+            jQuery('#loading').modal('show');
             var self = this;
             self.$set('iniciativa.endereco.latitude', jQuery("#latitude").val());
             self.$set('iniciativa.endereco.longitude', jQuery("#longitude").val());
             if(self.iniciativa.idIniciativa === null) {
                 self.$http.post('/iniciativa/store', self.iniciativa, function (response){
-                    self.alerta(false, {msg:['Salvo com sucesso!']})
+                    self.alerta(false, {msg:['Salvo com sucesso!']});
                     self.$set('iniciativa', response);
                     window.location.pathname = '/iniciativa/'+response.idIniciativa+'/edit';
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
             else {
                 self.$http.post('/iniciativa/update', self.iniciativa, function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(false, {msg:['Atualizado com sucesso!']})
                     self.$set('iniciativa', response);
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
@@ -134,12 +142,14 @@ var iniciativa = new Vue({
         var param = window.location.pathname.split( '/' )[2];
 
         if(param != 'create') {
-            url = '/iniciativa/'+param+'/show/';
+            jQuery('#loading').modal('show');
+            url = '/iniciativa/'+param+'/show';
 
             self.$http.get(url, function(response) {
                 /* Adicionando os dados retornados */
                 self.$set('iniciativa', response);
                 jQuery(getCidades(self.iniciativa.endereco.uf,self.iniciativa.endereco.cidade_id ));
+                jQuery('#loading').modal('hide');
 
             });
         }

@@ -62,7 +62,7 @@
             {!! Form::select('uf', $uf, null, ["class" => "form-control", "v-model" => "instituicao.endereco.uf"]) !!}
         </div>
         <div class="col-sm-4">
-            {!! Form::label('cidade_id', 'Cidade') !!}
+            {!! Form::label('cidade_id', 'Cidade ') !!} <i class="fa fa-refresh fa-spin" id="cidadeLoading"></i>
             {!! Form::select('cidade_id', [], null, ["class" => "form-control", "v-model" => "instituicao.endereco.cidade_id"]) !!}
         </div>
     </div>

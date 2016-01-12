@@ -25,7 +25,8 @@ var pid = new Vue({
             },
             telefones: [],
             instituicoes: [],
-            iniciativas: []
+            iniciativas: [],
+            fotos: []
         },
         novoTelefone: {
             telefone: '',
@@ -58,6 +59,8 @@ var pid = new Vue({
 
         pesquisarInstituicoes: function(ev) {
             ev.preventDefault();
+            jQuery('#gridLoaded').hide();
+            jQuery('#gridLoading').show();
             var self = this;
             var busca = {
                 nome: jQuery('input[name="buscaNome"]').val(),
@@ -68,6 +71,8 @@ var pid = new Vue({
             self.$http.post('/api/pesquisar/instituicoes', busca, function(response){
                 self.$set('instituicoes', _.chunk(response,5));
                 pid.$refs.listaInstituicoes.$data.page = 0;
+                jQuery('#gridLoading').hide();
+                jQuery('#gridLoaded').show();
             });
         },
 
@@ -83,8 +88,10 @@ var pid = new Vue({
             pid.$refs.listaInstituicoes.$data.page = 0;
         },
 
-        pesquisarIniciativas: function(ev) {
+        pesquisarIniciativas: function(ev, btn) {
             ev.preventDefault();
+            jQuery('#gridLoaded1').hide();
+            jQuery('#gridLoading1').show();
             var self = this;
             var busca = {
                 nome: jQuery('input[name="iniciativaBuscaNome"]').val(),
@@ -95,6 +102,8 @@ var pid = new Vue({
             self.$http.post('/api/pesquisar/iniciativas', busca, function(response){
                 self.$set('iniciativas', _.chunk(response,5));
                 pid.$refs.listaIniciativas.$data.page = 0;
+                jQuery('#gridLoading1').hide();
+                jQuery('#gridLoaded1').show();
             });
         },
 
@@ -110,7 +119,24 @@ var pid = new Vue({
             pid.$refs.listaIniciativas.$data.page = 0;
         },
 
+        removerFoto: function(ev, index) {
+            ev.preventDefault();
+            var self = this;
+            jQuery('#removeFoto-'+index).html('<i class="fa fa-refresh fa-spin"></i>');
+            self.$http.post('/pid/fotos/remover', {idFoto: self.pid.fotos[index].idFoto}, function(response){
+                self.pid.fotos.splice(index, 1);
+            }).error(function() {
+                jQuery('#removeFoto-'+index).html('<span>&times;</span>');
+            });
+        },
+
+        limparModalFotos: function() {
+            jQuery('#progress .progress-bar').css('width', '0%');
+            jQuery('#modalFotos').modal('hide');
+        },
+
         salvarPid: function(ev) {
+            jQuery('#loading').modal('show');
             ev.preventDefault();
             var self = this;
             self.$set('pid.endereco.latitude', jQuery("#latitude").val());
@@ -122,15 +148,19 @@ var pid = new Vue({
                     window.location.pathname = '/pid/'+response.idPid+'/edit';
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
             else {
+                jQuery('#loading').modal('show');
                 self.$http.post('/pid/update', self.pid, function (response){
-                    self.alerta(false, {msg:['Atualizado com sucesso!']})
                     self.$set('pid', response);
+                    jQuery('#loading').modal('hide');
+                    self.alerta(false, {msg:['Atualizado com sucesso!']})
 
                 }).error(function (response){
+                    jQuery('#loading').modal('hide');
                     self.alerta(true, response);
                 });
             }
@@ -153,13 +183,34 @@ var pid = new Vue({
         var param = window.location.pathname.split( '/' )[2];
 
         if(param != 'create') {
-            url = '/pid/'+param+'/show/';
+            jQuery('#loading').modal('show');
+            url = '/pid/'+param+'/show';
 
             self.$http.get(url, function(response) {
                 /* Adicionando os dados retornados */
                 self.$set('pid', response);
                 jQuery(getCidades(self.pid.endereco.uf,self.pid.endereco.cidade_id ));
+                jQuery('#loading').modal('hide');
 
+                /*Upload Anexos Projeto*/
+                var fileUpload = jQuery('#fileupload');
+                fileUpload.fileupload({
+                    url: '/pid/fotos',
+                    acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                    dataType: 'json',
+                    formData: {
+                        _token: jQuery('meta[name=csrf-token]').attr('content'),
+                        idPid: self.pid.idPid
+                    },
+                    done: function (e, data) {
+                        self.pid.fotos.push(data.result);
+                    },
+                    progressall: function (e, data) {
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        jQuery('#progress .progress-bar').css('width',progress + '%');
+                    }
+                });
+                /* Fim do upload de anexos */
             });
         }
     },
