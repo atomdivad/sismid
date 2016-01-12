@@ -276,7 +276,7 @@ class PidController extends Controller
         $ufs = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
         $iniciativas = Iniciativa::all()->lists('nome', 'idIniciativa');
         $selected = isset($request['iniciativa'])? $request['iniciativa'] : array(0);
-        return view('pids.index', compact('pids', 'ufs', 'iniciativas', 'selected', 'total'));
+        return view('pids.index', compact('pids', 'ufs', 'iniciativas', 'selected'));
     }
 
     /**
