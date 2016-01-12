@@ -156,6 +156,11 @@ return [
          */
         \Artesaos\Defender\Providers\DefenderServiceProvider::class,
 
+        /*
+         * Laravel Captcha Service Provider
+         */
+        LaravelCaptcha\Providers\LaravelCaptchaServiceProvider::class,
+
     ],
 
     /*

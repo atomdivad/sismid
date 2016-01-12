@@ -28,16 +28,31 @@
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
+							<label class="col-md-4 control-label">E-Mail</label>
 							<div class="col-md-6">
 								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 							</div>
 						</div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Reescreva os caracteres da imagem</label>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <input type="text" id="CaptchaCode" name="CaptchaCode" class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- show captcha image html-->
+                                        {!! $captchaHtml !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
-									Send Password Reset Link
+                                    Enviar Link p/ Recuperar Senha
 								</button>
 							</div>
 						</div>

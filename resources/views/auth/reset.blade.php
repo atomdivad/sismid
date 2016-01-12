@@ -43,6 +43,21 @@
 							</div>
 						</div>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Reescreva os caracteres da imagem</label>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <input type="text" id="CaptchaCode" name="CaptchaCode" class="form-control">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- show captcha image html-->
+                                        {!! $captchaHtml !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
