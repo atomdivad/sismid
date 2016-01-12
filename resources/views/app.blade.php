@@ -16,6 +16,11 @@
 
     <link href="{{ asset('/assets/css/custom.css') }}" rel="stylesheet">
 
+    <!-- include the BotDetect layout stylesheet -->
+    @if (class_exists('CaptchaUrls'))
+        <link href="{{ CaptchaUrls::LayoutStylesheetUrl() }}" type="text/css" rel="stylesheet">
+    @endif
+
     @yield('css')
 </head>
 <body>

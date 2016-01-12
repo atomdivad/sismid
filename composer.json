@@ -10,7 +10,8 @@
         "laracasts/presenter": "^0.2.1",
         "illuminate/html": "^5.0",
         "artesaos/defender": "^0.4.2",
-        "intervention/image": "^2.3"
+        "intervention/image": "^2.3",
+        "captcha-com/laravel-captcha": "^3.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
