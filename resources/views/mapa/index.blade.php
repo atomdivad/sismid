@@ -1,5 +1,6 @@
 @extends('app')
 @section('content')
+    {!! Breadcrumbs::render('mapa') !!}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="form-group">
         <div class="row">

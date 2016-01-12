@@ -1,5 +1,6 @@
 @extends('app')
 @section('content')
+    {!! Breadcrumbs::render('iniciativaCreate') !!}
     <div class="row">
         <div class="col-sm-12">
             <legend><i class="glyphicon glyphicon-edit"></i> Cadastrar Iniciativa</legend>

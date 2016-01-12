@@ -16,7 +16,7 @@ Route::pattern('id', '[0-9]+');
 Route::get('/', function () {
     if(Auth::check())
         return view('home');
-    return view('app');
+    return view('index');
 });
 
 Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor'], 'any' => true], function() {
@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
 
     Route::group(['prefix' => 'pid'], function() {
 
-        Route::get('/index', ['as' => 'pid.index', 'uses' => 'PidController@index']);
+        Route::get('/', ['as' => 'pid.index', 'uses' => 'PidController@index']);
         Route::get('create', ['as' => 'pid.create', 'uses' => 'PidController@create']);
         Route::post('/store', ['as' => 'pid.store', 'uses' => 'PidController@store']);
         Route::get('/{id}/show', ['as' => 'pid.show', 'uses' => 'PidController@show']);
@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
 
     Route::group(['prefix' => 'instituicao'], function() {
 
-        Route::get('/index', ['as' => 'instituicao.index', 'uses' => 'InstituicaoController@index']);
+        Route::get('/', ['as' => 'instituicao.index', 'uses' => 'InstituicaoController@index']);
         Route::get('create', ['as' => 'instituicao.create', 'uses' => 'InstituicaoController@create']);
         Route::post('/store', ['as' => 'instituicao.store', 'uses' => 'InstituicaoController@store']);
         Route::get('/{id}/show/', ['as' => 'instituicao.show', 'uses' => 'InstituicaoController@show']);
@@ -61,13 +61,13 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
 
     Route::group(['prefix' => 'iniciativa'], function() {
 
-        Route::get('/index', ['as' => 'iniciativa.index', 'uses' => 'IniciativaController@index']);
+        Route::get('/', ['as' => 'iniciativa.index', 'uses' => 'IniciativaController@index']);
         Route::get('create', ['as' => 'iniciativa.create', 'uses' => 'IniciativaController@create']);
         Route::post('/store', ['as' => 'iniciativa.store', 'uses' => 'IniciativaController@store']);
 
         Route::group(['prefix' => 'gestor'], function() {
 
-            Route::get('/index',      ['as' => 'gestor.index',  'uses' => 'IniciativaGestorController@index']);
+            Route::get('/',      ['as' => 'gestor.index',  'uses' => 'IniciativaGestorController@index']);
             Route::get('/create',     ['as' => 'gestor.create', 'uses' => 'IniciativaGestorController@create']);
             Route::post('/store',     ['as' => 'gestor.store',  'uses' => 'IniciativaGestorController@store']);
             Route::get('/{id}/show/', ['as' => 'gestor.show',   'uses' => 'IniciativaGestorController@show']);

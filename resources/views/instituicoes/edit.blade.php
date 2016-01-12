@@ -1,5 +1,6 @@
 @extends('app')
 @section('content')
+    {!! Breadcrumbs::render('instituicaoEdit') !!}
     <div class="row">
         <div class="col-sm-12">
             <legend><i class="glyphicon glyphicon-edit"></i> Editar Institução</legend>
