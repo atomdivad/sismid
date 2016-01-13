@@ -66,7 +66,7 @@
                         <td>{{ $instituicao->nomeCidade}} / {{ $instituicao->uf }}</td>
                         <td>{{ $instituicao->email }}</td>
                         <td class="text-center">
-                            <a class="btn btn sm btn-primary" title="Exbir instituição: {{ $instituicao->nome }}" href="{{ route('instituicao.show', $instituicao->idInstituicao) }}"><i class="glyphicon glyphicon-eye-open"></i></a>
+                            <a class="show-modal btn btn sm btn-primary" title="Exbir instituição: {{ $instituicao->nome }}" href="#" data-id="{{ $instituicao->idInstituicao }}" data-toggle="modal" data-target="#modalInfo"><i class="glyphicon glyphicon-eye-open"></i></a>
                             <a class="btn btn sm btn-success" title="Editar instituição: {{ $instituicao->nome }}" href="{{ route('instituicao.edit', $instituicao->idInstituicao) }}"><i class="glyphicon glyphicon-edit"></i></a>
                         </td>
                     </tr>
@@ -75,9 +75,12 @@
             </table>
         </div>
     </div>
+
+    @include('instituicoes.partials.modal_show')
 @endsection
 
 @section('script')
     @parent
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
+    <script src="{{ asset('/assets/js/show.instituicao.js') }}"></script>
 @stop

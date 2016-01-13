@@ -641,5 +641,40 @@ class ApiController extends Controller
             ];
         }
     }
+
+    public function getInstituicao($id = null)
+    {
+        if($id) {
+            $instituicao = Instituicao::findOrFail($id);
+
+            $naturezaJuridica = DB::table('naturezasJuridicas')->select('naturezaJuridica')->where('idNatureza', '=', $instituicao->naturezaJuridica_id)->first();
+            $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $instituicao->endereco->cidade_id)->first();
+            $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
+            $localidade = DB::table('localidades')->select('localidade')->where('idLocalidade', '=', $instituicao->endereco->localidade_id)->first();
+            $localizacao = DB::table('localizacoes')->select('localizacao')->where('idLocalizacao', '=', $instituicao->endereco->localizacao_id)->first();
+
+            return  [
+                'idInstituicao' => $instituicao->idInstituicao,
+                'nome' => $instituicao->nome,
+                'email' => $instituicao->email,
+                'url' => $instituicao->url,
+                'naturezaJuridica' => isset($naturezaJuridica->naturezaJuridica)? $naturezaJuridica->naturezaJuridica : null,
+                'endereco' => [
+                    'cep' => $instituicao->endereco->cep,
+                    'logradouro' => $instituicao->endereco->logradouro,
+                    'numero' => $instituicao->endereco->numero,
+                    'complemento' => $instituicao->endereco->complemento,
+                    'bairro' => $instituicao->endereco->bairro,
+                    'uf' => $uf->uf,
+                    'cidade' => $cidade->nomeCidade,
+                    'latitude' => $instituicao->endereco->latitude,
+                    'longitude' => $instituicao->endereco->longitude,
+                    'localidade' => isset($localidade->localidade)? $localidade->localidade : null,
+                    'localizacao' => isset($localizacao->localizacao)? $localizacao->localizacao : null,
+                ],
+                'telefones' => $instituicao->telefones
+            ];
+        }
+    }
 }
 
