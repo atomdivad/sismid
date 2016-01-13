@@ -91,7 +91,7 @@
                             <td class="col-md-1">{{ $pid->nomeCidade}} / {{ $pid->uf }}</td>
                             <td class="col-md-1">{{ $pid->email }}</td>
                             <td class="col-md-1 text-center">
-                                <a class="btn btn sm btn-primary" title="Exbir PID: {{ $pid->nome }}" href="{{ route('pid.show', $pid->idPid) }}"><i class="glyphicon glyphicon-eye-open"></i></a>
+                                <a class="show-modal btn btn sm btn-primary" title="Exbir PID: {{ $pid->nome }}" href="#" data-id="{{ $pid->idPid }}" data-toggle="modal" data-target="#modalInfo"><i class="glyphicon glyphicon-eye-open"></i></a>
                                 <a class="btn btn sm btn-success" title="Editar PID: {{ $pid->nome }}" href="{{ route('pid.edit', $pid->idPid) }}"><i class="glyphicon glyphicon-edit"></i></a>
                             </td>
                         </tr>
@@ -108,11 +108,14 @@
             {!! $pids->appends(Input::query())->render() !!}
         </div>
     </div>
+
+    @include('pids.partials.modal_show')
 @endsection
 @section('script')
     @parent
     <script src="{{ asset('/assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
+    <script src="{{ asset('/assets/js/show.pid.js') }}"></script>
     <script type="text/javascript">
         $("#iniciativa").select2();
     </script>

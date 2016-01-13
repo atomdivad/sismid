@@ -574,5 +574,72 @@ class ApiController extends Controller
             ];
         }
     }
+
+    public function getPid($id = null)
+    {
+        if($id) {
+            $pid = Pid::findOrFail($id);
+
+            $instituicoes = [];
+            foreach($pid->instituicoes as $instituicao) {
+
+                $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $instituicao->endereco->cidade_id)->first();
+                $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
+
+                $instituicoes[] = array (
+                    'idInstituicao' => $instituicao->idInstituicao,
+                    'nome' => $instituicao->nome,
+                    'nomeCidade' => $cidade->nomeCidade,
+                    'uf' => $uf->uf,
+                    'tipoVinculo' => $instituicao->pivot->tipoVinculo
+                );
+            }
+
+            $iniciativas = [];
+            foreach($pid->iniciativas as $iniciativa) {
+
+                $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $iniciativa->endereco->cidade_id)->first();
+                $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
+
+                $iniciativas[] = array (
+                    'idIniciativa' => $iniciativa->idIniciativa,
+                    'nome' => $iniciativa->nome,
+                    'nomeCidade' => $cidade->nomeCidade,
+                    'uf' => $uf->uf,
+                );
+            }
+
+            $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $pid->endereco->cidade_id)->first();
+            $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
+            $tipo = DB::table('pidTipos')->select('tipo')->where('idTipo', '=', $pid->tipo_id)->first();
+            $localidade = DB::table('localidades')->select('localidade')->where('idLocalidade', '=', $pid->endereco->localidade_id)->first();
+            $localizacao = DB::table('localizacoes')->select('localizacao')->where('idLocalizacao', '=', $pid->endereco->localizacao_id)->first();
+
+            return [
+                'idPid' => $pid->idPid,
+                'nome' => $pid->nome,
+                'email' => $pid->email,
+                'url' => $pid->url,
+                'tipo' => isset($tipo->tipo)? $tipo->tipo : null,
+                'endereco' => [
+                    'cep' => $pid->endereco->cep,
+                    'logradouro' => $pid->endereco->logradouro,
+                    'numero' => $pid->endereco->numero,
+                    'complemento' => $pid->endereco->complemento,
+                    'bairro' => $pid->endereco->bairro,
+                    'uf' => $uf->uf,
+                    'cidade' => $cidade->nomeCidade,
+                    'latitude' => $pid->endereco->latitude,
+                    'longitude' => $pid->endereco->longitude,
+                    'localidade' => isset($localidade->localidade)? $localidade->localidade : null,
+                    'localizacao' => isset($localizacao->localizacao)? $localizacao->localizacao : null,
+                ],
+                'telefones' => $pid->telefones,
+                'instituicoes' => $instituicoes,
+                'iniciativas' => $iniciativas,
+                'fotos' => $pid->fotos
+            ];
+        }
+    }
 }
 
