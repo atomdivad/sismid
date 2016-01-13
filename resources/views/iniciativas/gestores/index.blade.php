@@ -69,7 +69,6 @@
                             <td>{{ $gestor->email }}</td>
                             <td>{{ $gestor->nomeIniciativa }}</td>
                             <td class="text-center">
-                                <a class="btn btn sm btn-primary" title="Exbir iniciativia: {{ $gestor->nome }}" href="{{ route('gestor.show', $gestor->idUsuario) }}"><i class="glyphicon glyphicon-eye-open"></i></a>
                                 <a class="btn btn sm btn-success" title="Editar iniciativia: {{ $gestor->nome }}" href="{{ route('gestor.edit', $gestor->idUsuario) }}"><i class="glyphicon glyphicon-edit"></i></a>
                             </td>
                         </tr>
