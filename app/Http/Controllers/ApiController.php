@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 use SisMid\Models\Instituicao;
 use SisMid\Models\Pid;
-use Intervention\Image\Facades\Image;
+use SisMid\Models\Iniciativa;
 
 class ApiController extends Controller
 {
     /**
      * Retorna as cidades de uma UF
-     *
      * @param $idUf
      */
     public function getCidades($idUf)
@@ -26,6 +26,11 @@ class ApiController extends Controller
         return $cidades;
     }
 
+    /**
+     * Retorna a lista de instituioes
+     * @param Request $request
+     * @return array
+     */
     public function getInstituicoes(Request $request)
     {
         $nome = $request['nome'];
@@ -102,6 +107,11 @@ class ApiController extends Controller
         return $instituicoes;
     }
 
+    /**
+     * Retorna a lista de iniciativas
+     * @param Request $request
+     * @return array
+     */
     public function getIniciativas(Request $request)
     {
         $nome = $request['nome'];
@@ -177,6 +187,11 @@ class ApiController extends Controller
         return $iniciativas;
     }
 
+    /**
+     * Retorna as info do mapa
+     * @param Request $request
+     * @return array
+     */
     public function getMapa(Request $request)
     {
         $latlng = [
@@ -465,6 +480,12 @@ class ApiController extends Controller
     }
 
 
+    /**
+     * Retorna uma imagem
+     * @param $id
+     * @param $nome
+     * @return mixed
+     */
     public function getFotos($id, $nome)
     {
         $pid = Pid::findOrFail($id);
@@ -476,4 +497,82 @@ class ApiController extends Controller
         });
         return $img->response();
     }
+
+    /**
+     * Retorna as informações de uma iniciativa
+     * @param $id
+     */
+    public function getIniciativa($id = null)
+    {
+        if($id) {
+            $iniciativa = Iniciativa::findOrFail($id);
+
+            $instituicoes = [];
+            foreach($iniciativa->instituicoes as $instituicao) {
+
+                $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $instituicao->endereco->cidade_id)->first();
+                $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
+
+                $instituicoes[] = array (
+                    'idInstituicao' => $instituicao->idInstituicao,
+                    'nome' => $instituicao->nome,
+                    'nomeCidade' => $cidade->nomeCidade,
+                    'uf' => $uf->uf,
+                    'tipoVinculo' => ($instituicao->pivot->tipoVinculo == 1)? 'Apoiador' : 'Mantenendor'
+                );
+            }
+
+            $dimensoes = [];
+            $dm = DB::table('dimensoes')->select('dimensao', 'idDimensao')->lists('dimensao', 'idDimensao');
+            foreach($iniciativa->dimensoes as $dimensao) {
+                $dimensoes[] = $dm[$dimensao->idDimensao];
+            }
+
+            $servicos = [];
+            $sv = DB::table('servicos')->select('servico', 'idServico')->lists('servico', 'idServico');
+            foreach($iniciativa->servicos as $servico) {
+                $servicos[] = $sv[$servico->idServico];
+            }
+
+            $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $iniciativa->endereco->cidade_id)->first();
+            $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
+            $tipo = DB::table('iniciativaTipos')->select('tipo')->where('idTipo', '=', $iniciativa->tipo_id)->first();
+            $localidade = DB::table('localidades')->select('localidade')->where('idLocalidade', '=', $iniciativa->endereco->localidade_id)->first();
+            $localizacao = DB::table('localizacoes')->select('localizacao')->where('idLocalizacao', '=', $iniciativa->endereco->localizacao_id)->first();
+            $naturezaJuridica = DB::table('naturezasJuridicas')->select('naturezaJuridica')->where('idNatureza', '=', $iniciativa->naturezaJuridica_id)->first();
+            $categoria = DB::table('iniciativaCategorias')->select('categoria')->where('idCategoria', '=', $iniciativa->categoria_id)->first();
+
+            return [
+                'idIniciativa' =>  $iniciativa->idIniciativa,
+                'tipo' => isset($tipo->tipo)? $tipo->tipo : null,
+                'nome' => $iniciativa->nome,
+                'sigla' => $iniciativa->sigla,
+                'endereco' => [
+                    'cep' => $iniciativa->endereco->cep,
+                    'logradouro' => $iniciativa->endereco->logradouro,
+                    'numero' => $iniciativa->endereco->numero,
+                    'complemento' => $iniciativa->endereco->complemento,
+                    'bairro' => $iniciativa->endereco->bairro,
+                    'uf' => $uf->uf,
+                    'cidade' => $cidade->nomeCidade,
+                    'latitude' => $iniciativa->endereco->latitude,
+                    'longitude' => $iniciativa->endereco->longitude,
+                    'localidade' => isset($localidade->localidade)? $localidade->localidade : null,
+                    'localizacao' => isset($localizacao->localizacao)? $localizacao->localizacao : null,
+                ],
+                'naturezaJuridica' => isset($naturezaJuridica->naturezaJuridica)? $naturezaJuridica->naturezaJuridica : null,
+                'email' => $iniciativa->email,
+                'url' => $iniciativa->url,
+                'objetivo' => $iniciativa->objetivo,
+                'informacaoComplementar' => $iniciativa->informacaoComplementar,
+                'categoria' => isset($categoria->categoria)? $categoria->categoria : null,
+                'fonte' => $iniciativa->fonte,
+                'telefones' => $iniciativa->telefones,
+                'instituicoes' => $instituicoes,
+                'dimensoes' => $dimensoes,
+                'servicos' => $servicos
+            ];
+        }
+    }
 }
+

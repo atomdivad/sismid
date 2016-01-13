@@ -67,7 +67,7 @@
                             <td>{{ $iniciativa->nomeCidade}} / {{ $iniciativa->uf }}</td>
                             <td>{{ $iniciativa->email }}</td>
                             <td class="text-center">
-                                <a class="btn btn sm btn-primary" title="Exbir iniciativia: {{ $iniciativa->nome }}" href="{{ route('iniciativa.show', $iniciativa->idIniciativa) }}"><i class="glyphicon glyphicon-eye-open"></i></a>
+                                <a class="show-modal btn btn sm btn-primary" title="Exbir iniciativia: {{ $iniciativa->nome }}" href="#" data-id="{{ $iniciativa->idIniciativa }}" data-toggle="modal" data-target="#modalInfo"><i class="glyphicon glyphicon-eye-open"></i></a>
                                 <a class="btn btn sm btn-success" title="Editar iniciativia: {{ $iniciativa->nome }}" href="{{ route('iniciativa.edit', $iniciativa->idIniciativa) }}"><i class="glyphicon glyphicon-edit"></i></a>
                             </td>
                         </tr>
@@ -84,9 +84,12 @@
             {!! $iniciativas->appends(Input::query())->render() !!}
         </div>
     </div>
+
+    @include('iniciativas.partials.modal_show')
 @endsection
 
 @section('script')
     @parent
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
+    <script src="{{ asset('/assets/js/show.iniciativa.js') }}"></script>
 @stop
