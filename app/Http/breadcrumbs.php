@@ -59,8 +59,14 @@ Breadcrumbs::register('iniciativaCreate', function($breadcrumbs)
 //Home > Iniciativa > Edit
 Breadcrumbs::register('iniciativaEdit', function($breadcrumbs)
 {
-    $breadcrumbs->parent('iniciativa');
-    $breadcrumbs->push('Editar Iniciativa', route('iniciativa.edit'));
+    if(Defender::hasRole('gestor')) {
+        $breadcrumbs->parent('home');
+        $breadcrumbs->push('Editar Iniciativa', route('iniciativa.edit'));
+    }
+    else {
+        $breadcrumbs->parent('iniciativa');
+        $breadcrumbs->push('Editar Iniciativa', route('iniciativa.edit'));
+    }
 });
 
 /*Gestores*/

@@ -2,7 +2,9 @@
 
 namespace SisMid\Http\Controllers;
 
+use Artesaos\Defender\Facades\Defender;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
@@ -238,6 +240,12 @@ class IniciativaController extends Controller
      */
     public function edit($id)
     {
+        if(Defender::hasRole('gestor')) {
+            if(Auth::user()->iniciativa_id != $id) {
+                abort(401, 'Unauthorized action.');
+            }
+        }
+
         $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
         $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
