@@ -35,12 +35,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">SisMid</a>
+            <a class="navbar-brand" href="/">SisMID</a>
         </div>
 
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ route('mapa.index') }}">Mapa</a></li>
+                    <li><a href="{{ route('mapa.index') }}">Mapa Inclusão Digital</a></li>
                 </ul>
 
                 @if(!Auth::guest())

@@ -161,6 +161,11 @@ return [
          */
         LaravelCaptcha\Providers\LaravelCaptchaServiceProvider::class,
 
+        /*
+        * Laravel Breadcrumbs Service Provider
+        */
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+
     ],
 
     /*
@@ -217,6 +222,7 @@ return [
         'Html'      =>  Illuminate\Html\HtmlFacade::class,
         'Defender' => \Artesaos\Defender\Facades\Defender::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
 
     ],
 
