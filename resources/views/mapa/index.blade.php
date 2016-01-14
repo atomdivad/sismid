@@ -48,14 +48,15 @@
     <div class="form-group" id="grid">
         <div class="row">
             <div class="col-sm-12">
-                <table id="grid-data" class="table table-bordered table-condensed table-hover table-striped">
+                <table id="grid-data" class="table table-bordered tabel-responsive table-striped">
                     <thead>
                     <tr>
-                        <th data-column-id="idPid" data-visible="false" data-type="numeric">ID</th>
-                        <th data-column-id="nome">Nome</th>
-                        <th data-column-id="endereco">Endereço</th>
-                        <th data-column-id="nomeCidade">Município</th>
-                        <th data-column-id="uf">UF</th>
+                        <th data-header-css-class="col-md-1" data-column-id="id" data-visible="false" data-type="numeric">ID</th>
+                        <th data-header-css-class="col-md-1" data-column-id="tipo">Tipo</th>
+                        <th data-header-css-class="col-md-5" data-column-id="nome">Nome</th>
+                        <th data-header-css-class="col-md-2" data-column-id="endereco">Endereço</th>
+                        <th data-header-css-class="col-md-2" data-column-id="nomeCidade">Município</th>
+                        <th data-header-css-class="col-md-1" data-column-id="uf">UF</th>
                         <th data-column-id="commands" data-formatter="commands" data-searchable="false" data-sortable="false">Visualizar</th>
                     </tr>
                     </thead>
@@ -64,7 +65,8 @@
         </div>
     </div>
 
-    @include('mapa.partials.modal_info')
+    @include('mapa.partials.modal_info_pid')
+    @include('mapa.partials.modal_info_iniciativa')
 
 
 @endsection

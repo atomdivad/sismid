@@ -37,7 +37,30 @@ function buscaDados() {
 
     $.post("/api/mapa", dados ,function (data) {
         if(dados.agrupamento == 0) {
-            markerDesagrupados(data)
+            markerDesagrupados(data.pids, 'PID');
+            markerDesagrupados(data.iniciativas, 'Iniciativa');
+
+            markerCluster = new MarkerClusterer(map, markers);
+            /*Ouvir click em cluster*/
+            google.maps.event.addListener(markerCluster, "click", function (c) {
+                var m = c.getMarkers();
+                pontos = [];
+                for (var i = 0; i < m.length; i++ ){
+                    pontos.push({
+                        id: m[i].id ,
+                        nome: m[i].nome,
+                        endereco: m[i].endereco,
+                        nomeCidade: m[i].nomeCidade,
+                        uf: m[i].uf,
+                        tipo: m[i].tipo
+                    });
+                }
+                $("#grid-data").bootgrid('clear');
+                $("#grid-data").bootgrid('append', pontos);
+            });
+            google.maps.event.addListener(markerCluster, 'clusteringend', function(){
+                $('#loading').modal('hide');
+            });
         }
         else if(dados.agrupamento == 'estado') {
             markerAgrupadosEstado(data)
@@ -48,28 +71,30 @@ function buscaDados() {
     });
 }
 
-function markerDesagrupados(list) {
+function markerDesagrupados(list, tipo) {
     var pontos = [];
     var latLng;
     var marker;
     $.each(list, function (i, item) {
         pontos.push({
             nome: item.nome,
-            idPid: item.idPid.toString(),
+            id: item.id.toString(),
             endereco: item.logradouro + ', ' + item.numero,
             nomeCidade: item.nomeCidade,
-            uf: item.uf
+            uf: item.uf,
+            tipo: tipo
         });
         latLng = new google.maps.LatLng(item.latitude, item.longitude);
         marker = new google.maps.Marker({
             map: map,
             position: latLng,
             title: item.nome,
-            idPid: item.idPid.toString(),
+            id: item.id.toString(),
             nome: item.nome,
             endereco: item.logradouro + ', ' + item.numero,
             nomeCidade: item.nomeCidade,
             uf: item.uf,
+            tipo: tipo,
             visible: true
         });
         markers.push(marker);
@@ -77,11 +102,12 @@ function markerDesagrupados(list) {
         marker.addListener('click', function () {
             var self = this;
             var mk = {
-                idPid: self.idPid ,
+                id: self.id,
                 nome: self.nome,
                 endereco: self.endereco,
                 nomeCidade: self.nomeCidade,
-                uf: self.uf
+                uf: self.uf,
+                tipo: self.tipo
             };
             $("#grid-data").bootgrid('clear');
             $("#grid-data").bootgrid('append', [mk]);
@@ -89,26 +115,6 @@ function markerDesagrupados(list) {
     });
     $("#grid-data").bootgrid('append', pontos);
     $("#grid").show();
-    markerCluster = new MarkerClusterer(map, markers);
-    /*Ouvir click em cluster*/
-    google.maps.event.addListener(markerCluster, "click", function (c) {
-        var m = c.getMarkers();
-        pontos = [];
-        for (var i = 0; i < m.length; i++ ){
-            pontos.push({
-                idPid: m[i].idPid ,
-                nome: m[i].nome,
-                endereco: m[i].endereco,
-                nomeCidade: m[i].nomeCidade,
-                uf: m[i].uf
-            });
-        }
-        $("#grid-data").bootgrid('clear');
-        $("#grid-data").bootgrid('append', pontos);
-    });
-    google.maps.event.addListener(markerCluster, 'clusteringend', function(){
-        $('#loading').modal('hide');
-    });
 }
 
 function markerAgrupadosEstado(list) {
@@ -571,20 +577,26 @@ var pidGrid = $("#grid-data").bootgrid({
     formatters: {
         commands: function (column, row)
         {
-            return '<a href="#" class="btn btn-sm btn-primary command-edit" data-id="'+row.idPid+'"><span class="glyphicon glyphicon-eye-open"></span></a>';       }
+            return '<a href="#" class="btn btn-sm btn-primary command-edit" data-id="'+row.id+'" data-tipo="'+row.tipo+'"><span class="glyphicon glyphicon-eye-open"></span></a>';       }
     }
 }).on("loaded.rs.jquery.bootgrid", function()
 {
     pidGrid.find(".command-edit").on("click", function(e)
     {
         e.preventDefault();
-        $('#modalInfo').modal('toggle');
-        info.$data.id = $(this).data('id');
+        if($(this).data('tipo') == "PID"){
+            infoPid.$data.id = $(this).data('id');
+            $('#modalInfoPid').modal('toggle');
+        }
+        else if($(this).data('tipo') == "Iniciativa"){
+            infoIniciativa.$data.id = $(this).data('id');
+            $('#modalInfoIniciativa').modal('toggle');
+        }
     });
 });
 
-var info = new Vue({
-    el: '#modalInfo',
+var infoPid = new Vue({
+    el: '#modalInfoPid',
 
     data:{
         id: null,
@@ -596,7 +608,27 @@ var info = new Vue({
     watch: {
         'id': function (val) {
             var self = this;
-            self.$http.get('/mapa/'+val+'/show', function(response){
+            self.$http.get('/api/pid/'+val+'/show', function(response){
+                self.$set('info', response);
+            });
+        }
+    }
+});
+
+var infoIniciativa = new Vue({
+    el: '#modalInfoIniciativa',
+
+    data:{
+        id: null,
+        info: ''
+    },
+
+    methods: {},
+
+    watch: {
+        'id': function (val) {
+            var self = this;
+            self.$http.get('/api/iniciativa/'+val+'/show', function(response){
                 self.$set('info', response);
             });
         }

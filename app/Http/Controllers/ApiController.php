@@ -227,17 +227,26 @@ class ApiController extends Controller
         $agrupamento = $request['agrupamento'];
         $uf = $request['uf'];
         $cidade = $request['cidade'];
+        $todos = [];
 
 
         if($agrupamento == 'estado') {
             if($uf != 0) {
                 if($cidade != '') {
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->where('cidades.idCidade', '=', $cidade);
+
                     $pids = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->where('cidades.idCidade', '=', $cidade)
+                        ->union($iniciativas)
                         ->get();
 
                     foreach($pids as $pid) {
@@ -252,6 +261,14 @@ class ApiController extends Controller
                     }
                 }
                 else {
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->where('uf.idUf', '=', $uf)
+                        ->groupby('uf.uf');
+
                     $pids = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
@@ -259,6 +276,7 @@ class ApiController extends Controller
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->where('uf.idUf', '=', $uf)
                         ->groupby('uf.uf')
+                        ->union($iniciativas)
                         ->get();
 
                     foreach($pids as $pid) {
@@ -274,12 +292,20 @@ class ApiController extends Controller
                 }
             }
             else {
+                $iniciativas = DB::table('iniciativas')
+                    ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                    ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->groupby('uf.uf');
+
                 $pids = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                     ->groupby('uf.uf')
+                    ->union($iniciativas)
                     ->get();
 
                 foreach($pids as $pid) {
@@ -300,12 +326,20 @@ class ApiController extends Controller
             $estado = [];
             if($uf != 0 ) {
                 if($cidade != '') {
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->where('cidades.idCidade', '=', $cidade);
+
                     $pids = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->where('cidades.idCidade', '=', $cidade)
+                        ->union($iniciativas)
                         ->get();
 
                     foreach($pids as $pid) {
@@ -320,6 +354,14 @@ class ApiController extends Controller
                     }
                 }
                 else {
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->where('uf.idUf', '=', $uf)
+                        ->groupby('uf.uf');
+
                     $pids = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
@@ -327,6 +369,7 @@ class ApiController extends Controller
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->where('uf.idUf', '=', $uf)
                         ->groupby('uf.uf')
+                        ->union($iniciativas)
                         ->get();
 
                     foreach($pids as $pid) {
@@ -342,12 +385,20 @@ class ApiController extends Controller
                 }
             }
             else {
+                $norteIniciativas = DB::table('iniciativas')
+                    ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                    ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->whereIn('idUf', [11, 12, 13, 14, 15, 16, 17]);
+
                 $norte = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                     ->whereIn('idUf', [11, 12, 13, 14, 15, 16, 17])
+                    ->union($norteIniciativas)
                     ->get();
 
                 foreach($norte as $pid) {
@@ -361,12 +412,20 @@ class ApiController extends Controller
                     }
                 }
 
+                $nordesteIniciativas = DB::table('pids')
+                    ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                    ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->whereIn('idUf', [21, 22, 23, 24, 25, 26, 27, 28, 29]);
+
                 $nordeste = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                     ->whereIn('idUf', [21, 22, 23, 24, 25, 26, 27, 28, 29])
+                    ->union($nordesteIniciativas)
                     ->get();
 
                 foreach($nordeste as $pid) {
@@ -380,12 +439,20 @@ class ApiController extends Controller
                     }
                 }
 
+                $suldesteIniciativas = DB::table('pids')
+                    ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                    ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->whereIn('idUf', [31, 32, 33, 35]);
+
                 $suldeste = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                     ->whereIn('idUf', [31, 32, 33, 35])
+                    ->union($suldesteIniciativas)
                     ->get();
 
                 foreach($suldeste as $pid) {
@@ -399,12 +466,20 @@ class ApiController extends Controller
                     }
                 }
 
+                $sulIniciativas = DB::table('iniciativas')
+                    ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                    ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->whereIn('idUf', [41, 42, 43]);
+
                 $sul = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                     ->whereIn('idUf', [41, 42, 43])
+                    ->union($sulIniciativas)
                     ->get();
 
                 foreach($sul as $pid) {
@@ -418,12 +493,20 @@ class ApiController extends Controller
                     }
                 }
 
+                $centroesteIniciativas = DB::table('iniciativas')
+                    ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                    ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->whereIn('idUf', [50, 51, 52, 53]);
+
                 $centroeste = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                     ->whereIn('idUf', [50, 51, 52, 53])
+                    ->union($centroesteIniciativas)
                     ->get();
 
                 foreach($centroeste as $pid) {
@@ -444,21 +527,38 @@ class ApiController extends Controller
             if($uf != 0) {
                 if($cidade != '') {
                     //cidades
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->select('iniciativas.idIniciativa as id', 'iniciativas.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                        ->where('cidades.idCidade', '=', $cidade)
+                        ->get();
+
                     $pids = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                        ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                        ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                         ->where('cidades.idCidade', '=', $cidade)
                         ->get();
                 }
                 else {
                     //sem cidade
+                    $iniciativas = DB::table('iniciativas')
+                        ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->select('iniciativas.idIniciativa as id', 'iniciativas.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                        ->where('cidades.uf_id', '=', $uf)
+                        ->orderBy('cidades.nomeCidade', 'asc')
+                        ->get();
+
                     $pids = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                        ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                        ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                         ->where('cidades.uf_id', '=', $uf)
                         ->orderBy('cidades.nomeCidade', 'asc')
                         ->get();
@@ -466,17 +566,24 @@ class ApiController extends Controller
             }
             else {
                 //Sem parametros
+                $iniciativas = DB::table('iniciativas')
+                    ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->select('iniciativas.idIniciativa as id', 'iniciativas.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                    ->orderBy('uf.uf', 'asc')
+                    ->get();
+
                 $pids = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                    ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                    ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                     ->orderBy('uf.uf', 'asc')
                     ->get();
             }
         }
-
-        return $pids;
+        return response()->json(['pids' => $pids, 'iniciativas' => $iniciativas]);
     }
 
 
