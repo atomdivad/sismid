@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Informações</a></li>
+                    <li role="presentation" class="active"><a href="#iniInfo" aria-controls="iniInfo" role="tab" data-toggle="tab">Informações</a></li>
                     <li role="presentation"><a href="#endereco" aria-controls="endereco" role="tab" data-toggle="tab">Endereço</a></li>
                     <li role="presentation"><a href="#instituicoes" aria-controls="instituicoes" role="tab" data-toggle="tab">Instituições</a></li>
                     <li role="presentation"><a href="#dimensoes" aria-controls="dimensoes" role="tab" data-toggle="tab">Dimensões</a></li>
@@ -17,56 +17,38 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="home">
+                    <div role="tabpanel" class="tab-pane active" id="iniInfo">
                         <br/>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"><i class="fa fa-info"></i></div>
-                                    <div class="panel-body">
-                                        <p v-show="info.tipo.length > 0 "><strong>Tipo:</strong> @{{ info.tipo | uppercase }}</p>
-                                        <p v-show="info.naturezaJuridica.length > 0 "><strong>Natureza Jurídica:</strong> @{{ info.naturezaJuridica | uppercase }}</p>
-                                        <p v-show="info.categoria.length > 0 "><strong>Categoria:</strong> @{{ info.categoria | uppercase }}</p>
-                                        <p v-show="info.fonte.length > 0 "><strong>Fonte:</strong> <a href="@{{ info.fonte }}">@{{ info.fonte }}</p>
-                                        <p v-show="info.url.length > 0 "><i class="glyphicon glyphicon-link"></i> <a href="@{{ info.url }}">@{{ info.url }}</a></p>
-                                        <p v-show="info.email != ''"><i class="glyphicon glyphicon-envelope"></i> <a href="mailto:@{{ info.email }}">@{{ info.email }}</a></p>
-                                    </div>
-                                </div>
+                                <p v-show="info.tipo.length > 0 "><strong>Tipo:</strong> @{{ info.tipo | uppercase }}</p>
+                                <p v-show="info.naturezaJuridica.length > 0 "><strong>Natureza Jurídica:</strong> @{{ info.naturezaJuridica | uppercase }}</p>
+                                <p v-show="info.categoria.length > 0 "><strong>Categoria:</strong> @{{ info.categoria | uppercase }}</p>
+                                <p v-show="info.fonte.length > 0 "><strong>Fonte:</strong> <a href="@{{ info.fonte }}">@{{ info.fonte }}</p>
+                                <p v-show="info.url.length > 0 "><i class="glyphicon glyphicon-link"></i> <a href="@{{ info.url }}">@{{ info.url }}</a></p>
+                                <p v-show="info.email != ''"><i class="glyphicon glyphicon-envelope"></i> <a href="mailto:@{{ info.email }}">@{{ info.email }}</a></p>
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="panel panel-default" v-show="info.telefones.length > 0">
-                                    <div class="panel-heading"><i class="fa fa-phone"></i></div>
-                                    <div class="panel-body">
-                                        <p>
-                                            <div v-for="t in info.telefones">
-                                                <i class="glyphicon" v-bind:class="{'glyphicon-phone': t.telefoneTipo_id == 1,'glyphicon-phone-alt': t.telefoneTipo_id == 2,'glyphicon-earphone': t.telefoneTipo_id == 3 }"></i> @{{ t.telefone }} - @{{ t.responsavel }}
-                                            </div>
-                                        </p>
-                                    </div>
+                                <p>
+                                <div v-for="t in info.telefones">
+                                    <i class="glyphicon" v-bind:class="{'glyphicon-phone': t.telefoneTipo_id == 1,'glyphicon-phone-alt': t.telefoneTipo_id == 2,'glyphicon-earphone': t.telefoneTipo_id == 3 }"></i> @{{ t.telefone }} - @{{ t.responsavel }}
                                 </div>
+                                </p>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" v-show="info.objetivo.length > 0">
                             <div class="col-sm-12">
-                                <div class="panel panel-default" v-show="info.objetivo.length > 0">
-                                    <div class="panel-heading"><i class="fa fa-info"></i> Objetivo</div>
-                                    <div class="panel-body">
-                                        @{{ info.objetivo }}
-                                    </div>
-                                </div>
+                                <h3>Objetivo</h3>
+                                <p class="text-justify">@{{ info.objetivo }}</p>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" v-show="info.informacaoComplementar.length > 0">
                             <div class="col-sm-12">
-                                <div class="panel panel-default" v-show="info.informacaoComplementar.length > 0">
-                                    <div class="panel-heading"><i class="fa fa-info"></i> Informações Complementares</div>
-                                    <div class="panel-body">
-                                        @{{ info.informacaoComplementar }}
-                                    </div>
-                                </div>
+                                <h3><i class="fa fa-info"></i> Informações Complementares</h3>
+                                <p class="text-justify">@{{ info.informacaoComplementar }}</p>
                             </div>
                         </div>
                     </div>
@@ -96,7 +78,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div role="tabpanel" class="tab-pane" id="instituicoes">
                         <br/>
                         <ul class="list-group">
@@ -105,7 +87,7 @@
                             </li>
                         </ul>
                     </div>
-                    
+
                     <div role="tabpanel" class="tab-pane" id="dimensoes">
                         <br/>
                         <div class="row">
