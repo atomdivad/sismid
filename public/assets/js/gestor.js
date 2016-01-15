@@ -32,7 +32,7 @@ var gestor = new Vue({
                 cidade_id: jQuery('select[name="iniciativaBuscaCidade"]').val()
             }
 
-            self.$http.post('/api/pesquisar/iniciativas/', busca, function(response){
+            self.$http.post('/api/pesquisar/iniciativas', busca, function(response){
                 self.$set('iniciativas', _.chunk(response,5));
                 gestor.$refs.listaIniciativas.$data.page = 0;
             });

@@ -3,6 +3,12 @@
     {!! Breadcrumbs::render('mapa') !!}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <div class="row">
+        <div class="col-sm-12">
+            <legend><i class="glyphicon glyphicon-list"></i> Mapa de Inclusão Digital</legend>
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="row">
             <div class="col-sm-6">

@@ -114,3 +114,34 @@ Breadcrumbs::register('instituicaoEdit', function($breadcrumbs)
     $breadcrumbs->parent('instituicao');
     $breadcrumbs->push('Editar Instituição', route('instituicao.edit'));
 });
+
+//Home > E-mail
+Breadcrumbs::register('email', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Gerenciar e-mail', route('admin.email.index'));
+});
+//Home -> E-mail -> Edit
+Breadcrumbs::register('emailEdit', function($breadcrumbs)
+{
+    $breadcrumbs->parent('email');
+    $breadcrumbs->push('Editar', route('admin.email.edit'));
+});
+//Home > Gerenciar Endereço/Telefone
+Breadcrumbs::register('endContato', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Gerenciar Endereço/Telefone', route('admin.endContato.index'));
+});
+//Home -> E-mail -> Edit
+Breadcrumbs::register('endContatoEdit', function($breadcrumbs)
+{
+    $breadcrumbs->parent('endContato');
+    $breadcrumbs->push('Editar Endereço', route('admin.endContato.editEndereco'));
+});
+//Home -> E-mail -> Edit
+Breadcrumbs::register('endContatoEditTelefone', function($breadcrumbs)
+{
+    $breadcrumbs->parent('endContato');
+    $breadcrumbs->push('Editar Telefone', route('admin.endContato.editTelefone'));
+});

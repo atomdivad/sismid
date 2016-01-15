@@ -66,8 +66,8 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Gerenciar Administradores</a></li>
-                                <li><a href="#">Gerenciar Email</a></li>
-                                <li><a href="#">Gerenciar Endereço/Telefone</a></li>
+                                <li><a href="{{ route('admin.email.index') }}">Gerenciar Email</a></li>
+                                <li><a href="{{ route('admin.endContato.index') }}">Gerenciar Endereço/Telefone</a></li>
                                 <li><a href="#">Informações da equipe</a></li>
                             </ul>
                         </li>

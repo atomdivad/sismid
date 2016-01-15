@@ -60,6 +60,19 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
 
 Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(){
 
+    Route::group(['prefix' => 'admin'], function() {
+
+        Route::get('/email/index', ['as' => 'admin.email.index', 'uses' => 'AdminController@indexEmail']);
+        Route::get('/email/{id}/edit', ['as' => 'admin.email.edit', 'uses' => 'AdminController@editEmail']);
+        Route::post('/email/{id}/update', ['as' => 'admin.email.update', 'uses' => 'AdminController@updateEmail']);
+
+        Route::get('/endContato/index', ['as' => 'admin.endContato.index', 'uses' => 'AdminController@indexEndContato']);
+        Route::get('/endContato/{id}/editTelefone', ['as' => 'admin.endContato.editTelefone', 'uses' => 'AdminController@editEndContatoTel']);
+        Route::get('/endContato/{id}/editEndereco', ['as' => 'admin.endContato.editEndereco', 'uses' => 'AdminController@editEndContato']);
+        Route::post('/endContato/{id}/updateEndereco', ['as' => 'admin.endContato.updateEndereco', 'uses' => 'AdminController@updateEndContato']);
+        Route::post('/endContato/{id}/updateTelefone', ['as' => 'admin.endContato.updateTelefone', 'uses' => 'AdminController@updateEndContatoTel']);
+    });
+
     Route::group(['prefix' => 'iniciativa'], function() {
 
         Route::get('/', ['as' => 'iniciativa.index', 'uses' => 'IniciativaController@index']);
