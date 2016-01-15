@@ -2,6 +2,21 @@
 @section('content')
     {!! Breadcrumbs::render('mapa') !!}
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="tipoBusca">Buscar</label> <small id="msg" style="display: none;" class="alert-danger">Você deve marcar pelo menos uma opção</small>
+                <select name="tipoBusca" id="tipoBusca" class="form-control" multiple required>
+                    <option selected value="0">PID</option>
+                    <option selected value="1">Programa</option>
+                    <option selected value="2">Projeto</option>
+                    <option selected value="3">Ação</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="row">
             <div class="col-sm-2">
@@ -72,6 +87,10 @@
 @endsection
 @section('script')
     @parent
+    <script src="{{ asset('/assets/js/select2.min.js') }}"></script>
+    <script type="text/javascript">
+        $("#tipoBusca").select2();
+    </script>
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="{{ asset('/assets/js/markerclusterer.js') }}"></script>
@@ -110,5 +129,7 @@
     <script src="{{ asset('/assets/js/infobox.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery.bootgrid.min.js') }}"></script>
     <script src="{{ asset('/assets/js/mapa.js') }}"></script>
-
+@endsection
+@section('css')
+    <link href="{{ asset('/assets/css/select2.min.css') }}" rel="stylesheet">
 @stop
