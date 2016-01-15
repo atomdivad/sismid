@@ -416,8 +416,16 @@ class PidController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
+        if(Defender::hasRole('gestor')) {
+            $pids = DB::table('pid_iniciativas')
+                ->select('pid_id')
+                ->where('iniciativa_id', '=', Auth::user()->iniciativa_id)->lists('pid_id');
+            if(!in_array($id, $pids))
+                abort(401, 'Unauthorized action.');
+        }
+
         $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
         $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');

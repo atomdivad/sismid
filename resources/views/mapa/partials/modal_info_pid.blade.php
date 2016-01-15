@@ -1,5 +1,5 @@
 <!-- Modal Info -->
-<div class="modal fade"     id="modalInfo" role="dialog">
+<div class="modal fade"     id="modalInfoPid" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

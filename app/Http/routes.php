@@ -100,6 +100,12 @@ Route::group(['prefix' => 'api'], function(){
     Route::post('/pesquisar/instituicoes', ['as' => 'pesquisarInstituicoes', 'uses' => 'ApiController@getInstituicoes']);
     Route::post('/pesquisar/iniciativas', ['as' => 'pesquisarIniciativas', 'uses' => 'ApiController@getIniciativas']);
 
+    Route::get('/iniciativa/{id}/show', ['as' => 'getIniciativa', 'uses' => 'ApiController@getIniciativa']);
+    Route::get('/pid/{id}/show', ['as' => 'getPid', 'uses' => 'ApiController@getPid']);
+    Route::get('/instituicao/{id}/show', ['as' => 'getInstituicao', 'uses' => 'ApiController@getInstituicao']);
+
+
+
 
 });
 
