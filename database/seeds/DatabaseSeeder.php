@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
          $this->call(UserRolesSeeder::class);
          $this->call(NaturezasJuridicasSeeder::class);
          $this->call(IniciativaFormSeeder::class);
+         $this->call(SismidDadosSeeder::class);
 
         Model::reguard();
     }

@@ -61,8 +61,9 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
 
     Route::group(['prefix' => 'admin'], function() {
 
-        Route::get('/email/index', ['as' => 'admin.email.index', 'uses' => 'AdminController@index']);
-
+        Route::get('/email/index', ['as' => 'admin.email.index', 'uses' => 'AdminController@indexEmail']);
+        Route::get('/email/{id}/edit', ['as' => 'admin.email.edit', 'uses' => 'AdminController@editEmail']);
+        Route::post('/email/{id}/update', ['as' => 'admin.email.update', 'uses' => 'AdminController@updateEmail']);
     });
 
     Route::group(['prefix' => 'iniciativa'], function() {

@@ -1,8 +1,9 @@
 @extends('app')
 @section('content')
+    {!! Breadcrumbs::render('emailEdit') !!}
     <div class="row">
         <div class="col-sm-12">
-            <legend><i class="glyphicon glyphicon-edit"></i> Editar Institução</legend>
+            <legend><i class="glyphicon glyphicon-edit"></i> Editar Email</legend>
         </div>
     </div>
 
@@ -12,28 +13,29 @@
 
     <div class="row" id="email">
 
-        {{-- Div Mensagem Alerta --}}
-        <div class="col-sm-12">
-            <div class="alert" v-bind:class="{ 'alert-danger':response.error, 'alert-success':!response.error }" v-show="response.show">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <div v-for="er in response.msg"><strong>@{{ er }}</strong><br/></div>
-            </div>
-        </div>
-        {{-- Fim Div Mensagem Alerta --}}
 
         <div class="col-sm-12">
-            @include('admin.email.partials.form')
+            {!! Form::model($email[0],['route'=>['admin.email.update',$email[0]->id],'method'=>'post']) !!}
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
-                        <button class="btn btn-success" type="submit" v-on:click="salvarInstituicao($event)"><span class="glyphicon glyphicon-save"></span> Salvar</button>
+                        {!! Form::label('email', 'E-mail') !!}
+                        {!! Form::input('email', 'email', null, ["class" => "form-control", "required"]) !!}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-save"></span> Salvar</button>
                     </div>
                     <div class="col-sm-6 text-right">
                         <a class="btn btn-default" href="{{route('admin.email.index')}}">Cancerlar</a>
                     </div>
                 </div>
             </div>
-
+            {!! Form::close() !!}
         </div>
     </div>
 @endsection
