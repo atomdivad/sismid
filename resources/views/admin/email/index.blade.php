@@ -26,7 +26,7 @@
                         </td>
                         <td class="text-center">
 
-                            <a class="btn btn sm btn-success" title="Editar E-mail: #" href="{{ route('admin.email.edit',$dados[0]->id) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a class="btn btn sm btn-success" title="Editar E-mail" href="{{ route('admin.email.edit',$dados[0]->id) }}"><i class="glyphicon glyphicon-edit"></i></a>
                         </td>
                     </tr>
 
