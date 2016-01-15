@@ -1,6 +1,7 @@
 @extends('app')
 @section('content')
     {!! Breadcrumbs::render('pid') !!}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="row">
         <div class="col-sm-12">
             <legend><i class="glyphicon glyphicon-list"></i> Pontos de Inclusão Digital</legend>
@@ -57,10 +58,23 @@
         @endis
 
         <div class="form-group">
-            <div class="row"><div class="col-sm-6"><label for="nome">Nome</label></div></div>
             <div class="row">
                 <div class="col-sm-5">
+                    <label for="nome">Nome</label>
                     <input class="form-control" type="text" name="nome" id="nome" value="{{ Input::get('nome') }}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row"><div class="col-sm-6"><label for="ativo">Buscar</label></div></div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <select name="ativo" id="ativo" class="form-control">
+                        <option {{ (Input::get('ativo') == 1)? 'selected' : '' }} value="1">Ativos</option>
+                        <option {{ (Input::get('ativo') == 2)? 'selected' : '' }} value="2">Desativados</option>
+                        <option {{ (Input::get('ativo') == 3)? 'selected' : '' }} value="3">Todos</option>
+                    </select>
                 </div>
                 <div class="col-sm-3">
                     <button class="btn btn-md btn-block btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
@@ -91,7 +105,14 @@
                             <td class="col-md-1">{{ $pid->nomeCidade}} / {{ $pid->uf }}</td>
                             <td class="col-md-1">{{ $pid->email }}</td>
                             <td class="col-md-1 text-center">
-                                <a class="show-modal btn btn sm btn-primary" title="Exbir PID: {{ $pid->nome }}" href="#" data-id="{{ $pid->idPid }}" data-toggle="modal" data-target="#modalInfo"><i class="glyphicon glyphicon-eye-open"></i></a>
+                                @if($pid->ativo)
+                                    <button class="btn btn-sm btn-danger pidAtivo" data-id="{{ $pid->idPid }}"><i id="pidAtivoBtn" class="fa fa-close"></i> Desativar</button>
+                                @else
+                                    <button class="btn btn-sm btn-info pidAtivo" data-id="{{ $pid->idPid }}"><i id="pidAtivoBtn" class="fa fa-check"></i> Ativar</button>
+                                @endif
+                            </td>
+                            <td class="col-md-1 text-center">
+                                <a class="show-modal btn btn-sm btn-primary" title="Exbir PID: {{ $pid->nome }}" href="#" data-id="{{ $pid->idPid }}" data-toggle="modal" data-target="#modalInfo"><i class="glyphicon glyphicon-eye-open"></i></a>
                                 <a class="btn btn sm btn-success" title="Editar PID: {{ $pid->nome }}" href="{{ route('pid.edit', $pid->idPid) }}"><i class="glyphicon glyphicon-edit"></i></a>
                             </td>
                         </tr>
@@ -116,9 +137,6 @@
     <script src="{{ asset('/assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
     <script src="{{ asset('/assets/js/show.pid.js') }}"></script>
-    <script type="text/javascript">
-        $("#iniciativa").select2();
-    </script>
 @endsection
 @section('css')
     <link href="{{ asset('/assets/css/select2.min.css') }}" rel="stylesheet">
