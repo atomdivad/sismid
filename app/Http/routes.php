@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
         Route::post('/fotos', ['as' => 'pid.fotos.upload', 'uses' => 'PidController@fotosUpload']);
         Route::post('/fotos/remover', ['as' => 'pid.fotos.remover', 'uses' => 'PidController@fotosDestroy']);
         Route::get('/{id}/fotos/{nome}', ['as' => 'pid.fotos', 'uses' => 'PidController@fotos']);
+        Route::post('/active', ['as' => 'pid.active', 'uses' => 'PidController@active']);
     });
 
     Route::group(['prefix' => 'instituicao'], function() {

@@ -26,6 +26,24 @@ class PidController extends Controller
      */
     public function index(Request $request)
     {
+        if(isset($request['ativo'])) {
+            switch($request['ativo']) {
+                case 1:
+                    $ativo = [1];
+                    break;
+                case 2:
+                    $ativo = [0];
+                    break;
+                case 3:
+                    $ativo = [1,0];
+                    break;
+            }
+        }
+        else {
+            $ativo = [1];
+        }
+
+
         if(strlen($request['nome']) > 0 ) {
             if($request['uf'] != 0) {
                 if($request['cidade_id'] != 0) {
@@ -40,6 +58,7 @@ class PidController extends Controller
                             ->where('pids.nome', 'like', "%$request[nome]%")
                             ->where('cidades.idCidade', '=', $request['cidade_id'])
                             ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                            ->whereIn('pids.ativo', $ativo)
                             ->orderBy('pids.nome', 'asc')
                             ->paginate(10);
                     }
@@ -54,6 +73,7 @@ class PidController extends Controller
                                 ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
                                 ->where('pids.nome', 'like', "%$request[nome]%")
                                 ->where('cidades.idCidade', '=', $request['cidade_id'])
+                                ->whereIn('pids.ativo', $ativo)
                                 ->orderBy('pids.nome', 'asc')
                                 ->paginate(10);
                         }
@@ -65,6 +85,7 @@ class PidController extends Controller
                                 ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                                 ->where('pids.nome', 'like', "%$request[nome]%")
                                 ->where('cidades.idCidade', '=', $request['cidade_id'])
+                                ->whereIn('pids.ativo', $ativo)
                                 ->orderBy('pids.nome', 'asc')
                                 ->paginate(10);
                         }
@@ -82,6 +103,7 @@ class PidController extends Controller
                             ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
                             ->where('pids.nome', 'like', "%$request[nome]%")
                             ->where('uf.idUf', '=', $request['uf'])
+                            ->whereIn('pids.ativo', $ativo)
                             ->orderBy('pids.nome', 'asc')
                             ->paginate(10);
                     }
@@ -96,6 +118,7 @@ class PidController extends Controller
                                 ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
                                 ->where('pids.nome', 'like', "%$request[nome]%")
                                 ->where('uf.idUf', '=', $request['uf'])
+                                ->whereIn('pids.ativo', $ativo)
                                 ->orderBy('pids.nome', 'asc')
                                 ->paginate(10);
                         }
@@ -107,6 +130,7 @@ class PidController extends Controller
                                 ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                                 ->where('pids.nome', 'like', "%$request[nome]%")
                                 ->where('uf.idUf', '=', $request['uf'])
+                                ->whereIn('pids.ativo', $ativo)
                                 ->orderBy('pids.nome', 'asc')
                                 ->paginate(10);
                         }
@@ -124,6 +148,7 @@ class PidController extends Controller
                         ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                         ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
                         ->where('pids.nome', 'like', "%$request[nome]%")
+                        ->whereIn('pids.ativo', $ativo)
                         ->orderBy('pids.nome', 'asc')
                         ->paginate(10);
                 }
@@ -137,6 +162,7 @@ class PidController extends Controller
                             ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                             ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
                             ->where('pids.nome', 'like', "%$request[nome]%")
+                            ->whereIn('pids.ativo', $ativo)
                             ->orderBy('pids.nome', 'asc')
                             ->paginate(10);
                     }
@@ -147,6 +173,7 @@ class PidController extends Controller
                             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                             ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                             ->where('pids.nome', 'like', "%$request[nome]%")
+                            ->whereIn('pids.ativo', $ativo)
                             ->orderBy('pids.nome', 'asc')
                             ->paginate(10);
                     }
@@ -167,6 +194,7 @@ class PidController extends Controller
                             ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                             ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
                             ->where('cidades.idCidade', '=', $request['cidade_id'])
+                            ->whereIn('pids.ativo', $ativo)
                             ->orderBy('pids.nome', 'asc')
                             ->paginate(10);
                     }
@@ -180,6 +208,7 @@ class PidController extends Controller
                                 ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                                 ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
                                 ->where('cidades.idCidade', '=', $request['cidade_id'])
+                                ->whereIn('pids.ativo', $ativo)
                                 ->orderBy('pids.nome', 'asc')
                                 ->paginate(10);
                         }
@@ -190,6 +219,7 @@ class PidController extends Controller
                                 ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                                 ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                                 ->where('cidades.idCidade', '=', $request['cidade_id'])
+                                ->whereIn('pids.ativo', $ativo)
                                 ->orderBy('pids.nome', 'asc')
                                 ->paginate(10);
                         }
@@ -206,6 +236,7 @@ class PidController extends Controller
                             ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                             ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
                             ->where('uf.idUf', '=', $request['uf'])
+                            ->whereIn('pids.ativo', $ativo)
                             ->orderBy('pids.nome', 'asc')
                             ->paginate(10);
                     }
@@ -219,6 +250,7 @@ class PidController extends Controller
                                 ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                                 ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
                                 ->where('uf.idUf', '=', $request['uf'])
+                                ->whereIn('pids.ativo', $ativo)
                                 ->orderBy('pids.nome', 'asc')
                                 ->paginate(10);
                         }
@@ -229,6 +261,7 @@ class PidController extends Controller
                                 ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                                 ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                                 ->where('uf.idUf', '=', $request['uf'])
+                                ->whereIn('pids.ativo', $ativo)
                                 ->orderBy('pids.nome', 'asc')
                                 ->paginate(10);
                         }
@@ -245,6 +278,7 @@ class PidController extends Controller
                         ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
                         ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                         ->where('pid_iniciativas.iniciativa_id', '=', Auth::user()->iniciativa_id)
+                        ->whereIn('pids.ativo', $ativo)
                         ->orderBy('pids.nome', 'asc')
                         ->paginate(10);
                 }
@@ -257,6 +291,7 @@ class PidController extends Controller
                             ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
                             ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
                             ->whereIn('pid_iniciativas.iniciativa_id', $request['iniciativa'])
+                            ->whereIn('pids.ativo', $ativo)
                             ->orderBy('pids.nome', 'asc')
                             ->paginate(10);
                     }
@@ -266,6 +301,7 @@ class PidController extends Controller
                             ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                             ->select('pids.*', 'cidades.nomeCidade', 'uf.uf')
+                            ->whereIn('pids.ativo', $ativo)
                             ->orderBy('pids.nome', 'asc')
                             ->paginate(10);
                     }
@@ -562,5 +598,14 @@ class PidController extends Controller
         unlink($foto->arquivo);
         $foto->delete();
         return;
+    }
+
+    public function active(Request $request)
+    {
+        $pid = Pid::findOrFail($request['id']);
+
+        $pid->update(['ativo' => !$pid->ativo]);
+
+        return (int) $pid->ativo;
     }
 }

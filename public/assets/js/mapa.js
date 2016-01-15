@@ -26,11 +26,17 @@ function initialize() {
 }
 
 function buscaDados() {
+    $("#msg").hide();
+    if($("#tipoBusca").val() == null) {
+        $("#msg").show();
+        return false;
+    }
     $('#loading').modal('show');
     var dados = {
         agrupamento: $("#agrupamento").val(),
         uf: $("#uf").val(),
-        cidade: $("#cidade_id").val()
+        cidade: $("#cidade_id").val(),
+        tipo: $("#tipoBusca").val()
     }
 
     $("#grid-data").bootgrid('clear');

@@ -38,21 +38,17 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" v-show="info.objetivo.length > 0">
                             <div class="col-sm-12">
                                 <h3>Objetivo</h3>
-                                <p>@{{ info.objetivo }}</p>
+                                <p class="text-justify">@{{ info.objetivo }}</p>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" v-show="info.informacaoComplementar.length > 0">
                             <div class="col-sm-12">
-                                <div class="panel panel-default" v-show="info.informacaoComplementar.length > 0">
-                                    <div class="panel-heading"><i class="fa fa-info"></i> Informações Complementares</div>
-                                    <div class="panel-body">
-                                        @{{ info.informacaoComplementar }}
-                                    </div>
-                                </div>
+                                <h3><i class="fa fa-info"></i> Informações Complementares</h3>
+                                <p class="text-justify">@{{ info.informacaoComplementar }}</p>
                             </div>
                         </div>
                     </div>
