@@ -3,6 +3,7 @@
 namespace SisMid\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
@@ -663,14 +664,19 @@ class ApiController extends Controller
 
                 if(in_array(0, $tipo))
                 {
-                    $pids = DB::table('pids')
-                        ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
-                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                        ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
-                        ->where('pids.ativo', '=', 1)
-                        ->orderBy('uf.uf', 'asc')
-                        ->get();
+                    if(!Cache::has('pids')) {
+                        $pids = DB::table('pids')
+                            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                            ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                            ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                            ->where('pids.ativo', '=', 1)
+                            ->orderBy('uf.uf', 'asc')
+                            ->get();
+
+                        Cache::put('pids', $pids, 5);
+                    }
+                    $pids = Cache::get('pids');
                 }
             }
         }
@@ -883,4 +889,3 @@ class ApiController extends Controller
         }
     }
 }
-

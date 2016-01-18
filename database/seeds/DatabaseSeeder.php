@@ -18,6 +18,14 @@ class DatabaseSeeder extends Seeder
          $this->call(NaturezasJuridicasSeeder::class);
          $this->call(IniciativaFormSeeder::class);
          $this->call(SismidDadosSeeder::class);
+         $this->call(dimensoesSeeder::class);
+         $this->call(servicosSeeder::class);
+         $this->call(pidTiposSeeder::class);
+         $this->call(telefoneTiposSeeder::class);
+         $this->call(localizacoesSeeder::class);
+         $this->call(localidadesSeeder::class);
+         $this->call(ufSeeder::class);
+         $this->call(cidadesSeeder::class);
 
         Model::reguard();
     }

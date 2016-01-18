@@ -12,7 +12,8 @@
         "artesaos/defender": "^0.4.2",
         "intervention/image": "^2.3",
         "captcha-com/laravel-captcha": "^3.3",
-        "davejamesmiller/laravel-breadcrumbs": "^3.0"
+        "davejamesmiller/laravel-breadcrumbs": "^3.0",
+        "predis/predis": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
