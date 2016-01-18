@@ -105,15 +105,15 @@
                             <td class="col-md-1">{{ $pid->nomeCidade}} / {{ $pid->uf }}</td>
                             <td class="col-md-1">{{ $pid->email }}</td>
                             <td class="col-md-1 text-center">
-                                @if($pid->ativo)
-                                    <button class="btn btn-sm btn-danger pidAtivo" data-id="{{ $pid->idPid }}"><i id="pidAtivoBtn" class="fa fa-close"></i> Desativar</button>
-                                @else
-                                    <button class="btn btn-sm btn-info pidAtivo" data-id="{{ $pid->idPid }}"><i id="pidAtivoBtn" class="fa fa-check"></i> Ativar</button>
-                                @endif
-                            </td>
-                            <td class="col-md-1 text-center">
                                 <a class="show-modal btn btn-sm btn-primary" title="Exbir PID: {{ $pid->nome }}" href="#" data-id="{{ $pid->idPid }}" data-toggle="modal" data-target="#modalInfo"><i class="glyphicon glyphicon-eye-open"></i></a>
                                 <a class="btn btn sm btn-success" title="Editar PID: {{ $pid->nome }}" href="{{ route('pid.edit', $pid->idPid) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                            </td>
+                            <td class="col-md-1 text-center">
+                                @if($pid->ativo)
+                                    <button class="btn btn-sm btn-danger pidAtivo" title="Desativar PID: {{ $pid->nome }}"  data-id="{{ $pid->idPid }}"><i id="pidAtivoBtn" class="fa fa-close"></i> Desativar</button>
+                                @else
+                                    <button class="btn btn-sm btn-info pidAtivo" title="Ativar PID: {{ $pid->nome }}"  data-id="{{ $pid->idPid }}"><i id="pidAtivoBtn" class="fa fa-check"></i> Ativar</button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

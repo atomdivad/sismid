@@ -132,7 +132,6 @@
     <script src="{{ asset('/assets/js/regioes/neCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/regioes/sCoords.js') }}"></script>
     <script src="{{ asset('/assets/js/regioes/seCoords.js') }}"></script>
-    <script src="{{ asset('/assets/js/infobox.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery.bootgrid.min.js') }}"></script>
     <script src="{{ asset('/assets/js/mapa.js') }}"></script>
 @endsection
