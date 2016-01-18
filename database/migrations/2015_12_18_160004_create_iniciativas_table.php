@@ -19,18 +19,18 @@ class CreateIniciativasTable extends Migration
             $table->foreign('tipo_id')->references('idTipo')->on('iniciativaTipos');
 
             $table->string('nome', 255);
-            $table->string('sigla', 10);
+            $table->string('sigla', 10)->nullable();
 
             $table->unsignedInteger('endereco_id');
             $table->foreign('endereco_id')->references('idEndereco')->on('enderecos');
 
-            $table->unsignedInteger('naturezaJuridica_id');
+            $table->unsignedInteger('naturezaJuridica_id')->nullable();
             $table->foreign('naturezaJuridica_id')->references('idNatureza')->on('naturezasJuridicas');
 
             $table->string('email', 255);
-            $table->string('url', 255);
-            $table->longText('objetivo');
-            $table->longText('informacaoComplementar');
+            $table->string('url', 255)->nullable();;
+            $table->longText('objetivo')->nullable();;
+            $table->longText('informacaoComplementar')->nullable();;
 
             $table->unsignedInteger('categoria_id');
             $table->foreign('categoria_id')->references('idCategoria')->on('iniciativaCategorias');

@@ -43,6 +43,10 @@
                     <li><a href="{{ route('mapa.index') }}">Mapa Inclusão Digital</a></li>
                 </ul>
 
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ route('consulta.index') }}">Consultas</a></li>
+                </ul>
+
                 @if(!Auth::guest())
                     <ul class="nav navbar-nav">
                         @is('admin')

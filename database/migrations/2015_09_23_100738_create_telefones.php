@@ -15,7 +15,7 @@ class CreateTelefones extends Migration
         Schema::create('telefones', function (Blueprint $table) {
             $table->increments('idTelefone');
             $table->string('telefone', 20);
-            $table->string('responsavel', 150);
+            $table->string('responsavel', 150)->nullable();
 
             $table->unsignedInteger('telefoneTipo_id');
             $table->foreign('telefoneTipo_id')

@@ -21,13 +21,13 @@ class CreateInstituicoesTable extends Migration
                 ->references('idEndereco')
                 ->on('enderecos');
 
-            $table->unsignedInteger('naturezaJuridica_id');
+            $table->unsignedInteger('naturezaJuridica_id')->nullable();;
             $table->foreign('naturezaJuridica_id')
                 ->references('idNatureza')
                 ->on('naturezasJuridicas');
 
-            $table->string('email', 150);
-            $table->string('url', 255);
+            $table->string('email', 255);
+            $table->string('url', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

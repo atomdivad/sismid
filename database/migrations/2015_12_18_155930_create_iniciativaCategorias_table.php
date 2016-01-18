@@ -14,7 +14,7 @@ class CreateIniciativaCategoriasTable extends Migration
     {
         Schema::create('iniciativaCategorias', function (Blueprint $table) {
             $table->increments('idCategoria');
-            $table->string('categoria', 50);
+            $table->string('categoria', 150);
         });
     }
 

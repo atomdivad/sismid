@@ -57,4 +57,9 @@ class Usuario extends Model implements AuthenticatableContract,
     {
         return $this->belongsTo('SisMid\Models\Iniciativa');
     }
+
+    public function instituicao()
+    {
+        return $this->hasMany('SisMid\Models\Instituicao');
+    }
 }

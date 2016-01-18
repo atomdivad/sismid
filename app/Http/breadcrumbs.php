@@ -15,6 +15,15 @@ Breadcrumbs::register('mapa', function($breadcrumbs)
     $breadcrumbs->push('Mapa', route('mapa.index'));
 });
 
+/*Consultas*/
+
+//Home > Consulta
+Breadcrumbs::register('consulta', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Consultas', route('consulta.index'));
+});
+
 /*PIDS*/
 
 //Home > PID
@@ -114,6 +123,9 @@ Breadcrumbs::register('instituicaoEdit', function($breadcrumbs)
     $breadcrumbs->parent('instituicao');
     $breadcrumbs->push('Editar Instituição', route('instituicao.edit'));
 });
+
+
+/* Administracao*/
 
 //Home > E-mail
 Breadcrumbs::register('email', function($breadcrumbs)
