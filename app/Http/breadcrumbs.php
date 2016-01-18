@@ -173,3 +173,13 @@ Breadcrumbs::register('gerenciaAdmin', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Gerenciar Administradores do Sismid', route('admin.gerencia.index'));
 });
+Breadcrumbs::register('gerenciaAdminCreate', function($breadcrumbs)
+{
+    $breadcrumbs->parent('gerenciaAdmin');
+    $breadcrumbs->push('Cadastrar', route('admin.gerencia.create'));
+});
+Breadcrumbs::register('gerenciaAdminEdit', function($breadcrumbs)
+{
+    $breadcrumbs->parent('gerenciaAdmin');
+    $breadcrumbs->push('Editar', route('admin.gerencia.edit'));
+});

@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
         Route::get('/gerencia/{id}/edit', ['as' => 'admin.gerencia.edit', 'uses' => 'AdminController@editGerenciaAdmin']);
         Route::get('/gerencia/create', ['as' => 'admin.gerencia.create', 'uses' => 'AdminController@createGerenciaAdmin']);
         Route::post('/gerencia/store', ['as' => 'admin.gerencia.store', 'uses' => 'AdminController@storeGerenciaAdmin']);
-
+        Route::post('/gerencia/{id}/update', ['as' => 'admin.gerencia.update', 'uses' => 'AdminController@updateGerenciaAdmin']);
 
         Route::get('/email', ['as' => 'admin.email.index', 'uses' => 'AdminController@indexEmail']);
         Route::get('/email/{id}/edit', ['as' => 'admin.email.edit', 'uses' => 'AdminController@editEmail']);
