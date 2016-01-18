@@ -90,11 +90,6 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
         });
     });
 
-    Route::group(['prefix' => 'consulta'], function() {
-
-        Route::get('/', ['as' => 'consulta.index', 'uses' => 'ConsultaController@index']);
-        Route::post('/', ['as' => 'consulta.search', 'uses' => 'ConsultaController@search']);
-    });
 });
 
 Route::group(['prefix' => 'mapa'], function() {
@@ -102,6 +97,12 @@ Route::group(['prefix' => 'mapa'], function() {
     Route::get('/', ['as' => 'mapa.index', 'uses' => 'MapaController@index']);
     Route::get('/{id}/show', ['as' => 'mapa.show', 'uses' => 'MapaController@show']);
 
+});
+
+Route::group(['prefix' => 'consulta'], function() {
+
+    Route::get('/', ['as' => 'consulta.index', 'uses' => 'ConsultaController@index']);
+    Route::post('/', ['as' => 'consulta.search', 'uses' => 'ConsultaController@search']);
 });
 
 Route::group(['prefix' => 'api'], function(){
