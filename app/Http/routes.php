@@ -71,7 +71,10 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
         Route::get('/endContato/{id}/editEndereco', ['as' => 'admin.endContato.editEndereco', 'uses' => 'AdminController@editEndContato']);
         Route::post('/endContato/{id}/updateEndereco', ['as' => 'admin.endContato.updateEndereco', 'uses' => 'AdminController@updateEndContato']);
         Route::post('/endContato/{id}/updateTelefone', ['as' => 'admin.endContato.updateTelefone', 'uses' => 'AdminController@updateEndContatoTel']);
-    });
+        Route::get('/infoEquipe/index', ['as' => 'admin.infoEquipe.index', 'uses' => 'AdminController@indexInfoEquipe']);
+        Route::get('/infoEquipe/{id}/editInfoEquipe', ['as' => 'admin.infoEquipe.editInfoEquipe', 'uses' => 'AdminController@editInfoEquipe']);
+        Route::post('/infoEquipe/{id}/updateInfoEquipe', ['as' => 'admin.infoEquipe.updateInfoEquipe', 'uses' => 'AdminController@updateInfoEquipe']);
+       });
 
     Route::group(['prefix' => 'iniciativa'], function() {
 

@@ -9,11 +9,7 @@ use SisMid\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function indexEmail()
     {
         $dados = DB::table('sismid_dados')->select('sismid_dados.*')->where('id', '=', '1')->get();
@@ -25,17 +21,8 @@ class AdminController extends Controller
     {
         $email = DB::table('sismid_dados')->select('id','email')->where('id', '=', $id)->get();
         return view("admin.email.edit",compact('email'));
-        //$ufs = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
-        //return view('iniciativas.index', compact('iniciativas', 'ufs'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function updateEmail(Request $request, $id)
     {
         $this->validate($request,[
@@ -93,19 +80,27 @@ class AdminController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        //
+    public function indexInfoEquipe(){
+        $dados = DB::table('sismid_dados')->select('sismid_dados.*')->where('id', '=', '1')->get();
+        //dd($dados);
+        return view("admin.infoEquipe.index", compact('dados'));
     }
 
-    public function store(Request $request)
-    {
-        //
+    public function editInfoEquipe($id){
+        $dados = DB::table('sismid_dados')->select('id','info_equipe')->where('id', '=', $id)->get();
+        return view("admin.infoEquipe.editInfoEquipe",compact('dados'));
     }
 
-    public function show($id)
-    {
-        //
+    public function updateInfoEquipe(Request $request, $id){
+        $this->validate($request,[
+            "info_equipe"=>"required|min:8"
+        ]);
+        DB::table('sismid_dados')->where('id', '=', $id)->update(['info_equipe'=> $request['info_equipe'],
+            'info_equipe'=> $request['info_equipe']]);
+        return redirect(route("admin.infoEquipe.index"))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Informações atualizadas com sucesso'
+        ]);
     }
 
     public function destroy($id)

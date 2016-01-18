@@ -68,7 +68,7 @@
                                 <li><a href="#">Gerenciar Administradores</a></li>
                                 <li><a href="{{ route('admin.email.index') }}">Gerenciar Email</a></li>
                                 <li><a href="{{ route('admin.endContato.index') }}">Gerenciar Endereço/Telefone</a></li>
-                                <li><a href="#">Informações da equipe</a></li>
+                                <li><a href="{{ route('admin.infoEquipe.index') }}">Informações da equipe</a></li>
                             </ul>
                         </li>
                         @endis
