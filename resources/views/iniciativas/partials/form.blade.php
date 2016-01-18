@@ -240,7 +240,7 @@
     </div>
 </div>
 {{-- Fim Telefones --}}
-@{{ iniciativa.dimensoes | json }}
+
 {{-- Dimensoes --}}
 <div class="form-group">
     <div class="panel panel-default">
@@ -259,7 +259,6 @@
 {{-- Fim Dimensoes --}}
 
 {{-- Servicos --}}
-@{{ iniciativa.servicos | json }}
 <div class="form-group">
     <div class="panel panel-default">
         <div class="panel-heading"><i class="glyphicon glyphicon-list"></i> Servicos</div>

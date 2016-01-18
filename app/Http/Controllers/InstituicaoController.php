@@ -3,12 +3,14 @@
 namespace SisMid\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use SisMid\Models\Endereco;
 use SisMid\Models\Instituicao;
 use SisMid\Models\Telefone;
+use Artesaos\Defender\Facades\Defender;
 
 
 class InstituicaoController extends Controller
@@ -24,70 +26,41 @@ class InstituicaoController extends Controller
             if ($request['uf'] != 0) {
                 if($request['cidade_id']) {
                     //nome + cidade
-                    $instituicoes = DB::table('instituicoes')
-                        ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
-                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                        ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
-                        ->where('instituicoes.nome', 'like', "%$request[nome]%")
-                        ->where('cidades.idCidade', '=', $request['cidade_id'])
-                        ->get();
+                    $instituicoes = $this->getDadosByCidade($request['cidade_id'], $request['nome']);
                 }
                 else {
                     //nome + uf
-                    $instituicoes = DB::table('instituicoes')
-                        ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
-                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                        ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
-                        ->where('instituicoes.nome', 'like', "%$request[nome]%")
-                        ->where('uf.idUf', '=', $request['uf'])
-                        ->get();
+                    $instituicoes = $this->getDadosByUf($request['uf'], $request['nome']);
                 }
             }
             else {
                 //nome
-                $instituicoes = DB::table('instituicoes')
-                    ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
-                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                    ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
-                    ->where('instituicoes.nome', 'like', "%$request[nome]%")
-                    ->get();
+                $instituicoes = $this->getDados($request['nome']);
             }
         }
         else {
             if ($request['uf'] != 0) {
                 if($request['cidade_id']) {
                     // cidade
-                    $instituicoes = DB::table('instituicoes')
-                        ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
-                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                        ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
-                        ->where('cidades.idCidade', '=', $request['cidade_id'])
-                        ->get();
+                    $instituicoes = $this->getDadosByCidade($request['cidade_id']);
                 }
                 else {
                     //uf
-                    $instituicoes = DB::table('instituicoes')
-                        ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
-                        ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                        ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                        ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
-                        ->where('uf.idUf', '=', $request['uf'])
-                        ->get();
+                    $instituicoes = $this->getDadosByUf($request['uf'], $request['nome']);
                 }
             }
             else {
-                //tddos
-                $instituicoes = DB::table('instituicoes')
-                    ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
-                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                    ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
-                    ->get();
+                //todos
+                $instituicoes = $this->getDados();
+
             }
+        }
+
+        if(Defender::hasRole('gestor')) {
+            $instituicoes = $instituicoes->where('usuario_id', '=', Auth::user()->idUsuario)->get();
+        }
+        else {
+            $instituicoes = $instituicoes->get();
         }
 
         $ufs = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
@@ -131,7 +104,15 @@ class InstituicaoController extends Controller
         ]);
 
         $endereco = Endereco::create($request['endereco']);
-        $instituicao = $endereco->instituicao()->create($request->all());
+
+        if(Defender::hasRole('gestor')) {
+            $request['usuario_id'] = Auth::user()->idUsuario;
+            $instituicao = $endereco->instituicao()->create($request->all());
+        }
+        else {
+            $request['usuario_id'] = null;
+            $instituicao = $endereco->instituicao()->create($request->all());
+        }
 
         foreach($request['telefones'] as $telefone) {
             $instituicao->telefones()->create($telefone);
@@ -183,6 +164,13 @@ class InstituicaoController extends Controller
      */
     public function edit($id)
     {
+        if(Defender::hasRole('gestor')) {
+            $instituicao = Instituicao::findOrFail($id);
+            if($instituicao->usuario_id != Auth::user()->idUsuario) {
+                abort(401, 'Unauthorized action.');
+            }
+        }
+
         $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
         $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
@@ -245,5 +233,84 @@ class InstituicaoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param $cidade_id
+     * @param null $nome
+     * @return mixed
+     */
+    private function getDadosByCidade($cidade_id, $nome = null)
+    {
+        if($nome != null) {
+            $instituicoes = DB::table('instituicoes')
+                ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
+                ->where('instituicoes.nome', 'like', "%$nome%")
+                ->where('cidades.idCidade', '=', $cidade_id);
+        }
+        else {
+            $instituicoes = DB::table('instituicoes')
+                ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
+                ->where('cidades.idCidade', '=', $cidade_id);
+        }
+        return $instituicoes;
+    }
+
+    /**
+     * @param $uf
+     * @param null $nome
+     * @return mixed
+     */
+    private function getDadosByUf($uf, $nome = null)
+    {
+        if($nome != null) {
+            $instituicoes = DB::table('instituicoes')
+                ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
+                ->where('instituicoes.nome', 'like', "%$nome%")
+                ->where('uf.idUf', '=', $uf);
+        }
+        else {
+            $instituicoes = DB::table('instituicoes')
+                ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
+                ->where('uf.idUf', '=', $uf);
+        }
+
+        return $instituicoes;
+    }
+
+    /**
+     * @param null $nome
+     * @return mixed
+     */
+    private function getDados($nome = null)
+    {
+        if($nome != null) {
+            $instituicoes = DB::table('instituicoes')
+                ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf')
+                ->where('instituicoes.nome', 'like', "%$nome%");
+        }
+        else {
+            $instituicoes = DB::table('instituicoes')
+                ->join('enderecos', 'instituicoes.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('instituicoes.*', 'cidades.nomeCidade', 'uf.uf');
+        }
+        return $instituicoes;
     }
 }

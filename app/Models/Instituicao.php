@@ -18,7 +18,8 @@ class Instituicao extends Model
         'endereco_id',
         'naturezaJuridica_id',
         'email',
-        'url'
+        'url',
+        'usuario_id'
     ];
 
     protected $guarded = [
@@ -52,5 +53,10 @@ class Instituicao extends Model
     {
         return $this->belongsToMany('SisMid\Models\Iniciativa', 'iniciativa_instituicoes', 'iniciativa_id', 'instituicao_id')
             ->withPivot('tipoVinculo');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo('SisMid\Models\Usuario');
     }
 }
