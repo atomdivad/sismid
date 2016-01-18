@@ -55,17 +55,17 @@ class CreateEnderecosTable extends Migration
          */
         Schema::create('enderecos', function (Blueprint $table) {
             $table->increments('idEndereco');
-            $table->string('cep', 25);
-            $table->string('logradouro', 150);
+            $table->string('cep', 25)->nullable();
+            $table->string('logradouro', 255)->nullable();
             $table->string('numero', 25)->nullable();
-            $table->string('complemento', 200)->nullable();
-            $table->string('bairro', 150);
-            $table->string('latitude', 50);
-            $table->string('longitude', 50);
+            $table->string('complemento', 255)->nullable();
+            $table->string('bairro', 255);
+            $table->string('latitude', 50)->nullable();
+            $table->string('longitude', 50)->nullable();
 
             $table->unsignedInteger('cidade_id');
-            $table->unsignedInteger('localizacao_id');
-            $table->unsignedInteger('localidade_id');
+            $table->unsignedInteger('localizacao_id')->nullable();
+            $table->unsignedInteger('localidade_id')->nullable();
 
             $table->foreign('cidade_id')
                 ->references('idCidade')

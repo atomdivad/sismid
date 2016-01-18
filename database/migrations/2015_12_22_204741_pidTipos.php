@@ -14,7 +14,7 @@ class PidTipos extends Migration
     {
         Schema::create('pidTipos', function (Blueprint $table) {
             $table->increments('idTipo');
-            $table->string('tipo', 50);
+            $table->string('tipo', 150);
         });
     }
 

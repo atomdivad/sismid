@@ -14,9 +14,9 @@ class CreatePidsTable extends Migration
     {
         Schema::create('pids', function (Blueprint $table) {
             $table->increments('idPid');
-            $table->string('nome', 200);
-            $table->string('email', 200);
-            $table->string('url', 200)->nullable();
+            $table->string('nome', 255);
+            $table->string('email', 255);
+            $table->string('url', 255)->nullable();
 
             $table->unsignedInteger('tipo_id')->nullable();
             $table->foreign('tipo_id')

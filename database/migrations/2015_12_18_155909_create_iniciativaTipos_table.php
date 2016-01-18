@@ -14,7 +14,7 @@ class CreateIniciativaTiposTable extends Migration
     {
         Schema::create('iniciativaTipos', function (Blueprint $table) {
             $table->increments('idTipo');
-            $table->string('tipo', 50);
+            $table->string('tipo', 150);
         });
     }
 
