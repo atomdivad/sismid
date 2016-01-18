@@ -30,7 +30,7 @@
                         </td>
                         <td class="text-center" >
 
-                            <a class="btn btn sm btn-success" title="Editar Endereço" href="{{ route('admin.infoEquipe.editInfoEquipe',$dados[0]->id) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a class="btn btn sm btn-success" title="Editar Informações" href="{{ route('admin.infoEquipe.editInfoEquipe',$dados[0]->id) }}"><i class="glyphicon glyphicon-edit"></i></a>
                         </td>
 
                     </tr>
