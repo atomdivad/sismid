@@ -131,7 +131,7 @@ Breadcrumbs::register('instituicaoEdit', function($breadcrumbs)
 Breadcrumbs::register('email', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Gerenciar e-mail', route('admin.email.index'));
+    $breadcrumbs->push('Gerenciar E-mail', route('admin.email.index'));
 });
 //Home -> E-mail -> Edit
 Breadcrumbs::register('emailEdit', function($breadcrumbs)
@@ -143,7 +143,7 @@ Breadcrumbs::register('emailEdit', function($breadcrumbs)
 Breadcrumbs::register('endContato', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Gerenciar Endereço/Telefone', route('admin.endContato.index'));
+    $breadcrumbs->push('Gerenciar Endereço e Telefone', route('admin.endContato.index'));
 });
 //Home -> E-mail -> Edit
 Breadcrumbs::register('endContatoEdit', function($breadcrumbs)
@@ -156,4 +156,30 @@ Breadcrumbs::register('endContatoEditTelefone', function($breadcrumbs)
 {
     $breadcrumbs->parent('endContato');
     $breadcrumbs->push('Editar Telefone', route('admin.endContato.editTelefone'));
+});
+Breadcrumbs::register('infoEquipe', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Gerenciar Informações da Equipe', route('admin.infoEquipe.index'));
+});
+//Home -> E-mail -> Edit
+Breadcrumbs::register('editInfoEquipe', function($breadcrumbs)
+{
+    $breadcrumbs->parent('infoEquipe');
+    $breadcrumbs->push('Editar Informações', route('admin.infoEquipe.editInfoEquipe'));
+});
+Breadcrumbs::register('gerenciaAdmin', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Gerenciar Administradores do Sismid', route('admin.gerencia.index'));
+});
+Breadcrumbs::register('gerenciaAdminCreate', function($breadcrumbs)
+{
+    $breadcrumbs->parent('gerenciaAdmin');
+    $breadcrumbs->push('Cadastrar', route('admin.gerencia.create'));
+});
+Breadcrumbs::register('gerenciaAdminEdit', function($breadcrumbs)
+{
+    $breadcrumbs->parent('gerenciaAdmin');
+    $breadcrumbs->push('Editar', route('admin.gerencia.edit'));
 });

@@ -25,5 +25,11 @@ class UserRolesSeeder extends Seeder
         DB::table('roles')->insert(['id' => 2, 'name' => 'gestor','created_at' => $today, 'updated_at' => $today]);
 
         DB::table('role_user')->insert(['role_id' => 1, 'user_id' => 1]);
+//        \SisMid\Models\Usuario::create([
+//            'nome' => 'teste',
+//            'sobrenome' => 'teste',
+//            'email' => 'teste@mapinguari.com.br',
+//            'password' => bcrypt('teste')
+//        ]);
     }
 }
