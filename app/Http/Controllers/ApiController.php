@@ -250,6 +250,7 @@ class ApiController extends Controller
                             ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                             ->where('cidades.idCidade', '=', $cidade)
+                            ->where('pids.ativo', '=', 1)
                             ->union($iniciativas)
                             ->get();
                     }
@@ -286,6 +287,7 @@ class ApiController extends Controller
                             ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                             ->where('uf.idUf', '=', $uf)
+                            ->where('pids.ativo', '=', 1)
                             ->groupby('uf.uf')
                             ->union($iniciativas)
                             ->get();
@@ -322,6 +324,7 @@ class ApiController extends Controller
                         ->select('uf.uf', 'uf.idUf', DB::raw('COUNT( uf.uf ) as total'))
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                        ->where('pids.ativo', '=', 1)
                         ->groupby('uf.uf')
                         ->union($iniciativas)
                         ->get();
@@ -364,6 +367,7 @@ class ApiController extends Controller
                             ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                             ->where('cidades.idCidade', '=', $cidade)
+                            ->where('pids.ativo', '=', 1)
                             ->union($iniciativas)
                             ->get();
                     }
@@ -400,6 +404,7 @@ class ApiController extends Controller
                             ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                             ->where('uf.idUf', '=', $uf)
+                            ->where('pids.ativo', '=', 1)
                             ->groupby('uf.uf')
                             ->union($iniciativas)
                             ->get();
@@ -437,6 +442,7 @@ class ApiController extends Controller
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->whereIn('idUf', [11, 12, 13, 14, 15, 16, 17])
+                        ->where('pids.ativo', '=', 1)
                         ->union($norteIniciativas)
                         ->get();
                 }
@@ -470,6 +476,7 @@ class ApiController extends Controller
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->whereIn('idUf', [21, 22, 23, 24, 25, 26, 27, 28, 29])
+                        ->where('pids.ativo', '=', 1)
                         ->union($nordesteIniciativas)
                         ->get();
                 }
@@ -503,6 +510,7 @@ class ApiController extends Controller
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->whereIn('idUf', [31, 32, 33, 35])
+                        ->where('pids.ativo', '=', 1)
                         ->union($suldesteIniciativas)
                         ->get();
                 }
@@ -536,6 +544,7 @@ class ApiController extends Controller
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->whereIn('idUf', [41, 42, 43])
+                        ->where('pids.ativo', '=', 1)
                         ->union($sulIniciativas)
                         ->get();
                 }
@@ -569,6 +578,7 @@ class ApiController extends Controller
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->whereIn('idUf', [50, 51, 52, 53])
+                        ->where('pids.ativo', '=', 1)
                         ->union($centroesteIniciativas)
                         ->get();
                 }
@@ -611,6 +621,7 @@ class ApiController extends Controller
                             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                             ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                             ->where('cidades.idCidade', '=', $cidade)
+                            ->where('pids.ativo', '=', 1)
                             ->get();
                     }
                 }
@@ -633,6 +644,7 @@ class ApiController extends Controller
                             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                             ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                             ->where('cidades.uf_id', '=', $uf)
+                            ->where('pids.ativo', '=', 1)
                             ->orderBy('cidades.nomeCidade', 'asc')
                             ->get();
                     }
@@ -656,6 +668,7 @@ class ApiController extends Controller
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
                         ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                        ->where('pids.ativo', '=', 1)
                         ->orderBy('uf.uf', 'asc')
                         ->get();
                 }

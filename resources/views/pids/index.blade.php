@@ -69,14 +69,14 @@
         <div class="form-group">
             <div class="row"><div class="col-sm-6"><label for="ativo">Buscar</label></div></div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <select name="ativo" id="ativo" class="form-control">
                         <option {{ (Input::get('ativo') == 1)? 'selected' : '' }} value="1">Ativos</option>
                         <option {{ (Input::get('ativo') == 2)? 'selected' : '' }} value="2">Desativados</option>
                         <option {{ (Input::get('ativo') == 3)? 'selected' : '' }} value="3">Todos</option>
                     </select>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <button class="btn btn-md btn-block btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
                 </div>
                 <div class="col-sm-4 text-right">
