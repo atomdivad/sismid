@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use SisMid\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use SisMid\Http\Controllers\Controller;
-
+use SisMid\Models\Usuario;
+use Artesaos\Defender\Facades\Defender;
 class AdminController extends Controller
 {
 
@@ -103,6 +104,60 @@ class AdminController extends Controller
         ]);
     }
 
+    public function indexGerenciaAdmin(Request $request)
+    {
+        if(strlen($request['nome']) >  0) {
+            $gestores = DB::table('usuarios')
+                ->join('role_user', 'role_user.user_id', '=', 'usuarios.idUsuario')
+                ->select('usuarios.idUsuario','usuarios.nome', 'usuarios.sobrenome', 'usuarios.email')
+                ->where('role_user.role_id', '=', 1)
+                ->where('usuarios.idUsuario','!=' , 1)
+                ->where('usuarios.nome', 'like', "%$request[nome]%")
+                ->paginate(10);
+            return view("admin.gerencia.index", compact('gestores'));
+        }else{
+            $gestores = DB::table('usuarios')
+                ->join('role_user', 'role_user.user_id', '=', 'usuarios.idUsuario')
+                ->select('usuarios.idUsuario','usuarios.nome', 'usuarios.sobrenome', 'usuarios.email')
+                ->where('role_user.role_id', '=', 1)
+                ->where('usuarios.idUsuario','!=' , 1)
+                ->paginate(10);
+            return view("admin.gerencia.index", compact('gestores'));
+        }
+
+
+    }
+    public function createGerenciaAdmin(){
+
+    return view("admin.gerencia.create");
+
+}
+    public function storeGerenciaAdmin(Request $request){
+        $this->validate($request,[
+            'nome' => 'required|max:255',
+            'sobrenome' => 'required|max:255',
+            'email' => 'required|email|max:255'
+        ]);
+
+        $user = Usuario::create([
+            'nome' => $request['nome'],
+            'sobrenome' => $request['sobrenome'],
+            'email' => $request['email'],
+            'password' => bcrypt('admin') //mudar
+        ]);
+
+        $role = Defender::findRole('admin');
+        $user->attachRole($role);
+
+        //return view("admin.gerencia.index");
+        return redirect(route("admin.gerencia.index"))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Administrador cadastrado com sucesso'
+        ]);
+    }
+    public function editGerenciaAdmin($id){
+        return $id;
+    }
     public function destroy($id)
     {
         //

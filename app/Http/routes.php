@@ -61,6 +61,11 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
 Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(){
 
     Route::group(['prefix' => 'admin'], function() {
+        Route::get('/gerencia/index', ['as' => 'admin.gerencia.index', 'uses' => 'AdminController@indexGerenciaAdmin']);
+        Route::get('/gerencia/{id}/edit', ['as' => 'admin.gerencia.edit', 'uses' => 'AdminController@editGerenciaAdmin']);
+        Route::get('/gerencia/create', ['as' => 'admin.gerencia.create', 'uses' => 'AdminController@createGerenciaAdmin']);
+        Route::post('/gerencia/store', ['as' => 'admin.gerencia.store', 'uses' => 'AdminController@storeGerenciaAdmin']);
+
 
         Route::get('/email/index', ['as' => 'admin.email.index', 'uses' => 'AdminController@indexEmail']);
         Route::get('/email/{id}/edit', ['as' => 'admin.email.edit', 'uses' => 'AdminController@editEmail']);
@@ -71,10 +76,12 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
         Route::get('/endContato/{id}/editEndereco', ['as' => 'admin.endContato.editEndereco', 'uses' => 'AdminController@editEndContato']);
         Route::post('/endContato/{id}/updateEndereco', ['as' => 'admin.endContato.updateEndereco', 'uses' => 'AdminController@updateEndContato']);
         Route::post('/endContato/{id}/updateTelefone', ['as' => 'admin.endContato.updateTelefone', 'uses' => 'AdminController@updateEndContatoTel']);
+
         Route::get('/infoEquipe/index', ['as' => 'admin.infoEquipe.index', 'uses' => 'AdminController@indexInfoEquipe']);
         Route::get('/infoEquipe/{id}/editInfoEquipe', ['as' => 'admin.infoEquipe.editInfoEquipe', 'uses' => 'AdminController@editInfoEquipe']);
         Route::post('/infoEquipe/{id}/updateInfoEquipe', ['as' => 'admin.infoEquipe.updateInfoEquipe', 'uses' => 'AdminController@updateInfoEquipe']);
-       });
+
+    });
 
     Route::group(['prefix' => 'iniciativa'], function() {
 

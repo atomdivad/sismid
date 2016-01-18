@@ -156,3 +156,8 @@ Breadcrumbs::register('editInfoEquipe', function($breadcrumbs)
     $breadcrumbs->parent('infoEquipe');
     $breadcrumbs->push('Editar Informações', route('admin.infoEquipe.editInfoEquipe'));
 });
+Breadcrumbs::register('gerenciaAdmin', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Gerenciar Administradores do Sismid', route('admin.gerencia.index'));
+});
