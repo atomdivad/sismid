@@ -92,7 +92,8 @@ class IniciativaGestorController extends Controller
             'iniciativa_id' => 'required|exists:iniciativas,idIniciativa',
         ]);
 
-        $request['password'] =  bcrypt(str_random(10));
+        //$request['password'] =  bcrypt(str_random(10));
+        $request['password'] =  bcrypt('senha123');
         $usuario = Usuario::create($request->all());
 
         /*Role 2 => Usuario Gestor*/

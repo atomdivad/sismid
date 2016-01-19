@@ -75,6 +75,11 @@
             </table>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {!! $instituicoes->render() !!}
+        </div>
+    </div>
 
     @include('instituicoes.partials.modal_show')
 @endsection

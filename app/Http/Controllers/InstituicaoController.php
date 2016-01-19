@@ -57,10 +57,10 @@ class InstituicaoController extends Controller
         }
 
         if(Defender::hasRole('gestor')) {
-            $instituicoes = $instituicoes->where('usuario_id', '=', Auth::user()->idUsuario)->get();
+            $instituicoes = $instituicoes->where('usuario_id', '=', Auth::user()->idUsuario)->paginate(10);
         }
         else {
-            $instituicoes = $instituicoes->get();
+            $instituicoes = $instituicoes->paginate(10);
         }
 
         $ufs = DB::table('uf')->orderBy('uf')->lists('uf','idUf');

@@ -19,9 +19,9 @@
                         <br/>
                         <div class="row">
                             <div class="col-sm-6">
-                                <p v-show="info.tipo.length > 0 "><strong>Natureza Jurídica:</strong> @{{ info.naturezaJuridica | uppercase }}</p>
+                                <p v-show="info.naturezaJuridica.length > 0 "><strong>Natureza Jurídica:</strong> @{{ info.naturezaJuridica | uppercase }}</p>
                                 <p v-show="info.url.length > 0 "><i class="glyphicon glyphicon-link"></i> <a href="@{{ info.url }}">@{{ info.url }}</a></p>
-                                <p v-show="info.email != ''"><i class="glyphicon glyphicon-envelope"></i> <a href="mailto:@{{ info.email }}">@{{ info.email }}</a></p>
+                                <p v-show="info.email.length > 0"><i class="glyphicon glyphicon-envelope"></i> <a href="mailto:@{{ info.email }}">@{{ info.email }}</a></p>
                             </div>
 
                             <div class="col-sm-6">
