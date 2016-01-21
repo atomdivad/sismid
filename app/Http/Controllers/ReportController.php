@@ -455,7 +455,65 @@ class ReportController extends Controller
     /**
      * @return mixed
      */
-    public function reportPidInstituicao()
+    public function reportPidInstituicao(Request $request = null)
+    {
+        if($request != null) {
+            switch($request['type']) {
+                case 'geral':
+                    return $this->reportPidInstituicaoGeral()->toJson();
+                    break;
+
+                case 'regiao':
+                    switch($request['regiao']) {
+                        case 1:
+                            return $this->reportPidInstituicaoByUf([50, 51, 52, 53])->toJson();
+                            break;
+
+                        case 2:
+                            return $this->reportPidInstituicaoByUf([11, 12, 13, 14, 15, 16, 17])->toJson();
+                            break;
+
+                        case 3:
+                            return $this->reportPidInstituicaoByUf([21, 22, 23, 24, 25, 26, 27, 28, 29])->toJson();
+                            break;
+
+                        case 4:
+                            return $this->reportPidInstituicaoByUf([41, 42, 43])->toJson();
+                            break;
+
+                        case 5:
+                            return $this->reportPidInstituicaoByUf([31, 32, 33, 35])->toJson();
+                            break;
+                    }
+                    break;
+
+                case 'estado':
+                    if($request['cidade'] != '') {
+                        return $this->reportPidInstituicaoByCidade($request['cidade'])->toJson();
+                    }
+                    else {
+                        return $this->reportPidInstituicaoByUf([$request['uf']])->toJson();
+                    }
+                    break;
+            }
+        }
+        else {
+            $dados = $this->reportPidInstituicaoGeral();
+            $graph = \Lava::ColumnChart('PidInstituicao')
+                ->setOptions([
+                    'datatable' => $dados,
+                    'legend' => \Lava::Legend([
+                        'position' => 'top'
+                    ])
+                ]);
+            return $graph;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function reportPidInstituicaoGeral()
     {
         $dados = \Lava::DataTable();
         $dados->addStringColumn('Instituição')
@@ -466,23 +524,129 @@ class ReportController extends Controller
 
         $dados->addRow(['C/ Instituições', $ci]);
         $dados->addRow(['S/ Instituições', $si]);
+        return $dados;
+    }
 
-        $graph = \Lava::ColumnChart('PidInstituicao')
-            ->setOptions([
-                'datatable' => $dados,
-                'legend' => \Lava::Legend([
-                    'position' => 'top'
-                ])
-            ]);
+    /**
+     * @param $uf
+     * @return mixed
+     */
+    private function reportPidInstituicaoByUf($uf)
+    {
+        $com = DB::table('pids')
+            ->join('enderecos', 'enderecos.idEndereco', '=', 'pids.endereco_id')
+            ->join('cidades','enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->whereIn('cidades.uf_id', $uf)
+            ->whereRaw('pids.idPid IN (SELECT pid_id FROM pid_instituicoes)')
+            ->get();
 
-        return $graph;
+
+        $sem = DB::table('pids')
+            ->join('enderecos', 'enderecos.idEndereco', '=', 'pids.endereco_id')
+            ->join('cidades','enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->whereIn('cidades.uf_id', $uf)
+            ->whereRaw('pids.idPid NOT IN (SELECT pid_id FROM pid_instituicoes)')
+            ->get();
+
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Instituição')
+            ->addNumberColumn('Total');
+
+        $dados->addRow(['C/ Instituições', count($com)]);
+        $dados->addRow(['S/ Instituições', count($sem)]);
+        return $dados;
+    }
+
+    /**
+     * @param $cidade
+     * @return mixed
+     */
+    private function reportPidInstituicaoByCidade($cidade)
+    {
+        $com = DB::table('pids')
+            ->join('enderecos', 'enderecos.idEndereco', '=', 'pids.endereco_id')
+            ->where('enderecos.cidade_id', $cidade)
+            ->whereRaw('pids.idPid IN (SELECT pid_id FROM pid_instituicoes)')
+            ->get();
+
+
+        $sem = DB::table('pids')
+            ->join('enderecos', 'enderecos.idEndereco', '=', 'pids.endereco_id')
+            ->where('enderecos.cidade_id', $cidade)
+            ->whereRaw('pids.idPid NOT IN (SELECT pid_id FROM pid_instituicoes)')
+            ->get();
+
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Instituição')
+            ->addNumberColumn('Total');
+
+        $dados->addRow(['C/ Instituições', count($com)]);
+        $dados->addRow(['S/ Instituições', count($sem)]);
+        return $dados;
     }
 
 /*---------------------------------------------------------------------------------------------------------------------*/
     /**
      * @return mixed
      */
-    public function reportPidLocalizacao()
+    public function reportPidLocalizacao(Request $request = null)
+    {
+        if($request != null) {
+            switch($request['type']) {
+                case 'geral':
+                    return $this->reportPidLocalizacaoGeral()->toJson();
+                    break;
+
+                case 'regiao':
+                    switch($request['regiao']) {
+                        case 1:
+                            return $this->reportPidLocalizacaoByUf([50, 51, 52, 53])->toJson();
+                            break;
+
+                        case 2:
+                            return $this->reportPidLocalizacaoByUf([11, 12, 13, 14, 15, 16, 17])->toJson();
+                            break;
+
+                        case 3:
+                            return $this->reportPidLocalizacaoByUf([21, 22, 23, 24, 25, 26, 27, 28, 29])->toJson();
+                            break;
+
+                        case 4:
+                            return $this->reportPidLocalizacaoByUf([41, 42, 43])->toJson();
+                            break;
+
+                        case 5:
+                            return $this->reportPidLocalizacaoByUf([31, 32, 33, 35])->toJson();
+                            break;
+                    }
+                    break;
+
+                case 'estado':
+                    if($request['cidade'] != '') {
+                        return $this->reportPidLocalizacaoByCidade($request['cidade'])->toJson();
+                    }
+                    else {
+                        return $this->reportPidLocalizacaoByUf([$request['uf']])->toJson();
+                    }
+                    break;
+            }
+        }
+        else {
+            $dados = $this->reportPidLocalizacaoGeral();
+            $graph = \Lava::PieChart('PidLocalizcao')
+                ->setOptions([
+                    'datatable' => $dados,
+                    'is3D' => true
+                ]);
+
+            return $graph;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function reportPidLocalizacaoGeral()
     {
         $dados = \Lava::DataTable();
         $dados->addStringColumn('Localização')
@@ -503,23 +667,137 @@ class ReportController extends Controller
             ->count();
         if($qt > 0)
             $dados->addRow(["Não Informado", $qt]);
+        return $dados;
+    }
 
-        $graph = \Lava::PieChart('PidLocalizcao')
-            ->setOptions([
-                'datatable' => $dados,
-                'is3D' => true,
-                'slices' => [
-                    \Lava::Slice(['offset' => 0.2])
-                ]
-            ]);
+    /**
+     * @param $uf
+     * @return mixed
+     */
+    private function reportPidLocalizacaoByUf($uf)
+    {
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Localização')
+            ->addNumberColumn('Qtd');
 
-        return $graph;
+        $localizacoes = DB::table('localizacoes')->get();
+        foreach($localizacoes as $lc) {
+            $qt = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=','enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->whereIn('cidades.uf_id', $uf)
+                ->where('enderecos.localizacao_id', $lc->idLocalizacao)
+                ->count();
+
+            $dados->addRow([$lc->localizacao, $qt]);
+        }
+        $qt = DB::table('pids')
+            ->join('enderecos', 'pids.endereco_id', '=','enderecos.idEndereco')
+            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->whereIn('cidades.uf_id', $uf)
+            ->where('enderecos.localizacao_id', null)
+            ->count();
+        if($qt > 0)
+            $dados->addRow(["Não Informado", $qt]);
+        return $dados;
+    }
+
+    /**
+     * @param $cidade
+     * @return mixed
+     */
+    private function reportPidLocalizacaoByCidade($cidade)
+    {
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Localização')
+            ->addNumberColumn('Qtd');
+
+        $localizacoes = DB::table('localizacoes')->get();
+        foreach($localizacoes as $lc) {
+            $qt = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=','enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->where('cidades.idCidade', $cidade)
+                ->where('enderecos.localizacao_id', $lc->idLocalizacao)
+                ->count();
+
+            $dados->addRow([$lc->localizacao, $qt]);
+        }
+        $qt = DB::table('pids')
+            ->join('enderecos', 'pids.endereco_id', '=','enderecos.idEndereco')
+            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->where('cidades.idCidade', $cidade)
+            ->where('enderecos.localizacao_id', null)
+            ->count();
+        if($qt > 0)
+            $dados->addRow(["Não Informado", $qt]);
+        return $dados;
     }
 /*---------------------------------------------------------------------------------------------------------------------*/
     /**
      * @return mixed
      */
-    public function reportPidLocalidade()
+    public function reportPidLocalidade(Request $request = null)
+    {
+        if($request != null) {
+            switch($request['type']) {
+                case 'geral':
+                    return $this->reportPidLocalidadeGeral()->toJson();
+                    break;
+
+                case 'regiao':
+                    switch($request['regiao']) {
+                        case 1:
+                            return $this->reportPidLocalidadeByUf([50, 51, 52, 53])->toJson();
+                            break;
+
+                        case 2:
+                            return $this->reportPidLocalidadeByUf([11, 12, 13, 14, 15, 16, 17])->toJson();
+                            break;
+
+                        case 3:
+                            return $this->reportPidLocalidadeByUf([21, 22, 23, 24, 25, 26, 27, 28, 29])->toJson();
+                            break;
+
+                        case 4:
+                            return $this->reportPidLocalidadeByUf([41, 42, 43])->toJson();
+                            break;
+
+                        case 5:
+                            return $this->reportPidLocalidadeByUf([31, 32, 33, 35])->toJson();
+                            break;
+                    }
+                    break;
+
+                case 'estado':
+                    if($request['cidade'] != '') {
+                        return $this->reportPidLocalidadeByCidade($request['cidade'])->toJson();
+                    }
+                    else {
+                        return $this->reportPidLocalidadeByUf([$request['uf']])->toJson();
+                    }
+                    break;
+            }
+        }
+        else {
+            $dados = $this->reportPidLocalidadeGeral();
+            $graph = \Lava::PieChart('PidLocalidade')
+                ->setOptions([
+                    'datatable' => $dados,
+                    'is3D' => true,
+                    'slices' => [
+                        \Lava::Slice(['offset' => 0.2])
+                    ]
+                ]);
+
+            return $graph;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function reportPidLocalidadeGeral()
     {
         $dados = \Lava::DataTable();
         $dados->addStringColumn('Localidade')
@@ -540,17 +818,71 @@ class ReportController extends Controller
             ->count();
         if($qt > 0)
             $dados->addRow(["Não Informado", $qt]);
+        return $dados;
+    }
 
-        $graph = \Lava::PieChart('PidLocalidade')
-            ->setOptions([
-                'datatable' => $dados,
-                'is3D' => true,
-                'slices' => [
-                    \Lava::Slice(['offset' => 0.2])
-                ]
-            ]);
+    /**
+     * @param $uf
+     * @return mixed
+     */
+    private function reportPidLocalidadeByUf($uf)
+    {
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Localidade')
+            ->addNumberColumn('Qtd');
 
-        return $graph;
+        $localizacoes = DB::table('localidades')->get();
+        foreach($localizacoes as $lc) {
+            $qt = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=','enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->whereIn('cidades.uf_id', $uf)
+                ->where('enderecos.localidade_id', $lc->idLocalidade)
+                ->count();
+
+            $dados->addRow([$lc->localidade, $qt]);
+        }
+        $qt = DB::table('pids')
+            ->join('enderecos', 'pids.endereco_id', '=','enderecos.idEndereco')
+            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->whereIn('cidades.uf_id', $uf)
+            ->where('enderecos.localidade_id', null)
+            ->count();
+        if($qt > 0)
+            $dados->addRow(["Não Informado", $qt]);
+        return $dados;
+    }
+
+    /**
+     * @param $cidade
+     * @return mixed
+     */
+    private function reportPidLocalidadeByCidade($cidade)
+    {
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Localidade')
+            ->addNumberColumn('Qtd');
+
+        $localizacoes = DB::table('localidades')->get();
+        foreach($localizacoes as $lc) {
+            $qt = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=','enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->where('cidades.idCidade', $cidade)
+                ->where('enderecos.localidade_id', $lc->idLocalidade)
+                ->count();
+
+            $dados->addRow([$lc->localidade, $qt]);
+        }
+        $qt = DB::table('pids')
+            ->join('enderecos', 'pids.endereco_id', '=','enderecos.idEndereco')
+            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->where('cidades.idCidade', $cidade)
+            ->where('enderecos.localidade_id', null)
+            ->count();
+        if($qt > 0)
+            $dados->addRow(["Não Informado", $qt]);
+        return $dados;
     }
 
 /*---------------------------------------------------------------------------------------------------------------------*/
