@@ -115,6 +115,27 @@ Route::group(['prefix' => 'consulta'], function() {
     Route::post('/', ['as' => 'consulta.search', 'uses' => 'ConsultaController@search']);
 });
 
+Route::group(['prefix' => 'report'], function(){
+
+    Route::group(['prefix' => 'pid'], function(){
+        Route::get('/',                   ['as' => 'report.indexPid',                 'uses' => 'ReportController@indexPid']);
+        Route::post('/status',            ['as' => 'report.pidStatus',                'uses' => 'ReportController@reportPidStatus']);
+        Route::post('/tipo',              ['as' => 'report.pidTipo',                  'uses' => 'ReportController@reportPidTipo']);
+        Route::post('/iniciativa',        ['as' => 'report.pidIniciativa',            'uses' => 'ReportController@reportPidIniciativa']);
+        Route::post('/instituicao',       ['as' => 'report.pidInstituicao',           'uses' => 'ReportController@reportPidInstituicao']);
+        Route::post('/localizacao',       ['as' => 'report.pidLocalizacao',           'uses' => 'ReportController@reportPidLocalizacao']);
+        Route::post('/localidade',        ['as' => 'report.pidLocalidade',            'uses' => 'ReportController@reportPidLocalidade']);
+    });
+
+    Route::group(['prefix' => 'iniciativa'], function(){
+        Route::get('/',                      ['as' => 'report.indexIniciativa',          'uses' => 'ReportController@indexIniciativa']);
+        Route::post('/iniciativaTipo',       ['as' => 'report.iniciativaTipo',           'uses' => 'ReportController@reportInicativaTipo']);
+        Route::post('/iniciativaCategoria',  ['as' => 'report.iniciativaCategoria',      'uses' => 'ReportController@reportInicativaCategoria']);
+        Route::post('/iniciativaNatureza',   ['as' => 'report.iniciativaNatureza',       'uses' => 'ReportController@reportInicativaNatureza']);
+        Route::post('/iniciativaLocalizacao',['as' => 'report.iniciativaLocalizacao',    'uses' => 'ReportController@reportIniciativaLocalizacao']);
+    });
+});
+
 Route::group(['prefix' => 'api'], function(){
 
     Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);

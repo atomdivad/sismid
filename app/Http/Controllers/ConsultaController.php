@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
+use SisMid\Models\Iniciativa;
+use SisMid\Models\Pid;
 
 class ConsultaController extends Controller
 {
@@ -20,6 +22,10 @@ class ConsultaController extends Controller
         return view('consultas.index', compact('uf'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function search(Request $request)
     {
         $agrupamento = $request['agrupamento'];
@@ -107,6 +113,13 @@ class ConsultaController extends Controller
         }
     }
 
+    /**
+     * @param $idCidade
+     * @param $tipo
+     * @param $ativo
+     * @param $localizacao
+     * @return \Illuminate\Http\JsonResponse
+     */
     private function getDadosByCidade($idCidade, $tipo, $ativo, $localizacao)
     {
         $pids = $iniciativas = [];
@@ -137,6 +150,13 @@ class ConsultaController extends Controller
 
     }
 
+    /**
+     * @param $uf
+     * @param $tipo
+     * @param $ativo
+     * @param $localizacao
+     * @return \Illuminate\Http\JsonResponse
+     */
     private function getDadosByUf($uf, $tipo, $ativo, $localizacao)
     {
         $pids = $iniciativas = [];
@@ -167,6 +187,12 @@ class ConsultaController extends Controller
         return response()->json(['pids' => $pids, 'iniciativas' => $iniciativas]);
     }
 
+    /**
+     * @param $tipo
+     * @param $ativo
+     * @param $localizacao
+     * @return \Illuminate\Http\JsonResponse
+     */
     private function getDados($tipo, $ativo, $localizacao)
     {
         $pids = $iniciativas = [];
@@ -196,5 +222,4 @@ class ConsultaController extends Controller
 
         return response()->json(['pids' => $pids, 'iniciativas' => $iniciativas]);
     }
-
 }

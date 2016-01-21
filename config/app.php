@@ -166,6 +166,11 @@ return [
         */
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
 
+        /*
+        * Lavacharts Service Provider
+        */
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+
     ],
 
     /*
