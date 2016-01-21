@@ -133,6 +133,9 @@ Route::group(['prefix' => 'report'], function(){
         Route::post('/iniciativaCategoria',  ['as' => 'report.iniciativaCategoria',      'uses' => 'ReportController@reportInicativaCategoria']);
         Route::post('/iniciativaNatureza',   ['as' => 'report.iniciativaNatureza',       'uses' => 'ReportController@reportInicativaNatureza']);
         Route::post('/iniciativaLocalizacao',['as' => 'report.iniciativaLocalizacao',    'uses' => 'ReportController@reportIniciativaLocalizacao']);
+        Route::post('/dimensao',             ['as' => 'report.iniciativaDimensao',       'uses' => 'ReportController@reportIniciativaDimensao']);
+        Route::post('/servico',              ['as' => 'report.iniciativaServico',        'uses' => 'ReportController@reportIniciativaServico']);
+        Route::post('/instituicao',          ['as' => 'report.iniciativaInstituicao',    'uses' => 'ReportController@reportIniciativaInstituicao']);
     });
 });
 

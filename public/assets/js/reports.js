@@ -29,7 +29,7 @@ $('#exibir').on('change',function() {
 });
 
 $("#apply").on('click', function(){
-    var op = $('#exibir').val(), dados, self = $(this);
+    var op = $('#exibir').val(), dados, self = $(this), txtTitle = '';
     if(op == 1) {
         dados = {
             type: 'geral'
@@ -55,30 +55,195 @@ $("#apply").on('click', function(){
     $('#cancel').prop( "disabled", true );
 
 
-    var url = '';
+    var url = '', title = '';
     switch (chart) {
         case 'PidStatus':
+            title = 'PidStatusTitle';
             url = '/report/pid/status';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Status</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Status / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Status / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Status / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
             break;
 
         case 'PidTipos':
+            title = 'PidTiposTitle';
             url = '/report/pid/tipo';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Tipo</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Tipo / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Tipo / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Tipo / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
             break;
 
         case 'PidIniciativa':
+            title = 'PidIniciativaTitle';
             url = '/report/pid/iniciativa';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Inicativas</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Inicativas / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Inicativas / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Inicativas / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
             break;
 
         case 'PidInstituicao':
+            title = 'PidInstituicaoTitle';
             url = '/report/pid/instituicao';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Instituições</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Instituições / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Instituições / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Instituições / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
             break;
 
         case 'PidLocalizcao':
+            title = 'PidLocalizcaoTitle';
             url = '/report/pid/localizacao';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Localização</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Localização / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Localização / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Localização / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
             break;
 
         case 'PidLocalidade':
+            title = 'PidLocalidadeTitle';
             url = '/report/pid/localidade';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Localidade</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Localidade / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Localidade / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Localidade / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
+            break;
+
+        case 'IniciativaDimensao':
+            title = 'IniciativaDimensaoTitle';
+            url = '/report/iniciativa/dimensao';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Iniciativas: Dimensões</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Iniciativas: Dimensões / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Iniciativas: Dimensões / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Iniciativas: Dimensões / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
+            break;
+
+        case 'IniciativaServico':
+            title = 'IniciativaServicoTitle';
+            url = '/report/iniciativa/servico';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Iniciativas: Serviços</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Iniciativas: Serviços / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Iniciativas: Serviços / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Iniciativas: Serviços / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
+            break;
+
+        case 'IniciativaInstituicao':
+            title = 'IniciativaInstituicaoTitle';
+            url = '/report/iniciativa/instituicao';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Iniciativas: Instituições</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Iniciativas: Instituições / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Iniciativas: Instituições / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Iniciativas: Instituições / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
             break;
     }
 
@@ -88,6 +253,8 @@ $("#apply").on('click', function(){
             self.html('<span class="fa fa-check"></span> Aplicar');
             self.prop( "disabled", false );
             $('#cancel').prop( "disabled", false );
+
+            $('#'+title).html(txtTitle);
         });
     }).error(function(){
         self.html('<span class="fa fa-check"></span> Aplicar');

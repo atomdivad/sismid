@@ -37,8 +37,8 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small><strong>Iniciativas: Dimensões</strong></small></div>
-                        <div class="col-sm-2 text-right"><a href="#"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-10"><small id="IniciativaDimensaoTitle"><strong>Iniciativas: Dimensões</strong></small></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="IniciativaDimensao" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="iniciativaDimensao"></div>
@@ -50,8 +50,8 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small><strong>Iniciativas: Serviços</strong></small></div>
-                        <div class="col-sm-2 text-right"><a href="#"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-10"><small id="IniciativaServicoTitle"><strong>Iniciativas: Serviços</strong></small></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="IniciativaServico" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="iniciativaServico"></div>
@@ -93,8 +93,8 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small><strong>Iniciativas: Instituições</strong></small></div>
-                        <div class="col-sm-2 text-right"><a href="#"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-10"><small id="IniciativaInstituicaoTitle"><strong>Iniciativas: Instituições</strong></small></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="IniciativaInstituicao" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="iniciativaInstituicao"></div>
@@ -103,9 +103,10 @@
         </div>
     </div>
 
+    @include('relatorios.partials.modal_conf')
 @endsection
-    {{--
     @section('script')
         @parent
+        <script src="{{ asset('assets/js/cidades.js') }}"></script>
         <script src="{{ asset('assets/js/reports.js') }}"></script>
-    @endsection--}}
+    @endsection
