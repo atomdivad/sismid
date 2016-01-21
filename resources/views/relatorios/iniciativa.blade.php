@@ -10,11 +10,11 @@
                 <div class="caption">
                     <div class="row">
                         <div class="col-sm-10"><small><strong>Iniciativas: Tipos</strong></small></div>
-                        <div class="col-sm-2 text-right"><a href="#"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="IniciativaTipos" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="iniciativaTipo"></div>
-                @barchart('InicativaTipos', 'iniciativaTipo')
+                @barchart('IniciativaTipos', 'iniciativaTipo')
             </div>
         </div>
 
@@ -23,11 +23,11 @@
                 <div class="caption">
                     <div class="row">
                         <div class="col-sm-10"><small><strong>Iniciativas: Localização</strong></small></div>
-                        <div class="col-sm-2 text-right"><a href="#"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="IniciativaLocalizacao" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="iniciativaLocalizacao"></div>
-                @piechart('IniciativaLocalizcao', 'iniciativaLocalizacao')
+                @piechart('IniciativaLocalizacao', 'iniciativaLocalizacao')
             </div>
         </div>
     </div>
@@ -66,11 +66,11 @@
                 <div class="caption">
                     <div class="row">
                         <div class="col-sm-10"><small><strong>Iniciativas: Categorias</strong></small></div>
-                        <div class="col-sm-2 text-right"><a href="#"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="IniciativaCategorias" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="iniciativaCategoria"></div>
-                @piechart('InicativaCategorias', 'iniciativaCategoria')
+                @piechart('IniciativaCategorias', 'iniciativaCategoria')
             </div>
         </div>
 
@@ -79,7 +79,7 @@
                 <div class="caption">
                     <div class="row">
                         <div class="col-sm-10"><small><strong>Iniciativas: Natureza Jurídica</strong></small></div>
-                        <div class="col-sm-2 text-right"><a href="#"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="InicativaNaturezas" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="iniciativaNatureza"></div>
@@ -102,7 +102,12 @@
             </div>
         </div>
     </div>
-
+    @include('relatorios.partials.modal_conf')
+@endsection
+@section('script')
+    @parent
+    <script src="{{ asset('assets/js/cidades.js') }}"></script>
+    <script src="{{ asset('assets/js/reports.js') }}"></script>
 @endsection
     {{--
     @section('script')

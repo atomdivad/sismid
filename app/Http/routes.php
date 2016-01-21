@@ -129,10 +129,10 @@ Route::group(['prefix' => 'report'], function(){
 
     Route::group(['prefix' => 'iniciativa'], function(){
         Route::get('/',                      ['as' => 'report.indexIniciativa',          'uses' => 'ReportController@indexIniciativa']);
-        Route::post('/iniciativaTipo',       ['as' => 'report.iniciativaTipo',           'uses' => 'ReportController@reportInicativaTipo']);
-        Route::post('/iniciativaCategoria',  ['as' => 'report.iniciativaCategoria',      'uses' => 'ReportController@reportInicativaCategoria']);
-        Route::post('/iniciativaNatureza',   ['as' => 'report.iniciativaNatureza',       'uses' => 'ReportController@reportInicativaNatureza']);
-        Route::post('/iniciativaLocalizacao',['as' => 'report.iniciativaLocalizacao',    'uses' => 'ReportController@reportIniciativaLocalizacao']);
+        Route::post('/tipo',                 ['as' => 'report.iniciativaTipo',           'uses' => 'ReportController@reportIniciativaTipo']);
+        Route::post('/categoria',            ['as' => 'report.iniciativaCategoria',      'uses' => 'ReportController@reportInicativaCategoria']);
+        Route::post('/natureza',             ['as' => 'report.iniciativaNatureza',       'uses' => 'ReportController@reportInicativaNatureza']);
+        Route::post('/localizacao',          ['as' => 'report.iniciativaLocalizacao',    'uses' => 'ReportController@reportIniciativaLocalizacao']);
     });
 });
 

@@ -80,6 +80,18 @@ $("#apply").on('click', function(){
         case 'PidLocalidade':
             url = '/report/pid/localidade';
             break;
+        case 'IniciativaTipos':
+            url = '/report/iniciativa/tipo';
+            break;
+        case 'IniciativaCategorias':
+            url = '/report/iniciativa/categoria';
+            break;
+        case 'IniciativaLocalizacao':
+            url = '/report/iniciativa/localizacao';
+            break;
+        case 'InicativaNaturezas':
+            url = '/report/iniciativa/natureza';
+            break;
     }
 
     $.post(url, dados, function (dataTableJson) {
