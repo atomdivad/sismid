@@ -1,6 +1,6 @@
 @extends('app')
 @section('content')
-    {!! Breadcrumbs::render('consulta') !!}
+    {!! Breadcrumbs::render('reportIndexPid') !!}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <legend><i class="fa fa-bar-chart"></i> Pontos de Inclusão Digital</legend>

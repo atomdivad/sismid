@@ -1,6 +1,6 @@
 @extends('app')
 @section('content')
-    {!! Breadcrumbs::render('consulta') !!}
+    {!! Breadcrumbs::render('reportIndexIniciativa') !!}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <legend><i class="fa fa-bar-chart"></i> Iniciativas</legend>

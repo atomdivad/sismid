@@ -24,6 +24,22 @@ Breadcrumbs::register('consulta', function($breadcrumbs)
     $breadcrumbs->push('Consultas', route('consulta.index'));
 });
 
+/*Infograficos*/
+
+//Home > Infogrico Pid
+Breadcrumbs::register('reportIndexPid', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Infográficos PIDs', route('report.indexPid'));
+});
+
+//Home > Infogrico Iniciat
+Breadcrumbs::register('reportIndexIniciativa', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Infográficos Iniciativas', route('report.indexIniciativa'));
+});
+
 /*PIDS*/
 
 //Home > PID
