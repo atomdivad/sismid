@@ -245,6 +245,86 @@ $("#apply").on('click', function(){
                     break;
             }
             break;
+        case 'IniciativaTipos':
+            title = 'IniciativaTiposTitle';
+            url = '/report/iniciativa/tipo';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Iniciativas: Tipos</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Iniciativas: Tipos / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Iniciativas: Tipos / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Iniciativas: Tipos / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
+            break;
+        case 'IniciativaCategorias':
+            title = 'IniciativaCategoriasTitle';
+            url = '/report/iniciativa/categoria';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Iniciativas: Categorias</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Iniciativas: Categorias / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Iniciativas: Categorias / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Iniciativas: Categorias / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
+            break;
+        case 'IniciativaLocalizacao':
+            title = 'IniciativaLocalizacaoTitle';
+            url = '/report/iniciativa/localizacao';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Iniciativas: Localização</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Iniciativas: Localização / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Iniciativas: Localização / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Iniciativas: Localização / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
+            break;
+        case 'InicativaNaturezas':
+            title = 'InicativaNaturezasTitle';
+            url = '/report/iniciativa/natureza';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Iniciativas: Natureza Jurídica</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Iniciativas: Natureza Jurídica / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Iniciativas: Natureza Jurídica / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Iniciativas: Natureza Jurídica / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
+            break;
     }
 
     $.post(url, dados, function (dataTableJson) {
