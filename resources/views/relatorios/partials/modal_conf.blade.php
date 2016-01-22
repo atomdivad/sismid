@@ -48,8 +48,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="apply" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Aplicar</button>
-                <button id="cancel" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                <div class="row">
+                    <div class="col-sm-4"><button id="applyAll" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Aplicar a todos</button></div>
+                    <div class="col-sm-4"><button id="apply" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Aplicar</button></div>
+                    <div class="col-sm-4"><button id="cancel" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button></div>
+                </div>
             </div>
         </div>
     </div>

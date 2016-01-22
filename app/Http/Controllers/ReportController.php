@@ -988,6 +988,12 @@ class ReportController extends Controller
         $dados = \Lava::DataTable();
         $dados->addStringColumn('Tipos')
             ->addNumberColumn('Qtd');
+        $qt = DB::table('iniciativas')
+            ->join('enderecos', 'enderecos.idEndereco', '=', 'iniciativas.endereco_id')
+            ->join('cidades', 'cidades.idCidade', '=', 'enderecos.cidade_id')
+            ->whereIn('cidades.uf_id', $uf)
+            ->count();
+        $dados->addRow(['Total Iniciativas', $qt]);
 
         $tipos = DB::table('iniciativaTipos')->get();
         foreach ($tipos as $tp) {
@@ -1015,6 +1021,12 @@ class ReportController extends Controller
         $dados = \Lava::DataTable();
         $dados->addStringColumn('Tipos')
             ->addNumberColumn('Qtd');
+
+        $qt = DB::table('iniciativas')
+            ->join('enderecos', 'enderecos.idEndereco', '=', 'iniciativas.endereco_id')
+            ->where('enderecos.cidade_id', $cidade)
+            ->count();
+        $dados->addRow(['Total Iniciativas', $qt]);
 
         $tipos = DB::table('iniciativaTipos')->get();
         foreach ($tipos as $tp) {

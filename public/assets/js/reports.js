@@ -7,10 +7,7 @@ $.ajaxSetup({
 $('#regiao').hide();
 $('#estado').hide();
 
-var chart = '';
-$(".openModal").on('click', function(){
-    chart = $(this).data('chart');
-});
+
 $('#exibir').on('change',function() {
     var op = $(this).val()
     if(op == 1) {
@@ -28,8 +25,13 @@ $('#exibir').on('change',function() {
     }
 });
 
-$("#apply").on('click', function(){
-    var op = $('#exibir').val(), dados, self = $(this), txtTitle = '';
+var chart = '', url = '', title = '', dados, txtTitle = '';
+$(".openModal").on('click', function() {
+    chart = $(this).data('chart');
+});
+
+$("#apply").on('click', function() {
+    var op = $('#exibir').val(), self = $(this);
     if(op == 1) {
         dados = {
             type: 'geral'
@@ -41,7 +43,6 @@ $("#apply").on('click', function(){
             regiao: $('#regioes').val()
         }
     }
-
     if(op == 3) {
         dados = {
             type: 'estado',
@@ -52,10 +53,175 @@ $("#apply").on('click', function(){
 
     self.html('<span class="fa fa-refresh fa-spin"></span> Carregando...');
     self.prop( "disabled", true );
+    $('#applyAll').prop( "disabled", true );
     $('#cancel').prop( "disabled", true );
 
+    setTitle(chart);
 
-    var url = '', title = '';
+    $.post(url, dados, function (dataTableJson) {
+        lava.loadData(chart, dataTableJson, function (chart) {
+            $('#modalConf').modal('hide');
+            self.html('<span class="fa fa-check"></span> Aplicar');
+            self.prop( "disabled", false );
+            $('#cancel').prop( "disabled", false );
+            $('#applyAll').prop( "disabled", false );
+
+            $('#'+title).html(txtTitle);
+        });
+    }).error(function(){
+        self.html('<span class="fa fa-check"></span> Aplicar');
+        self.prop( "disabled", false );
+        $('#cancel').prop( "disabled", false );
+        $('#applyAll').prop( "disabled", false );
+    });
+});
+
+
+$('#applyAll').on('click', function() {
+    var op = $('#exibir').val(), self = $(this);
+
+    self.html('<span class="fa fa-refresh fa-spin"></span> Carregando...');
+    self.prop( "disabled", true );
+    $('#apply').prop( "disabled", true );
+    $('#cancel').prop( "disabled", true );
+
+    if(op == 1) {
+        dados = {
+            type: 'geral'
+        }
+    }
+    if(op == 2) {
+        dados = {
+            type: 'regiao',
+            regiao: $('#regioes').val()
+        }
+    }
+    if(op == 3) {
+        dados = {
+            type: 'estado',
+            uf: $("#uf").val(),
+            cidade: $("#cidade_id").val()
+        }
+    }
+
+
+    if(location.pathname.split('/')[2] == 'pid') {
+        $.when(
+            $.post('/report/pid/status', dados, function (dataTableJson) {
+                lava.loadData('PidStatus', dataTableJson, function (chart) {
+                    setTitle('PidStatus');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/pid/tipo', dados, function (dataTableJson) {
+                lava.loadData('PidTipos', dataTableJson, function (chart) {
+                    setTitle('PidTipos');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/pid/iniciativa', dados, function (dataTableJson) {
+                lava.loadData('PidIniciativa', dataTableJson, function (chart) {
+                    setTitle('PidIniciativa');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/pid/instituicao', dados, function (dataTableJson) {
+                lava.loadData('PidInstituicao', dataTableJson, function (chart) {
+                    setTitle('PidInstituicao');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/pid/localizacao', dados, function (dataTableJson) {
+                lava.loadData('PidLocalizcao', dataTableJson, function (chart) {
+                    setTitle('PidLocalizcao');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/pid/localidade', dados, function (dataTableJson) {
+                lava.loadData('PidLocalidade', dataTableJson, function (chart) {
+                    setTitle('PidLocalidade');
+                    $('#'+title).html(txtTitle);
+                });
+            })
+
+        ).done(function() {
+                self.html('<span class="fa fa-check"></span> Aplicar a todos');
+                self.prop( "disabled", false );
+                $('#apply').prop( "disabled", false );
+                $('#cancel').prop( "disabled", false );
+                $('#modalConf').modal('hide');
+            });
+    }
+
+    if(location.pathname.split('/')[2] == 'iniciativa') {
+        $.when(
+            $.post('/report/iniciativa/dimensao', dados, function (dataTableJson) {
+                lava.loadData('IniciativaDimensao', dataTableJson, function (chart) {
+                    setTitle('IniciativaDimensao');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/iniciativa/servico', dados, function (dataTableJson) {
+                lava.loadData('IniciativaServico', dataTableJson, function (chart) {
+                    setTitle('IniciativaServico');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/iniciativa/instituicao', dados, function (dataTableJson) {
+                lava.loadData('IniciativaInstituicao', dataTableJson, function (chart) {
+                    setTitle('IniciativaInstituicao');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/iniciativa/tipo', dados, function (dataTableJson) {
+                lava.loadData('IniciativaTipos', dataTableJson, function (chart) {
+                    setTitle('IniciativaTipos');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/iniciativa/categoria', dados, function (dataTableJson) {
+                lava.loadData('IniciativaCategorias', dataTableJson, function (chart) {
+                    setTitle('IniciativaCategorias');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/iniciativa/localizacao', dados, function (dataTableJson) {
+                lava.loadData('IniciativaLocalizacao', dataTableJson, function (chart) {
+                    setTitle('IniciativaLocalizacao');
+                    $('#'+title).html(txtTitle);
+                });
+            }),
+
+            $.post('/report/iniciativa/natureza', dados, function (dataTableJson) {
+                lava.loadData('InicativaNaturezas', dataTableJson, function (chart) {
+                    setTitle('InicativaNaturezas');
+                    $('#'+title).html(txtTitle);
+                });
+            })
+
+        ).done(function() {
+                self.html('<span class="fa fa-check"></span> Aplicar a todos');
+                self.prop( "disabled", false );
+                $('#apply').prop( "disabled", false );
+                $('#cancel').prop( "disabled", false );
+                $('#modalConf').modal('hide');
+            });
+    }
+});
+
+
+function setTitle(chart)
+{
     switch (chart) {
         case 'PidStatus':
             title = 'PidStatusTitle';
@@ -326,23 +492,7 @@ $("#apply").on('click', function(){
             }
             break;
     }
-
-    $.post(url, dados, function (dataTableJson) {
-        lava.loadData(chart, dataTableJson, function (chart) {
-            $('#modalConf').modal('hide');
-            self.html('<span class="fa fa-check"></span> Aplicar');
-            self.prop( "disabled", false );
-            $('#cancel').prop( "disabled", false );
-
-            $('#'+title).html(txtTitle);
-        });
-    }).error(function(){
-        self.html('<span class="fa fa-check"></span> Aplicar');
-        self.prop( "disabled", false );
-        $('#cancel').prop( "disabled", false );
-    });
-});
-
+}
 
 /*
 $('a#pidStatusBtn').on('click', function(ev){

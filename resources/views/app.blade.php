@@ -100,7 +100,7 @@
                 @else
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{{ route('auth.formLogin') }}">Entrar</a></li>
-                        <li><a href="{{ route('auth.formRegister') }}">Cadastrar-se</a></li>
+                        {{--<li><a href="{{ route('auth.formRegister') }}">Cadastrar-se</a></li>--}}
                     </ul>
             </div>
         @endif

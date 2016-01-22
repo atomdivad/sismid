@@ -171,8 +171,10 @@ route::group(['prefix' => 'auth'], function(){
     /*
      * Registration routes
      */
+   /*
     Route::get('/register', ['as' => 'auth.formRegister', 'uses' => 'Auth\AuthController@getRegister']);
     Route::post('/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@postRegister']);
+   */
 });
 
 
