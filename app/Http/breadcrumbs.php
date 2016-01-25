@@ -190,7 +190,7 @@ Breadcrumbs::register('editInfoEquipe', function($breadcrumbs)
 Breadcrumbs::register('gerenciaAdmin', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Gerenciar Administradores do Sismid', route('admin.gerencia.index'));
+    $breadcrumbs->push('Gerenciar Administradores do SisMID', route('admin.gerencia.index'));
 });
 Breadcrumbs::register('gerenciaAdminCreate', function($breadcrumbs)
 {
