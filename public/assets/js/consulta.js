@@ -50,6 +50,7 @@ $.ajaxSetup({
 //buscaDados();
 
 function buscaDados() {
+    $('#grid').show();
     $("#msg").hide();
     if($("#tipoBusca").val() == null) {
         $("#msg").show();
@@ -71,6 +72,9 @@ function buscaDados() {
         markerDesagrupados(data.pids, 'PID');
         markerDesagrupados(data.iniciativas, 'Iniciativa');
         $('#loading').modal('hide');
+    }).error( function() {
+        alert('Ocorreu um erro ao buscar os dados! Por favor atualize a página!');
+        $('#loading').modal('hide');
     });
 }
 
@@ -90,7 +94,6 @@ function markerDesagrupados(list, tipo) {
 }
 
 $( "#btnFiltrar" ).click(function() {
-    $('#grid').show();
     buscaDados();
 });
 

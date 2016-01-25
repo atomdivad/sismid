@@ -78,6 +78,9 @@ function buscaDados() {
         else if(dados.agrupamento == 'regiao') {
             markerAgrupadosRegiao(data)
         }
+    }).error( function() {
+        alert('Ocorreu um erro ao buscar os dados! Por favor atualize a página!');
+        $('#loading').modal('hide');
     });
 }
 
