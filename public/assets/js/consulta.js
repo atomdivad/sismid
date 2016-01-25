@@ -46,7 +46,7 @@ $.ajaxSetup({
     }
 });
 
-buscaDados();
+//buscaDados();
 
 function buscaDados() {
     $("#msg").hide();

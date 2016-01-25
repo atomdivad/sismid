@@ -22,7 +22,7 @@ function initialize() {
     }
     //mapTypeId: google.maps.MapTypeId.ROADMAP
     map = new google.maps.Map(document.getElementById('map'), options);
-    buscaDados();
+    //buscaDados();
 }
 
 function buscaDados() {
@@ -537,6 +537,7 @@ function resetMap() {
     map.setCenter(newLatLng);
     map.setZoom(4);
 }
+
 $( "#btnFiltrar" ).click(function() {
     if(polygon.length > 0) {
         estadoRemove();
@@ -544,7 +545,8 @@ $( "#btnFiltrar" ).click(function() {
     if(allPolygon.length > 0) {
         regiaoRemove();
     }
-    markerCluster.clearMarkers();
+    if(markerCluster.length > 0)
+        markerCluster.clearMarkers();
     markers = [];
     buscaDados();
     resetMap();
