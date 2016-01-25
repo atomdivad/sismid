@@ -91,9 +91,6 @@
 @section('script')
     @parent
     <script src="{{ asset('/assets/js/select2.min.js') }}"></script>
-    <script type="text/javascript">
-        $("#tipoBusca").select2();
-    </script>
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <script src="{{ asset('/assets/js/markerclusterer.js') }}"></script>

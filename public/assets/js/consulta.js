@@ -1,4 +1,5 @@
 $("#tipoBusca").select2();
+$('#grid').hide();
 
 var grid = $("#grid-data").bootgrid({
     labels: {
@@ -89,6 +90,7 @@ function markerDesagrupados(list, tipo) {
 }
 
 $( "#btnFiltrar" ).click(function() {
+    $('#grid').show();
     buscaDados();
 });
 
