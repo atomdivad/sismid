@@ -38,7 +38,7 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidIniciativaTitle"><strong>Pontos de Inclusão Digital: Inicativas</strong></small></div>
+                        <div class="col-sm-10"><small id="PidIniciativaTitle"><strong>Pontos de Inclusão Digital: Vinculados à Inicativas</strong></small></div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidIniciativa" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidInstituicaoTitle"><strong>Pontos de Inclusão Digital: Instituições</strong></small></div>
+                        <div class="col-sm-10"><small id="PidInstituicaoTitle"><strong>Pontos de Inclusão Digital: Instituições Mantenedoras</strong></small></div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidInstituicao" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>

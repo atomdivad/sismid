@@ -114,6 +114,11 @@ Route::group(['prefix' => 'consulta'], function() {
     Route::get('/', ['as' => 'consulta.index', 'uses' => 'ConsultaController@index']);
     Route::post('/', ['as' => 'consulta.search', 'uses' => 'ConsultaController@search']);
 });
+Route::group(['prefix' => 'sobre'], function() {
+
+    Route::get('/sismid', ['as' => 'sobre.index', 'uses' => 'SobreController@index']);
+
+});
 
 Route::group(['prefix' => 'report'], function(){
 

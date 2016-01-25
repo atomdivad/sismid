@@ -199,3 +199,8 @@ Breadcrumbs::register('gerenciaAdminEdit', function($breadcrumbs)
     $breadcrumbs->parent('gerenciaAdmin');
     $breadcrumbs->push('Editar', route('admin.gerencia.edit'));
 });
+Breadcrumbs::register('sobreSismid', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Sobre o SisMID', route('sobre.index'));
+});

@@ -56,7 +56,11 @@
                         </ul>
                     </li>
                 </ul>
-
+                @if(Auth::guest())
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ route('sobre.index') }}">Sobre o SisMID</a></li>
+                </ul>
+                @endif
                 @if(!Auth::guest())
                     <ul class="nav navbar-nav">
                         @is('admin')
