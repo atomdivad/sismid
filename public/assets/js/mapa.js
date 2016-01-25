@@ -1,3 +1,6 @@
+$("#tipoBusca").select2();
+$('#grid').hide();
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -27,6 +30,7 @@ function initialize() {
 
 function buscaDados() {
     $("#msg").hide();
+    $('#grid').show();
     if($("#tipoBusca").val() == null) {
         $("#msg").show();
         return false;
@@ -74,6 +78,9 @@ function buscaDados() {
         else if(dados.agrupamento == 'regiao') {
             markerAgrupadosRegiao(data)
         }
+    }).error( function() {
+        alert('Ocorreu um erro ao buscar os dados! Por favor atualize a página!');
+        $('#loading').modal('hide');
     });
 }
 
@@ -557,7 +564,8 @@ $( "#btnClear" ).click(function() {
     $("#agrupamento").val(0);
     $("#uf").val(0);
     $("#cidade_id").html('');
-    markerCluster.clearMarkers();
+    if(markerCluster.length > 0)
+        markerCluster.clearMarkers();
     markers = [];
     buscaDados();
     if(polygon.length > 0) {

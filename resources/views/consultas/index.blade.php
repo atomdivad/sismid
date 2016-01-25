@@ -106,7 +106,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" id="grid">
         <div class="row">
             <div class="col-sm-12">
                 <table id="grid-data" class="table table-bordered tabel-responsive table-striped">

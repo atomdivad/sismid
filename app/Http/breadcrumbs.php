@@ -3,7 +3,10 @@
 //Home
 Breadcrumbs::register('home', function($breadcrumbs)
 {
-    $breadcrumbs->push('Home', route('home'));
+    if(Auth::guest())
+        $breadcrumbs->push('Home', url('/'));
+    else
+        $breadcrumbs->push('Home', route('home'));
 });
 
 /*Mapa*/

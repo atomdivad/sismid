@@ -1,4 +1,5 @@
 $("#tipoBusca").select2();
+$('#grid').hide();
 
 var grid = $("#grid-data").bootgrid({
     labels: {
@@ -49,6 +50,7 @@ $.ajaxSetup({
 //buscaDados();
 
 function buscaDados() {
+    $('#grid').show();
     $("#msg").hide();
     if($("#tipoBusca").val() == null) {
         $("#msg").show();
@@ -69,6 +71,9 @@ function buscaDados() {
     $.post("/consulta", dados ,function (data) {
         markerDesagrupados(data.pids, 'PID');
         markerDesagrupados(data.iniciativas, 'Iniciativa');
+        $('#loading').modal('hide');
+    }).error( function() {
+        alert('Ocorreu um erro ao buscar os dados! Por favor atualize a página!');
         $('#loading').modal('hide');
     });
 }
