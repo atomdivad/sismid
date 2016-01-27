@@ -522,8 +522,8 @@ class ReportController extends Controller
         $ci = Pid::has('instituicoes')->count();
         $si = Pid::has('instituicoes', '=', 0)->count();
 
-        $dados->addRow(['C/ Instituições', $ci]);
-        $dados->addRow(['S/ Instituições', $si]);
+        $dados->addRow(['Possuem Mantenedores', $ci]);
+        $dados->addRow(['Não Possuem Mantenedores', $si]);
         return $dados;
     }
 

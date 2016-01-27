@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
 Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(){
 
     Route::group(['prefix' => 'admin'], function() {
-        Route::get('/gerencia/index', ['as' => 'admin.gerencia.index', 'uses' => 'AdminController@indexGerenciaAdmin']);
+        Route::get('/gerencia', ['as' => 'admin.gerencia.index', 'uses' => 'AdminController@indexGerenciaAdmin']);
         Route::get('/gerencia/{id}/edit', ['as' => 'admin.gerencia.edit', 'uses' => 'AdminController@editGerenciaAdmin']);
         Route::get('/gerencia/create', ['as' => 'admin.gerencia.create', 'uses' => 'AdminController@createGerenciaAdmin']);
         Route::post('/gerencia/store', ['as' => 'admin.gerencia.store', 'uses' => 'AdminController@storeGerenciaAdmin']);
@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
         Route::post('/endContato/{id}/updateEndereco', ['as' => 'admin.endContato.updateEndereco', 'uses' => 'AdminController@updateEndContato']);
         Route::post('/endContato/{id}/updateTelefone', ['as' => 'admin.endContato.updateTelefone', 'uses' => 'AdminController@updateEndContatoTel']);
 
-        Route::get('/infoEquipe/index', ['as' => 'admin.infoEquipe.index', 'uses' => 'AdminController@indexInfoEquipe']);
+        Route::get('/infoEquipe', ['as' => 'admin.infoEquipe.index', 'uses' => 'AdminController@indexInfoEquipe']);
         Route::get('/infoEquipe/{id}/editInfoEquipe', ['as' => 'admin.infoEquipe.editInfoEquipe', 'uses' => 'AdminController@editInfoEquipe']);
         Route::post('/infoEquipe/{id}/updateInfoEquipe', ['as' => 'admin.infoEquipe.updateInfoEquipe', 'uses' => 'AdminController@updateInfoEquipe']);
 
@@ -113,6 +113,11 @@ Route::group(['prefix' => 'consulta'], function() {
 
     Route::get('/', ['as' => 'consulta.index', 'uses' => 'ConsultaController@index']);
     Route::post('/', ['as' => 'consulta.search', 'uses' => 'ConsultaController@search']);
+});
+Route::group(['prefix' => 'sobre'], function() {
+
+    Route::get('/sismid', ['as' => 'sobre.index', 'uses' => 'SobreController@index']);
+
 });
 
 Route::group(['prefix' => 'report'], function(){
