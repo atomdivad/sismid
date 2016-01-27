@@ -2,6 +2,7 @@
 
 namespace SisMid\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,7 @@ use Intervention\Image\Facades\Image;
 use SisMid\Models\Instituicao;
 use SisMid\Models\Pid;
 use SisMid\Models\Iniciativa;
+use Illuminate\Support\Facades\Mail;
 
 class ApiController extends Controller
 {
@@ -888,4 +890,17 @@ class ApiController extends Controller
             ];
         }
     }
+
+    public function feedback(Request $request)
+    {
+        $msg = "Nome: $request[nome]\nEmail: $request[email]\nMensagem:\n$request[msg]";
+        Mail::raw($msg, function($message)
+        {
+            $message->to('mapinguarisoftware@gmail.com');
+            $message->subject("Feedback SisMid " . Carbon::now()->format('d/m/Y'));
+        });
+        return;
+    }
+
+
 }

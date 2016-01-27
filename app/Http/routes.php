@@ -158,6 +158,8 @@ Route::group(['prefix' => 'api'], function(){
 
 });
 
+Route::post('/feedback', ['as' => 'feedback', 'uses' => 'ApiController@feedback']);
+
 
 route::group(['prefix' => 'auth'], function(){
 

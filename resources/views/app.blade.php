@@ -107,7 +107,56 @@
     </div>
 </nav>
 
-<div class="container" style="padding-top:70px;">
+<div class="container-fluid" style="padding-top:70px;">
+    <div class="modal fade" id="feedBackModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-comment"></i> Feedback</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/feedback" method="POST">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" id="nome" name="nome" class="form-control" required="required"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="email">E-mail</label>
+                                    <input type="email" id="email" name="email" class="form-control" required="required"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="msg">Reporte algum erro ou deixe a sua sugestão!</label>
+                                    <textarea name="msg" id="msg" class="form-control" rows="10" required="required"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                        <button id="confirm" class="btn btn-primary"><i class="fa fa-send"></i> Enviar</button>
+                        <button id="cancel" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button title="FeedBack" class="btn btn-info btn-sm" style="position:fixed; margin-left:0;" data-toggle="modal" data-target="#feedBackModal"><i class="fa fa-comment"></i></button>
+</div>
+<div class="container" style="padding-top:0px;">
 
     <div class="modal fade" id="loading">
         <div class="centro">
@@ -138,6 +187,7 @@
 <script src="{{ asset('/assets/js/vue.min.js') }}"></script>
 <script src="{{ asset('/assets/js/vue-resource.min.js') }}"></script>
 <script src="{{ asset('/assets/js/jquery.mask.min.js') }}"></script>
+<script src="{{ asset('/assets/js/feedback.js') }}"></script>
 @yield('script')
 
 </body>
