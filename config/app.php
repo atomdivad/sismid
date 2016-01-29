@@ -171,6 +171,11 @@ return [
         */
         Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
 
+        /*
+         *Laravel Cors
+         */
+        Barryvdh\Cors\ServiceProvider::class,
+
     ],
 
     /*

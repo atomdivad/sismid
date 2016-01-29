@@ -149,6 +149,9 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
     Route::get('/uf', ['as' => 'getUf', 'uses' => 'ApiController@getUf']);
     Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);
 
+    Route::post('/app/mapa', ['as' => 'appMapa', 'uses' => 'ApiController@appMapa']);
+
+
     Route::post('/mapa/', ['as' => 'getMapa', 'uses' => 'ApiController@getMapa']);
     Route::get('/{id}/fotos/{nome}', ['as' => 'geFotos', 'uses' => 'ApiController@getFotos']);
 

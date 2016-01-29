@@ -16,6 +16,15 @@ use Illuminate\Support\Facades\Mail;
 
 class ApiController extends Controller
 {
+    public function appMapa()
+    {
+        return DB::table('enderecos')
+            ->select('idEndereco', 'latitude', 'longitude')
+            ->where('latitude', '!=', '')
+            ->where('longitude', '!=', '')
+            ->take(5)->get();
+    }
+
     public function getUf()
     {
         $uf = DB::table('uf')->select('uf', 'idUf')->orderBy('uf', 'asc')->get();
