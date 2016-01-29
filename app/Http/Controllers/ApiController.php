@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Mail;
 
 class ApiController extends Controller
 {
+    public function getUf()
+    {
+        $uf = DB::table('uf')->select('uf', 'idUf')->orderBy('uf', 'asc')->get();
+        return $uf;
+    }
+
     /**
      * Retorna as cidades de uma UF
      * @param $idUf

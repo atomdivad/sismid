@@ -34,6 +34,9 @@ class Kernel extends HttpKernel
         'needsPermission' => \Artesaos\Defender\Middlewares\NeedsPermissionMiddleware::class,
 
         // Simpler access control, uses only the groups
-        'needsRole' => \Artesaos\Defender\Middlewares\NeedsRoleMiddleware::class
+        'needsRole' => \Artesaos\Defender\Middlewares\NeedsRoleMiddleware::class,
+
+        // Cors
+        'cors' => \SisMid\Http\Middleware\Cors::class,
     ];
 }

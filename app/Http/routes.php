@@ -144,8 +144,9 @@ Route::group(['prefix' => 'report'], function(){
     });
 });
 
-Route::group(['prefix' => 'api'], function(){
+Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
 
+    Route::get('/uf', ['as' => 'getUf', 'uses' => 'ApiController@getUf']);
     Route::get('/uf/{id}/cidades/', ['as' => 'getCidades', 'uses' => 'ApiController@getCidades']);
 
     Route::post('/mapa/', ['as' => 'getMapa', 'uses' => 'ApiController@getMapa']);
