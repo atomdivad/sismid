@@ -567,7 +567,6 @@ $( "#btnClear" ).click(function() {
     if(markerCluster.length > 0)
         markerCluster.clearMarkers();
     markers = [];
-    buscaDados();
     if(polygon.length > 0) {
         estadoRemove();
     }

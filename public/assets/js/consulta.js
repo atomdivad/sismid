@@ -106,7 +106,7 @@ $( "#btnClear" ).click(function() {
     $("#ativo").val(1);
     $("#localizacao").val(3);
 
-    buscaDados();
+    //buscaDados();
 });
 
 var infoPid = new Vue({
