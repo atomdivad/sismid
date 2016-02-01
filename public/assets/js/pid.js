@@ -29,6 +29,7 @@ var pid = new Vue({
             fotos: []
         },
         novoTelefone: {
+            idTelefone: null,
             telefone: '',
             responsavel: '',
             telefoneTipo_id: '1'
