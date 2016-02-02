@@ -149,6 +149,8 @@ var iniciativa = new Vue({
                 /* Adicionando os dados retornados */
                 self.$set('iniciativa', response);
                 jQuery(getCidades(self.iniciativa.endereco.uf,self.iniciativa.endereco.cidade_id ));
+                if (typeof google === 'object' && typeof google.maps === 'object')
+                    jQuery(setPosition(self.iniciativa.endereco.latitude, self.iniciativa.endereco.longitude, map));
                 jQuery('#loading').modal('hide');
             });
         }
@@ -156,9 +158,9 @@ var iniciativa = new Vue({
 
     attached: function() {}
 });
-
+var map;
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
+     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
         center: {lat: -15.8753366, lng: -52.261551399999995}
     });

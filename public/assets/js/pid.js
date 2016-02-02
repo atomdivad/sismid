@@ -191,6 +191,8 @@ var pid = new Vue({
                 /* Adicionando os dados retornados */
                 self.$set('pid', response);
                 jQuery(getCidades(self.pid.endereco.uf,self.pid.endereco.cidade_id ));
+                if (typeof google === 'object' && typeof google.maps === 'object')
+                    jQuery(setPosition(self.pid.endereco.latitude, self.pid.endereco.longitude, map));
                 jQuery('#loading').modal('hide');
 
                 /*Upload Anexos Projeto*/
@@ -219,9 +221,9 @@ var pid = new Vue({
     attached: function() {}
 });
 
-
+var map;
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
         streetViewControl: false,
         center: {lat: -15.780, lng: -47.929}
