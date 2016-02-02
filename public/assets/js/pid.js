@@ -223,6 +223,7 @@ var pid = new Vue({
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
+        streetViewControl: false,
         center: {lat: -15.780, lng: -47.929}
     });
     var geocoder = new google.maps.Geocoder();
@@ -231,17 +232,30 @@ function initMap() {
         geocodeAddress(geocoder, map);
     });
 
-    //HTML5 geolocation.
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            map.setCenter(pos);
-        });
+    var param = window.location.pathname.split( '/' )[2];
+    if(param != 'create') {
+        setPosition(pid.$data.pid.endereco.latitude, pid.$data.pid.endereco.longitude, map);
     }
+    else {
+        //HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setCenter(pos);
+            });
+        }
+    }
+
+    /*Desativa o zoom com duplo click p/ pegar a posição*/
+    map.set("disableDoubleClickZoom", true);
+    google.maps.event.addListener(map,"dblclick", function (e) { setNewPosition(e.latLng, map); });
+
 }
+
+var marker;
 
 function geocodeAddress(geocoder, resultsMap) {
     var logradouro = document.getElementById('logradouro').value;
@@ -254,10 +268,7 @@ function geocodeAddress(geocoder, resultsMap) {
     geocoder.geocode({'address': address}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
             resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: resultsMap,
-                position: results[0].geometry.location
-            });
+            marker.setPosition(results[0].geometry.location);
             /*Adiconar o valor de lat a lng aos inputs*/
             var latlng = results[0].geometry.location.toJSON();
             $("#latitude").val(latlng.lat);
@@ -266,4 +277,22 @@ function geocodeAddress(geocoder, resultsMap) {
             alert('Falha ao buscar endereço!');
         }
     });
+}
+
+
+function setPosition(lat, long, map) {
+    latLng = new google.maps.LatLng(lat, long);
+    marker = new google.maps.Marker({
+        map: map,
+        position: latLng,
+        visible: true
+    });
+    map.setCenter(latLng);
+}
+
+function setNewPosition(pos, map) {
+    marker.setPosition(pos);
+    map.setCenter(pos);
+    $("#latitude").val(pos.lat);
+    $("#longitude").val(pos.lng);
 }
