@@ -87,6 +87,9 @@
     </form>
 
     <div class="row">
+        <div class="col-sm-12 text-right">
+            <strong>Exibindo: {{  (($pids->perPage() * $pids->currentPage()) - $pids->perPage())+1 }} - @if(!$pids->hasMorePages()) {{ $pids->total() }} @else {{ $pids->count() *  $pids->currentPage() }} @endif de {{ $pids->total() }}</strong>
+        </div>
         <div class="col-sm-12">
             @if(count($pids))
                 <table class="table table-responsive table-bordered table-striped">

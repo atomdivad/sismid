@@ -47,8 +47,10 @@
             </div>
         </div>
     </form>
-
     <div class="row">
+        <div class="col-sm-12 text-right">
+            <strong>Exibindo {{ (($iniciativas->perPage() * $iniciativas->currentPage()) - $iniciativas->perPage())+1 }} - @if(!$iniciativas->hasMorePages()) {{ $iniciativas->total() }} @else {{ $iniciativas->count() *  $iniciativas->currentPage() }} @endif de {{ $iniciativas->total() }}</strong>
+        </div>
         <div class="col-sm-12">
             @if(count($iniciativas) > 0)
                 <table class="table table-responsive table-bordered table-striped">

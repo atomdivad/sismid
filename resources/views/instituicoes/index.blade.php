@@ -49,6 +49,9 @@
     </form>
 
     <div class="row">
+        <div class="col-sm-12 text-right">
+            <strong>Exibindo {{ (($instituicoes->perPage() * $instituicoes->currentPage()) - $instituicoes->perPage())+1 }} - @if(!$instituicoes->hasMorePages()) {{ $instituicoes->total() }} @else {{ $instituicoes->count() *  $instituicoes->currentPage() }} @endif de {{ $instituicoes->total() }}</strong>
+        </div>
         <div class="col-sm-12">
             <table class="table table-responsive table-bordered table-striped">
                 <thead>
@@ -76,8 +79,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
-            {!! $instituicoes->render() !!}
+        <div class="col-sm-12 text-center">
+            {!! $instituicoes->appends(Input::query())->render() !!}
         </div>
     </div>
 

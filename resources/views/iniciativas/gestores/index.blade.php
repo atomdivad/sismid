@@ -51,8 +51,11 @@
     </form>
 
     <div class="row">
-        <div class="col-sm-12">
-            @if(count($gestores))
+        @if(count($gestores))
+            <div class="col-sm-12 text-right">
+                <strong>Exibindo {{ (($gestores->perPage() * $gestores->currentPage()) - $gestores->perPage())+1 }} - @if(!$gestores->hasMorePages()) {{ $gestores->total() }} @else {{ $gestores->count() *  $gestores->currentPage() }} @endif de {{ $gestores->total() }}</strong>
+            </div>
+            <div class="col-sm-12">
                 <table class="table table-responsive table-bordered table-striped">
                     <thead>
                     <tr>
@@ -75,10 +78,12 @@
                     @endforeach
                     </tbody>
                 </table>
-            @else
+            </div>
+        @else
+            <div class="col-sm-12">
                 <div class="alert alert-info"><strong>Nenhuma informação encontrada!</strong></div>
-            @endif
-        </div>
+            </div>
+        @endif
     </div>
     <div class="row">
         <div class="col-sm-12 text-center">
