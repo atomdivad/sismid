@@ -16,13 +16,45 @@ use Illuminate\Support\Facades\Mail;
 
 class ApiController extends Controller
 {
-    public function appMapa()
+    public function appMapa(Request $request)
     {
-        return DB::table('enderecos')
-            ->select('idEndereco', 'latitude', 'longitude')
-            ->where('latitude', '!=', '')
-            ->where('longitude', '!=', '')
-            ->take(5)->get();
+        $lat_u = $request['latitude'];//-15.8193228;
+        $lng_u = $request['longitude'];//-47.897423600000025;
+        $raio = $request['distancia'] + 0.0;//1.0;
+        if($request['uf'] == '0') {
+            return DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                ->where('pids.ativo', '=', 1)
+                ->whereRaw('enderecos.latitude between min_lat('.$lat_u.', '.$raio.') and max_lat('.$lat_u.', '.$raio.')
+                            and enderecos.longitude between min_lng('.$lat_u.', '.$lng_u.', '.$raio.') and max_lng('.$lat_u.', '.$lng_u.', '.$raio.')
+                            and distance_between(enderecos.latitude, enderecos.longitude, '.$lat_u.', '.$lng_u.') <= '.$raio)
+                ->get();
+        }
+        else {
+            if($request['cidade']) {
+                return DB::table('pids')
+                    ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                    ->where('pids.ativo', '=', 1)
+                    ->where('enderecos.cidade_id', '=', $request['cidade'])
+                    ->get();
+            }
+            else {
+                return DB::table('pids')
+                    ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                    ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                    ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                    ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                    ->where('pids.ativo', '=', 1)
+                    ->where('cidades.uf_id', '=', $request['uf'])
+                    ->get();
+            }
+        }
     }
 
     public function getUf()
