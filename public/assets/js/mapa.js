@@ -1,4 +1,6 @@
-$("#tipoBusca").select2();
+if(document.getElementById("tipoBusca")) {
+    $("#tipoBusca").select2();
+}
 $('#grid').hide();
 
 $.ajaxSetup({
@@ -29,18 +31,20 @@ function initialize() {
 }
 
 function buscaDados() {
-    $("#msg").hide();
-    $('#grid').show();
-    if($("#tipoBusca").val() == null) {
-        $("#msg").show();
-        return false;
+    if(document.getElementById("tipoBusca")) {
+        $("#msg").hide();
+        $('#grid').show();
+        if($("#tipoBusca").val() == null) {
+            $("#msg").show();
+            return false;
+        }
     }
     $('#loading').modal('show');
     var dados = {
         agrupamento: $("#agrupamento").val(),
         uf: $("#uf").val(),
         cidade: $("#cidade_id").val(),
-        tipo: $("#tipoBusca").val()
+        tipo: document.getElementById("tipoBusca")? $("#tipoBusca").val() : [0]
     }
 
     $("#grid-data").bootgrid('clear');
@@ -545,7 +549,7 @@ function resetMap() {
     map.setZoom(4);
 }
 
-$( "#btnFiltrar" ).click(function() {
+$( "#btnFiltrar" ).on('click', function() {
     if(polygon.length > 0) {
         estadoRemove();
     }
