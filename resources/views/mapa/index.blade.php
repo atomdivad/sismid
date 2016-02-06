@@ -7,19 +7,21 @@
             <legend><i class="glyphicon glyphicon-list"></i> Mapa de Inclusão Digital</legend>
         </div>
     </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="tipoBusca">Buscar</label> <small id="msg" style="display: none;" class="alert-danger">Você deve marcar pelo menos uma opção</small>
-                <select name="tipoBusca" id="tipoBusca" class="form-control" multiple required>
-                    <option selected value="0">PID</option>
-                    <option selected value="1">Programa</option>
-                    <option selected value="2">Projeto</option>
-                    <option selected value="3">Ação</option>
-                </select>
+    @is(['gestor', 'admin'])
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="tipoBusca">Buscar</label> <small id="msg" style="display: none;" class="alert-danger">Você deve marcar pelo menos uma opção</small>
+                    <select name="tipoBusca" id="tipoBusca" class="form-control" multiple required>
+                        <option selected value="0">PID</option>
+                        <option selected value="1">Programa</option>
+                        <option selected value="2">Projeto</option>
+                        <option selected value="3">Ação</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
+    @endis
     <div class="form-group">
         <div class="row">
             <div class="col-sm-2">

@@ -552,11 +552,12 @@ $( "#btnFiltrar" ).click(function() {
     if(allPolygon.length > 0) {
         regiaoRemove();
     }
-    if(markerCluster.length > 0)
+    if(markers.length > 0) {
         markerCluster.clearMarkers();
+    }
     markers = [];
-    buscaDados();
     resetMap();
+    buscaDados();
 });
 
 $( "#btnClear" ).click(function() {
@@ -564,7 +565,7 @@ $( "#btnClear" ).click(function() {
     $("#agrupamento").val(0);
     $("#uf").val(0);
     $("#cidade_id").html('');
-    if(markerCluster.length > 0)
+    if(markers.length > 0)
         markerCluster.clearMarkers();
     markers = [];
     if(polygon.length > 0) {

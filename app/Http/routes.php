@@ -19,6 +19,10 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/sobre/sismid', ['as' => 'sobre.index', function() {
+    return view("sobre.index");
+}]);
+
 Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor'], 'any' => true], function() {
 
     Route::get('/home', ['as' => 'home', function () {
@@ -114,11 +118,7 @@ Route::group(['prefix' => 'consulta'], function() {
     Route::get('/', ['as' => 'consulta.index', 'uses' => 'ConsultaController@index']);
     Route::post('/', ['as' => 'consulta.search', 'uses' => 'ConsultaController@search']);
 });
-Route::group(['prefix' => 'sobre'], function() {
 
-    Route::get('/sismid', ['as' => 'sobre.index', 'uses' => 'SobreController@index']);
-
-});
 
 Route::group(['prefix' => 'report'], function(){
 
@@ -152,7 +152,7 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
     Route::post('/app/mapa', ['as' => 'appMapa', 'uses' => 'ApiController@appMapa']);
 
 
-    Route::post('/mapa/', ['as' => 'getMapa', 'uses' => 'ApiController@getMapa']);
+    Route::post('/mapa/', ['as' => 'getMapa', 'uses' => 'MapaController@getMapa']);
     Route::get('/{id}/fotos/{nome}', ['as' => 'geFotos', 'uses' => 'ApiController@getFotos']);
 
     Route::post('/pesquisar/instituicoes', ['as' => 'pesquisarInstituicoes', 'uses' => 'ApiController@getInstituicoes']);
