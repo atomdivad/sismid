@@ -113,6 +113,12 @@ Route::group(['prefix' => 'mapa'], function() {
 
 });
 
+Route::group(['prefix' => 'pivot'], function() {
+
+    Route::get('/', ['as' => 'pivot.index', 'uses' => 'PivotController@index']);
+    Route::get('/dados', ['as' => 'pivot.iniciativas', 'uses' => 'PivotController@getDados']);
+});
+
 Route::group(['prefix' => 'consulta'], function() {
 
     Route::get('/', ['as' => 'consulta.index', 'uses' => 'ConsultaController@index']);

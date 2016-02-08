@@ -53,6 +53,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('report.indexPid') }}">Infográficos PIDs</a></li>
                             <li><a href="{{ route('report.indexIniciativa') }}">Infográficos Iniciativas</a></li>
+                            <li><a href="{{ route('pivot.index') }}">Infográficos Pivottable</a></li>
                         </ul>
                     </li>
                 </ul>
