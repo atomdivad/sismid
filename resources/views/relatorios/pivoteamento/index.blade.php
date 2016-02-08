@@ -1,6 +1,6 @@
 @extends('app')
 @section('content')
-
+    {!! Breadcrumbs::render('reportIndexPidPivot') !!}
 <div id="output" style="margin: 30px;"></div>
 
 @endsection

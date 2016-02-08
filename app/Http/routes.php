@@ -113,11 +113,7 @@ Route::group(['prefix' => 'mapa'], function() {
 
 });
 
-Route::group(['prefix' => 'pivot'], function() {
 
-    Route::get('/', ['as' => 'pivot.index', 'uses' => 'PivotController@index']);
-    Route::get('/dados', ['as' => 'pivot.iniciativas', 'uses' => 'PivotController@getDados']);
-});
 
 Route::group(['prefix' => 'consulta'], function() {
 
@@ -147,6 +143,11 @@ Route::group(['prefix' => 'report'], function(){
         Route::post('/dimensao',             ['as' => 'report.iniciativaDimensao',       'uses' => 'ReportController@reportIniciativaDimensao']);
         Route::post('/servico',              ['as' => 'report.iniciativaServico',        'uses' => 'ReportController@reportIniciativaServico']);
         Route::post('/instituicao',          ['as' => 'report.iniciativaInstituicao',    'uses' => 'ReportController@reportIniciativaInstituicao']);
+    });
+    Route::group(['prefix' => 'pivoteamento'], function() {
+
+        Route::get('/', ['as' => 'report.pivoteamento.index', 'uses' => 'PivotController@index']);
+        Route::get('/dados', ['as' => 'report.pivoteamento.dados', 'uses' => 'PivotController@getDados']);
     });
 });
 

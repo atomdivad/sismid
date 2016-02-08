@@ -1,5 +1,5 @@
 $(function () {
-    $.getJSON("/pivot/dados", function (mps) {
+    $.getJSON("/report/pivoteamento/dados", function (mps) {
         $("#output").pivotUI(mps, {
             rows: ["UF", "Iniciativas"],
             cols: ["Tipo", "Localização"],

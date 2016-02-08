@@ -52,8 +52,9 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Infográficos <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('report.indexPid') }}">Infográficos PIDs</a></li>
+                            <li><a href="{{ route('report.pivoteamento.index') }}">Infográficos PIDs Pivoteamento</a></li>
                             <li><a href="{{ route('report.indexIniciativa') }}">Infográficos Iniciativas</a></li>
-                            <li><a href="{{ route('pivot.index') }}">Infográficos Pivottable</a></li>
+
                         </ul>
                     </li>
                 </ul>

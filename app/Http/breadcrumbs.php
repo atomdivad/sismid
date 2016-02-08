@@ -43,6 +43,12 @@ Breadcrumbs::register('reportIndexIniciativa', function($breadcrumbs)
     $breadcrumbs->push('Infográficos Iniciativas', route('report.indexIniciativa'));
 });
 
+//Home > Infogrico Pid Detalhado
+Breadcrumbs::register('reportIndexPidPivot', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Infográficos PIDS Pivoteamento', route('report.indexIniciativa'));
+});
 /*PIDS*/
 
 //Home > PID

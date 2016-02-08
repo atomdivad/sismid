@@ -14,13 +14,11 @@ class PivotController extends Controller
 
     public function index()
     {
-        return view("pivot.index");
+        return view("relatorios.pivoteamento.index");
     }
 
     public function getDados()
     {
-
-
         $iniciativas = DB::table('pids')
             ->join('pid_iniciativas', 'pids.idPid', '=', 'pid_iniciativas.pid_id')
             ->join('iniciativas', 'pid_iniciativas.iniciativa_id', '=', 'iniciativas.idIniciativa')
