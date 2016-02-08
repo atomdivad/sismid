@@ -1,6 +1,4 @@
-
 $(function(){
-
     $.getJSON("/pivot/dados", function(mps) {
         $("#output").pivotUI(mps, {
             rows: ["UF","Iniciativas"],
