@@ -1,11 +1,11 @@
-$(function(){
-    $.getJSON("/pivot/dados", function(mps) {
+$(function () {
+    $.getJSON("/pivot/dados", function (mps) {
         $("#output").pivotUI(mps, {
-            rows: ["UF","Iniciativas"],
-            cols: ["Tipo","Localização"],
+            rows: ["UF", "Iniciativas"],
+            cols: ["Tipo", "Localização"],
             aggregatorName: "Contagem",
-           // vals: ["Tipo"],
+            // vals: ["Tipo"],
             rendererName: "Mapa de Calor por Colunas"
-        },false, "pt");
+        }, false, "pt");
     });
 });
