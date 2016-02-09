@@ -1,3 +1,4 @@
+$('#loading').modal('show');
 $(function () {
     $.getJSON("/report/pivoteamento/dados", function (mps) {
         $("#output").pivotUI(mps, {
@@ -7,5 +8,6 @@ $(function () {
             // vals: ["Tipo"],
             rendererName: "Mapa de Calor por Colunas"
         }, false, "pt");
+        $('#loading').modal('hide');
     });
 });
