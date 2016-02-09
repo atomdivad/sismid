@@ -209,4 +209,11 @@ route::group(['prefix' => 'password'], function() {
      */
     Route::get('/reset/{token}', 'Auth\PasswordController@getReset');
     Route::post('/reset', 'Auth\PasswordController@postReset');
+
+
+    /*
+     * Nova Senha
+     */
+    Route::get('/senha', ['as' => 'password.getNewpassword','uses' => 'Auth\PasswordController@getNewPassword']);
+    Route::post('/senha', ['as' => 'password.postNewpassword','uses' => 'Auth\PasswordController@postNewPassword']);
 });

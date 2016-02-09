@@ -120,7 +120,10 @@ return [
             'longitude' => 'longitude',
             'localidade_id' => 'localidade',
             'localizacao_id' => 'localização'
-        ]
+        ],
+        'password' => 'senha',
+        'oldPassword' => 'senha atual',
+        'password_confirmation' => 'confirme a nova senha'
     ],
 
 ];

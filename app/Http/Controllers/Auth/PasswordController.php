@@ -2,6 +2,8 @@
 
 namespace SisMid\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use SisMid\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -31,7 +33,7 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => ['getNewPassword', 'postNewPassword']]);
     }
 
     /**
@@ -158,5 +160,33 @@ class PasswordController extends Controller
                     ->withInput($request->only('email'))
                     ->withErrors(['email' => trans($response)]);
         }
+    }
+
+
+    public function getNewPassword()
+    {
+        return view('auth.newPassword');
+    }
+
+    public function postNewPassword(Request $request)
+    {
+        $this->validate($request, [
+            'oldPassword' => 'required',
+            'password' => 'required|confirmed|min:6',
+            'password_confirmation' => 'required',
+        ]);
+        if (Hash::check($request['oldPassword'], Auth::user()->password)) {
+            Auth::user()->update(['password' => bcrypt($request['password'])]);
+        }
+        else {
+            return redirect()->back()
+                ->withErrors([
+                    'Senha atual não confere'
+                ]);
+        }
+        return redirect(route("password.getNewpassword"))->with([
+            'flash_type_message' => 'alert-success',
+            'flash_message' => 'Senha Atualiada com sucesso'
+        ]);
     }
 }
