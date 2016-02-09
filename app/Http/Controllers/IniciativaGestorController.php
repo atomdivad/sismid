@@ -2,8 +2,10 @@
 
 namespace SisMid\Http\Controllers;
 
+use Artesaos\Defender\Facades\Defender;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use SisMid\Models\Usuario;
@@ -92,12 +94,17 @@ class IniciativaGestorController extends Controller
             'iniciativa_id' => 'required|exists:iniciativas,idIniciativa',
         ]);
 
-        //$request['password'] =  bcrypt(str_random(10));
-        $request['password'] =  bcrypt('senha123');
+        $password = str_random(8);
+        $request['password'] = bcrypt($password);
         $usuario = Usuario::create($request->all());
 
         /*Role 2 => Usuario Gestor*/
-        $usuario->syncRoles([2]);
+        $role = Defender::findRole('gestor');
+        $usuario->attachRole($role);
+
+        Mail::send('emails.newUser', ['nome' => $request['nome'],'email' => $request['email'], 'senha' => $password], function($m) use ($request) {
+            $m->to($request['email'], $request['nome'])->subject('Bem vindo ao SisMid');
+        });
 
         return $this->show($usuario->idUsuario);
     }

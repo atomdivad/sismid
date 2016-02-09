@@ -3,6 +3,7 @@
 namespace SisMid\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use SisMid\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use SisMid\Http\Controllers\Controller;
@@ -150,15 +151,20 @@ class AdminController extends Controller
             'email' => 'required|email|max:255'
         ]);
 
+        $password = str_random(8);
         $user = Usuario::create([
             'nome' => $request['nome'],
             'sobrenome' => $request['sobrenome'],
             'email' => $request['email'],
-            'password' => bcrypt('admin') //mudar
+            'password' => bcrypt($password)
         ]);
-
         $role = Defender::findRole('admin');
         $user->attachRole($role);
+
+        Mail::send('emails.newUser', ['nome' => $request['nome'],'email' => $request['email'], 'senha' => $password], function($m) use ($request) {
+            $m->to($request['email'], $request['nome'])->subject('Bem vindo ao SisMid');
+        });
+
         return redirect(route("admin.gerencia.index"))->with([
             'flash_type_message' => 'alert-success',
             'flash_message' => 'Administrador cadastrado com sucesso'
