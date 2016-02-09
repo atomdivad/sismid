@@ -201,7 +201,7 @@ route::group(['prefix' => 'password'], function() {
   /*
   * Password reset link request routes
   */
-    Route::get('/email', 'Auth\PasswordController@getEmail');
+    Route::get('/email', ['as' => 'password.formPassword', 'uses' => 'Auth\PasswordController@getEmail']);
     Route::post('/email', 'Auth\PasswordController@postEmail');
 
     /*

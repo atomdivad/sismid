@@ -52,7 +52,15 @@
             {!! Form::checkbox('remember', null, null, []) !!}
         </div>
 
-        <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-send"></i> Entrar</button>
+        <div class="row">
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-send"></i> Entrar</button>
+            </div>
+            <div class="col-sm-6 text-right">
+                <a href="{{ route('password.formPassword') }}">Esqueci minha senha</a>
+            </div>
+        </div>
+
         {!! Form::close() !!}
     </div>
 @endsection
