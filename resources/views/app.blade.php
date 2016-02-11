@@ -187,7 +187,7 @@
         </small>
     </footer>
 </div>
-
+{{--<script type="text/javascript" src="https://www.google.com/jsapi"></script>--}}
 <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
 <script src="{{ asset('/assets/js/lodash.min.js') }}"></script>
 <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>
