@@ -25,10 +25,30 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
+{{--<nav class="navbar navbar-default navbar-fixed-top">--}}
+<nav class="navbar navbar-default">
     <!-- Brand and toggle get grouped for better mobile display -->
+    <div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;">
+        <ul id="menu-barra-temp" style="list-style:none;">
+            <li style="display:inline; float:left;padding-right:10px; margin-right:10px; border-right:1px solid #EDEDED"><a href="http://brasil.gov.br" style="font-family:sans,sans-serif; text-decoration:none; color:white;">Portal do Governo Brasileiro</a></li>
+            <li><a style="font-family:sans,sans-serif; text-decoration:none; color:white;" href="http://epwg.governoeletronico.gov.br/barra/atualize.html">Atualize sua Barra de Governo</a></li>
+        </ul>
+    </div>
+
     <div class="container">
+        <div class="help-block"></div>
+        <div class="col-sm-6">
+
+            <img src="{{ asset('assets/images/ibictlogo.png') }}" height="93" width="500">
+        </div>
+        <div class="col-sm-6">
+
+            <h1>
+                <a href="/">Sistema de Mapeamento de Inclusão Digital</a>
+            </h1>
+        </div>
         <div class="navbar-header">
+
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-ex1-collapse" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -114,7 +134,7 @@
     </div>
 </nav>
 
-<div class="container-fluid" style="padding-top:70px;">
+<div class="container-fluid" style="padding-top:0px;">
     <div class="modal fade" id="feedBackModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -176,7 +196,7 @@
     <hr/>
 
     <footer class="text-center">
-        <small>
+        <div class="col-sm-5">  <small>
             <p>
                 <strong>Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)</strong><br/>
                 Em Brasília: Setor de Autarquias Sul (SAUS) - Quadra 05 Lote 06 Bloco H <br/>
@@ -185,8 +205,18 @@
                 CEP: 22290-160 - Botafogo - RJ
             </p>
         </small>
+            </div>
+        <div class="col-sm-4">
+        <img src="{{ asset('assets/images/mcti.png') }}" height="100">
+
+            </div>
+        <div class="col-sm-3">
+
+            <img src="{{ asset('assets/images/fundep.jpg') }}" height="100" width="230">
+        </div>
     </footer>
 </div>
+<div class="help-block"></div>
 {{--<script type="text/javascript" src="https://www.google.com/jsapi"></script>--}}
 <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
 <script src="{{ asset('/assets/js/lodash.min.js') }}"></script>
@@ -196,6 +226,6 @@
 <script src="{{ asset('/assets/js/jquery.mask.min.js') }}"></script>
 <script src="{{ asset('/assets/js/feedback.js') }}"></script>
 @yield('script')
-
+<script src="//barra.brasil.gov.br/barra.js" type="text/javascript"></script>
 </body>
 </html>
