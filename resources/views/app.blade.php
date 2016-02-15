@@ -55,7 +55,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">SisMID</a>
+            {{--<a class="navbar-brand" href="/">SisMID</a>--}}
         </div>
 
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
@@ -126,7 +126,7 @@
                     </ul>
                 @else
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{{ route('auth.formLogin') }}">Entrar</a></li>
+                        <li><a href="{{ route('auth.formLogin') }}">Acesso Restrito</a></li>
                         {{--<li><a href="{{ route('auth.formRegister') }}">Cadastrar-se</a></li>--}}
                     </ul>
             </div>
