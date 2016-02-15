@@ -214,6 +214,8 @@ route::group(['prefix' => 'password'], function() {
     /*
      * Nova Senha
      */
-    Route::get('/senha', ['as' => 'password.getNewpassword','uses' => 'Auth\PasswordController@getNewPassword']);
-    Route::post('/senha', ['as' => 'password.postNewpassword','uses' => 'Auth\PasswordController@postNewPassword']);
+    Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor'], 'any' => true], function(){
+        Route::get('/senha', ['as' => 'password.getNewpassword','uses' => 'Auth\PasswordController@getNewPassword']);
+        Route::post('/senha', ['as' => 'password.postNewpassword','uses' => 'Auth\PasswordController@postNewPassword']);
+    });
 });
