@@ -204,7 +204,16 @@ function geocodeAddress(geocoder, resultsMap) {
     var address = logradouro+','+numero+','+bairro+','+cidade+','+uf+','+cep;
     geocoder.geocode({'address': address}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
-            marker.setPosition(results[0].geometry.location);
+            if(marker != null) {
+                marker.setPosition(results[0].geometry.location);
+            }
+            else {
+                marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location,
+                    visible: true
+                });
+            }
             /*Adiconar o valor de lat a lng aos inputs*/
             var latlng = results[0].geometry.location.toJSON();
             $("#latitude").val(latlng.lat);
@@ -226,7 +235,16 @@ function setPosition(lat, long, map) {
 }
 
 function setNewPosition(pos, map) {
-    marker.setPosition(pos);
+    if(marker != null) {
+        marker.setPosition(pos);
+    }
+    else {
+        marker = new google.maps.Marker({
+            map: map,
+            position: pos,
+            visible: true
+        });
+    }
     map.setCenter(pos);
     $("#latitude").val(pos.lat);
     $("#longitude").val(pos.lng);
