@@ -60,7 +60,7 @@
 
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ route('mapa.index') }}">Mapa Inclusão Digital</a></li>
+                    <li><a href="{{ route('mapa.index') }}">Mapa de Inclusão Digital</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav">
