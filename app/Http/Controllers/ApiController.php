@@ -57,7 +57,7 @@ class ApiController extends Controller
         else {
             if($request['cidade']) {
                 if(strlen($request['nome']) > 0) {
-                    return DB::table('pids')
+                    $dados = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
@@ -66,9 +66,10 @@ class ApiController extends Controller
                         ->where('enderecos.cidade_id', '=', $request['cidade'])
                         ->where('pids.nome', 'like', '%'.$request['nome'].'%')
                         ->get();
+                    return ['dados' => $dados, 'uf' => DB::table('uf')->where('idUf', '=', $request['uf'])->first()->uf];
                 }
                 else {
-                    return DB::table('pids')
+                    $dados = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
@@ -76,11 +77,12 @@ class ApiController extends Controller
                         ->where('pids.ativo', '=', 1)
                         ->where('enderecos.cidade_id', '=', $request['cidade'])
                         ->get();
+                    return ['dados' => $dados, 'uf' => DB::table('uf')->where('idUf', '=', $request['uf'])->first()->uf];
                 }
             }
             else {
                 if(strlen($request['nome']) > 0) {
-                    return DB::table('pids')
+                    $dados = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
@@ -89,9 +91,10 @@ class ApiController extends Controller
                         ->where('cidades.uf_id', '=', $request['uf'])
                         ->where('pids.nome', 'like', '%'.$request['nome'].'%')
                         ->get();
+                    return ['dados' => $dados, 'uf' => DB::table('uf')->where('idUf', '=', $request['uf'])->first()->uf];
                 }
                 else {
-                    return DB::table('pids')
+                    $dados = DB::table('pids')
                         ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                         ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                         ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
@@ -99,6 +102,7 @@ class ApiController extends Controller
                         ->where('pids.ativo', '=', 1)
                         ->where('cidades.uf_id', '=', $request['uf'])
                         ->get();
+                    return ['dados' => $dados, 'uf' => DB::table('uf')->where('idUf', '=', $request['uf'])->first()->uf];
                 }
             }
         }
