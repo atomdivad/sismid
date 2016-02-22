@@ -43,7 +43,6 @@
 
             </p>
 
-    </div>
 
     @yield('script')
 
