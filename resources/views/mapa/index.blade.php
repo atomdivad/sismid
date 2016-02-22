@@ -26,6 +26,16 @@
         <div class="row">
             <div class="col-sm-2">
                 {!! Form::label('uf', 'UF') !!}
+            </div>
+            <div class="col-sm-4">
+                {!! Form::label('cidade_id', 'Cidade') !!}
+            </div>
+            <div class="col-sm-3">
+                {!! Form::label('agrupamento', 'Agrupamento') !!}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
                 <select name="uf" id="uf" class="form-control">
                     <option value="0">Todos UF</option>
                     @foreach($uf as $index => $u)
@@ -34,25 +44,20 @@
                 </select>
             </div>
             <div class="col-sm-4">
-                {!! Form::label('cidade_id', 'Cidade') !!}
                 {!! Form::select('cidade_id', [], null, ["class" => "form-control"]) !!}
             </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-6">
-                {!! Form::label('agrupamento', 'Agrupamento') !!}
+            <div class="col-sm-3">
                 {!! Form::select('agrupamento', [0 => 'Sem Agrupamento', 'estado' => 'Agrupar por estado', 'regiao' => 'Agrupar por região'], '', ["class" => "form-control"]) !!}
             </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-6">
-                <button class="btn btn-sm btn-primary" id="btnFiltrar">Consultar</button>
-                <button class="btn btn-sm btn-default" id="btnClear">Limpar</button>
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-sm btn-primary" id="btnFiltrar"><i class="fa fa-search"></i> Consultar</button>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-sm btn-default" id="btnClear">Limpar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
