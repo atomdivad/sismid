@@ -29,7 +29,7 @@ class ApiController extends Controller
         $raio = $request['distancia'] + 0.0;//1.0;
         if($request['uf'] == '0') {
             if(strlen($request['nome']) > 0) {
-                return DB::table('pids')
+                $dados = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
@@ -40,9 +40,10 @@ class ApiController extends Controller
                             and enderecos.longitude between min_lng('.$lat_u.', '.$lng_u.', '.$raio.') and max_lng('.$lat_u.', '.$lng_u.', '.$raio.')
                             and distance_between(enderecos.latitude, enderecos.longitude, '.$lat_u.', '.$lng_u.') <= '.$raio)
                     ->get();
+                return ['dados' => $dados];
             }
             else {
-                return DB::table('pids')
+                $dados = DB::table('pids')
                     ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                     ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                     ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
@@ -52,6 +53,7 @@ class ApiController extends Controller
                             and enderecos.longitude between min_lng('.$lat_u.', '.$lng_u.', '.$raio.') and max_lng('.$lat_u.', '.$lng_u.', '.$raio.')
                             and distance_between(enderecos.latitude, enderecos.longitude, '.$lat_u.', '.$lng_u.') <= '.$raio)
                     ->get();
+                return ['dados' => $dados];
             }
         }
         else {
