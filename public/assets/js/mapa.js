@@ -53,6 +53,8 @@ function buscaDados() {
         if(dados.agrupamento == 0) {
             markerDesagrupados(data.pids, 'PID');
             markerDesagrupados(data.iniciativas, 'Iniciativa');
+            /* move p/ div map */
+            scrollTo('#map');
 
             markerCluster = new MarkerClusterer(map, markers);
             /*Ouvir click em cluster*/
@@ -128,6 +130,7 @@ function markerDesagrupados(list, tipo) {
             };
             $("#grid-data").bootgrid('clear');
             $("#grid-data").bootgrid('append', [mk]);
+            scrollTo('#grid');
         });
     });
     $("#grid-data").bootgrid('append', pontos);
@@ -549,6 +552,11 @@ function resetMap() {
     map.setZoom(4);
 }
 
+function scrollTo(div) {
+    $('html, body').animate({ scrollTop: $(div).offset().top }, 'slow');
+    return false;
+}
+
 $( "#btnFiltrar" ).on('click', function() {
     if(polygon.length > 0) {
         estadoRemove();
@@ -580,6 +588,7 @@ $( "#btnClear" ).click(function() {
     }
     resetMap();
 });
+
 
 
 var pidGrid = $("#grid-data").bootgrid({
