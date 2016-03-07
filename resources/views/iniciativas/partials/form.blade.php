@@ -249,27 +249,6 @@
 </div>
 {{-- Fim Dimensoes --}}
 
-{{-- Servicos --}}
-<div class="form-group">
-    <div class="panel panel-default">
-        <div class="panel-heading"><i class="glyphicon glyphicon-list"></i> Servicos</div>
-        <div class="panel-body">
-            <div class="row">
-                @foreach($servicos as $index => $servico)
-                    <div class="col-sm-6">
-                        <input type="checkbox" name="{{ $servico }}" value="{{ $index }}" v-model="iniciativa.servicos"/> {{ $servico }}
-                        @if($index == 23)
-                            <input type="text" class="form-control input-sm" placeholder="Especifique"/>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</div>
-{{-- Fim Servicos --}}
-
-
 @section('script')
     @parent
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>

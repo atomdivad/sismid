@@ -13,6 +13,7 @@ use Intervention\Image\Facades\Image;
 use SisMid\Models\Endereco;
 use SisMid\Models\Iniciativa;
 use SisMid\Models\Pid;
+use SisMid\Models\Servico;
 use SisMid\Models\Telefone;
 use SisMid\Models\Foto;
 
@@ -327,8 +328,9 @@ class PidController extends Controller
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
         $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
         $pidTipos = DB::table('pidTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
+        $servicos = Servico::all()->lists('servico', 'idServico');
 
-        return view('pids.create', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos'));
+        return view('pids.create', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos', 'servicos'));
     }
 
     /**
@@ -372,6 +374,7 @@ class PidController extends Controller
             $iniciativas[] = $iniciativa['idIniciativa'];
         }
         $pid->iniciativas()->sync($iniciativas);
+        $pid->servicos()->sync($request['servicos']);
 
         return $this->show($pid->idPid);
     }
@@ -416,6 +419,11 @@ class PidController extends Controller
                 );
             }
 
+            $servicos = [];
+            foreach($pid->servicos as $servico) {
+                $servicos[] = $servico->idServico;
+            }
+
             $cidade = DB::table('cidades')->select('uf_id')->where('idCidade', '=', $pid->endereco->cidade_id)->first();
             $uf = DB::table('uf')->select('idUf')->where('idUf', '=', $cidade->uf_id)->first();
 
@@ -441,6 +449,7 @@ class PidController extends Controller
                 'telefones' => $pid->telefones,
                 'instituicoes' => $instituicoes,
                 'iniciativas' => $iniciativas,
+                'servicos' => $servicos,
                 'fotos' => $pid->fotos
             ];
         }
@@ -467,8 +476,9 @@ class PidController extends Controller
         $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
         $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
         $pidTipos = DB::table('pidTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
+        $servicos = Servico::all()->lists('servico', 'idServico');
 
-        return view('pids.edit', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos'));
+        return view('pids.edit', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos', 'servicos'));
     }
 
     /**
@@ -525,6 +535,7 @@ class PidController extends Controller
             $iniciativas[] = $iniciativa['idIniciativa'];
         }
         $pid->iniciativas()->sync($iniciativas);
+        $pid->servicos()->sync($request['servicos']);
 
         return $this->show($pid->idPid);
     }
@@ -600,6 +611,10 @@ class PidController extends Controller
         return;
     }
 
+    /**
+     * @param Request $request
+     * @return int
+     */
     public function active(Request $request)
     {
         $pid = Pid::findOrFail($request['id']);

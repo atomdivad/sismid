@@ -230,6 +230,26 @@
 </div>
 {{-- Fim Iniciativas Vinculadas --}}
 
+{{-- Servicos --}}
+<div class="form-group">
+    <div class="panel panel-default">
+        <div class="panel-heading"><i class="glyphicon glyphicon-list"></i> Servicos</div>
+        <div class="panel-body">
+            <div class="row">
+                @foreach($servicos as $index => $servico)
+                    <div class="col-sm-6">
+                        <input type="checkbox" name="{{ $servico }}" value="{{ $index }}" v-model="pid.servicos"/> {{ $servico }}
+                        {{--@if($index == 23)
+                            <input type="text" class="form-control input-sm" placeholder="Especifique"/>
+                        @endif--}}
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Fim Servicos --}}
+
 {{-- Fotos --}}
 @include('pids.partials.modal_fotos')
 <div class="form-group" v-show="pid.idPid != null">

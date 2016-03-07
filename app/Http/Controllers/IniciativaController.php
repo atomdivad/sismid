@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use SisMid\Models\Dimensao;
 use SisMid\Models\Endereco;
 use SisMid\Models\Iniciativa;
-use SisMid\Models\Servico;
 use SisMid\Models\Telefone;
 
 class IniciativaController extends Controller
@@ -105,9 +104,8 @@ class IniciativaController extends Controller
         $naturezasJuridicas = DB::table('naturezasJuridicas')->orderBy('naturezaJuridica')->lists('naturezaJuridica','idNatureza');
         $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
         $dimensoes = Dimensao::all()->lists('dimensao', 'idDimensao');
-        $servicos = Servico::all()->lists('servico', 'idServico');
 
-        return view('iniciativas.create', compact('uf','localidades','localizacoes','naturezasJuridicas','telefoneTipos', 'dimensoes', 'servicos'));
+        return view('iniciativas.create', compact('uf','localidades','localizacoes','naturezasJuridicas','telefoneTipos', 'dimensoes'));
     }
 
     /**
@@ -155,7 +153,6 @@ class IniciativaController extends Controller
         }
 
         $iniciativa->dimensoes()->sync($request['dimensoes']);
-        $iniciativa->servicos()->sync($request['servicos']);
 
         return $this->show($iniciativa->idIniciativa);
     }
@@ -191,11 +188,6 @@ class IniciativaController extends Controller
                 $dimensoes[] = $dimensao->idDimensao;
             }
 
-            $servicos = [];
-            foreach($iniciativa->servicos as $servico) {
-                $servicos[] = $servico->idServico;
-            }
-
             $cidade = DB::table('cidades')->select('uf_id')->where('idCidade', '=', $iniciativa->endereco->cidade_id)->first();
             $uf = DB::table('uf')->select('idUf')->where('idUf', '=', $cidade->uf_id)->first();
 
@@ -226,8 +218,7 @@ class IniciativaController extends Controller
                 'fonte' => $iniciativa->fonte,
                 'telefones' => $iniciativa->telefones,
                 'instituicoes' => $instituicoes,
-                'dimensoes' => $dimensoes,
-                'servicos' => $servicos
+                'dimensoes' => $dimensoes
             ];
         }
     }
@@ -252,9 +243,8 @@ class IniciativaController extends Controller
         $naturezasJuridicas = DB::table('naturezasJuridicas')->orderBy('naturezaJuridica')->lists('naturezaJuridica','idNatureza');
         $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
         $dimensoes = Dimensao::all()->lists('dimensao', 'idDimensao');
-        $servicos = Servico::all()->lists('servico', 'idServico');
 
-        return view('iniciativas.edit', compact('uf','localidades','localizacoes','naturezasJuridicas','telefoneTipos', 'dimensoes', 'servicos'));
+        return view('iniciativas.edit', compact('uf','localidades','localizacoes','naturezasJuridicas','telefoneTipos', 'dimensoes'));
     }
 
     /**
@@ -313,7 +303,6 @@ class IniciativaController extends Controller
         $iniciativa->instituicoes()->sync($instituicoes);
 
         $iniciativa->dimensoes()->sync($request['dimensoes']);
-        $iniciativa->servicos()->sync($request['servicos']);
 
         return $this->show($iniciativa->idIniciativa);
     }

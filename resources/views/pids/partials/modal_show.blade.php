@@ -12,6 +12,7 @@
                     <li role="presentation"><a href="#endereco" aria-controls="endereco" role="tab" data-toggle="tab">Endereço</a></li>
                     <li role="presentation"><a href="#instituicoes" aria-controls="instituicoes" role="tab" data-toggle="tab">Instituições</a></li>
                     <li role="presentation"><a href="#iniciativas" aria-controls="iniciativas" role="tab" data-toggle="tab">Iniciativa</a></li>
+                    <li role="presentation"><a href="#servicos" aria-controls="servicos" role="tab" data-toggle="tab">Serviços</a></li>
                     <li role="presentation"><a href="#fotos" aria-controls="fotos" role="tab" data-toggle="tab">Fotos</a></li>
                 </ul>
 
@@ -109,6 +110,19 @@
                                 <ul class="list-group">
                                     <li class="list-group-item" v-for="inic in info.iniciativas">
                                         @{{ inic.nome }} - @{{ inic.nomeCidade }} - @{{ inic.uf }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="servicos">
+                        <br/>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="sv in info.servicos">
+                                        @{{ sv }}
                                     </li>
                                 </ul>
                             </div>

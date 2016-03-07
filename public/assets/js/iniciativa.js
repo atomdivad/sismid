@@ -31,8 +31,7 @@ var iniciativa = new Vue({
             fonte: '',
             telefones: [],
             instituicoes: [],
-            dimensoes: [],
-            servicos: []
+            dimensoes: []
 
         },
         novoTelefone: {

@@ -66,6 +66,14 @@ class Pid extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function servicos()
+    {
+        return $this->belongsToMany('SisMid\Models\Servico', 'pid_servicos', 'pid_id', 'servico_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function fotos()

@@ -54,16 +54,17 @@ class Iniciativa extends Model
         return $this->belongsToMany('SisMid\Models\Telefone', 'iniciativa_telefones', 'iniciativa_id', 'telefone_id');
     }
 
-    public function servicos()
-    {
-        return $this->belongsToMany('SisMid\Models\Servico', 'iniciativa_servicos', 'iniciativa_id', 'servico_id');
-    }
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function dimensoes()
     {
         return $this->belongsToMany('SisMid\Models\Dimensao', 'iniciativa_dimensoes', 'iniciativa_id', 'dimensao_id');
     }
 
+    /**
+     * @return $this
+     */
     public function instituicoes()
     {
         return $this->belongsToMany('SisMid\Models\Instituicao', 'iniciativa_instituicoes', 'iniciativa_id', 'instituicao_id')

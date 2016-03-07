@@ -12,7 +12,6 @@
                     <li role="presentation"><a href="#endereco" aria-controls="endereco" role="tab" data-toggle="tab">Endereço</a></li>
                     <li role="presentation"><a href="#instituicoes" aria-controls="instituicoes" role="tab" data-toggle="tab">Instituições</a></li>
                     <li role="presentation"><a href="#dimensoes" aria-controls="dimensoes" role="tab" data-toggle="tab">Dimensões</a></li>
-                    <li role="presentation"><a href="#servicos" aria-controls="servicos" role="tab" data-toggle="tab">Serviços</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -22,7 +21,6 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <p v-show="info.tipo.length > 0 "><strong>Tipo:</strong> @{{ info.tipo | uppercase }}</p>
-                                <p v-show="info.naturezaJuridica.length > 0 "><strong>Natureza Jurídica:</strong> @{{ info.naturezaJuridica | uppercase }}</p>
                                 <p v-show="info.categoria.length > 0 "><strong>Categoria:</strong> @{{ info.categoria | uppercase }}</p>
                                 <p v-show="info.fonte.length > 0 "><strong>Fonte:</strong> <a href="@{{ info.fonte }}">@{{ info.fonte }}</p>
                                 <p v-show="info.url.length > 0 "><i class="glyphicon glyphicon-link"></i> <a href="@{{ info.url }}">@{{ info.url }}</a></p>
@@ -95,19 +93,6 @@
                                 <ul class="list-group">
                                     <li class="list-group-item" v-for="di in info.dimensoes">
                                         @{{ di }}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div role="tabpanel" class="tab-pane" id="servicos">
-                        <br/>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <ul class="list-group">
-                                    <li class="list-group-item" v-for="sv in info.servicos">
-                                        @{{ sv }}
                                     </li>
                                 </ul>
                             </div>

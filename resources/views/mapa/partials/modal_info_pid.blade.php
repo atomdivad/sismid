@@ -11,6 +11,7 @@
                     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Informações</a></li>
                     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Endereço</a></li>
                     <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Iniciativa</a></li>
+                    <li role="presentation"><a href="#servicos" aria-controls="servicos" role="tab" data-toggle="tab">Serviços</a></li>
                     <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Fotos</a></li>
                 </ul>
 
@@ -51,7 +52,29 @@
                     </div>
                     
                     <div role="tabpanel" class="tab-pane" id="messages">
-                        @{{ iniciativas | json }}
+                        <br/>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="ini in info.iniciativas">
+                                        @{{ ini.nome }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="servicos">
+                        <br/>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="sv in info.servicos">
+                                        @{{ sv }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     
                     <div role="tabpanel" class="tab-pane" id="settings">

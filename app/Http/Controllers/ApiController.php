@@ -342,12 +342,6 @@ class ApiController extends Controller
                 $dimensoes[] = $dm[$dimensao->idDimensao];
             }
 
-            $servicos = [];
-            $sv = DB::table('servicos')->select('servico', 'idServico')->lists('servico', 'idServico');
-            foreach($iniciativa->servicos as $servico) {
-                $servicos[] = $sv[$servico->idServico];
-            }
-
             $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $iniciativa->endereco->cidade_id)->first();
             $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
             $tipo = DB::table('iniciativaTipos')->select('tipo')->where('idTipo', '=', $iniciativa->tipo_id)->first();
@@ -383,8 +377,7 @@ class ApiController extends Controller
                 'fonte' => $iniciativa->fonte,
                 'telefones' => $iniciativa->telefones,
                 'instituicoes' => $instituicoes,
-                'dimensoes' => $dimensoes,
-                'servicos' => $servicos
+                'dimensoes' => $dimensoes
             ];
         }
     }
@@ -428,6 +421,12 @@ class ApiController extends Controller
                 );
             }
 
+            $servicos = [];
+            $sv = DB::table('servicos')->select('servico', 'idServico')->lists('servico', 'idServico');
+            foreach($pid->servicos as $servico) {
+                $servicos[] = $sv[$servico->idServico];
+            }
+
             $cidade = DB::table('cidades')->select('nomeCidade', 'uf_id')->where('idCidade', '=', $pid->endereco->cidade_id)->first();
             $uf = DB::table('uf')->select('uf')->where('idUf', '=', $cidade->uf_id)->first();
             $tipo = DB::table('pidTipos')->select('tipo')->where('idTipo', '=', $pid->tipo_id)->first();
@@ -456,6 +455,7 @@ class ApiController extends Controller
                 'telefones' => $pid->telefones,
                 'instituicoes' => $instituicoes,
                 'iniciativas' => $iniciativas,
+                'servicos' => $servicos,
                 'fotos' => $pid->fotos
             ];
         }

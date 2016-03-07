@@ -79,6 +79,18 @@ class CreatePidsTable extends Migration
                 ->references('idIniciativa')
                 ->on('iniciativas');
         });
+
+        /**
+         * Relacionamento many to many PID-SERVICOS
+         */
+        Schema::create('pid_servicos', function (Blueprint $table) {
+            $table->unsignedInteger('pid_id');
+            $table->foreign('pid_id')->references('idPid')->on('pids');
+
+            $table->unsignedInteger('servico_id');
+            $table->foreign('servico_id')->references('idServico')->on('servicos');
+
+        });
     }
 
     /**
@@ -91,6 +103,7 @@ class CreatePidsTable extends Migration
         Schema::drop('pid_telefones');
         Schema::drop('pid_instituicoes');
         Schema::drop('pid_iniciativas');
+        Schema::drop('pid_servicos');
         Schema::drop('pids');
     }
 }
