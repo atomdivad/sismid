@@ -24,9 +24,6 @@ class CreateIniciativasTable extends Migration
             $table->unsignedInteger('endereco_id');
             $table->foreign('endereco_id')->references('idEndereco')->on('enderecos');
 
-            $table->unsignedInteger('naturezaJuridica_id')->nullable();
-            $table->foreign('naturezaJuridica_id')->references('idNatureza')->on('naturezasJuridicas');
-
             $table->string('email', 255);
             $table->string('url', 255)->nullable();;
             $table->longText('objetivo')->nullable();;

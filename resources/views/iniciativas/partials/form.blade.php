@@ -1,3 +1,11 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well well-sm">
+            <small>Os campos com <b>*</b> são de preenchimento obrigatório.</small>
+        </div>
+    </div>
+</div>
+
 <div class="form-group">
     <div class="row">
         <div class="col-sm-10">
@@ -14,13 +22,8 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::label('tipo_id', 'Tipo*') !!}
+            {!! Form::label('tipo_id', 'Iniciativas de Inclusão Digital*') !!}
             {!! Form::select('tipo_id', [1 => 'Programa', 2=>'Projeto', 3=>'Ação'], null, ["class" => "form-control", "v-model" => "iniciativa.tipo_id"]) !!}
-        </div>
-
-        <div class="col-sm-6">
-            {!! Form::label('naturezaJuridica_id', 'Natureza Jurídica') !!}
-            {!! Form::select('naturezaJuridica_id', $naturezasJuridicas, null, ["class" => "form-control", "v-model" => "iniciativa.naturezaJuridica_id"]) !!}
         </div>
     </div>
 </div>
@@ -66,7 +69,7 @@
 
 <div class="form-group">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-2">
             {!! Form::label('cep', 'CEP') !!}
             {!! Form::text('cep', null, ["class" => "form-control cep", "v-model" => "iniciativa.endereco.cep"]) !!}
         </div>
@@ -78,15 +81,16 @@
             {!! Form::label('numero', 'Nº') !!}
             {!! Form::text('numero', null, ["class" => "form-control", "v-model" => "iniciativa.endereco.numero"]) !!}
         </div>
+        <div class="col-sm-4">
+            {!! Form::label('complemento', 'Complemento') !!}
+            {!! Form::text('complemento', null, ["class" => "form-control", "v-model" => "iniciativa.endereco.complemento"]) !!}
+        </div>
     </div>
 </div>
 
 <div class="form-group">
     <div class="row">
-        <div class="col-sm-6">
-            {!! Form::label('complemento', 'Complemento') !!}
-            {!! Form::text('complemento', null, ["class" => "form-control", "v-model" => "iniciativa.endereco.complemento"]) !!}
-        </div>
+
     </div>
 </div>
 
@@ -134,19 +138,6 @@
         </div>
         <div class="col-sm-2">
             <button class="btn btn-sm btn-primary" id="latlngSearch" type="button"><i class="glyphicon glyphicon-search"></i> Buscar Coordenadas</button>
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="row">
-        <div class="col-sm-6">
-            {!! Form::label('localizacao', 'Localização') !!}
-            {!! Form::select('localizacao_id', $localizacoes, null, ["class" => "form-control", "v-model" => "iniciativa.endereco.localizacao_id"]) !!}
-        </div>
-        <div class="col-sm-6">
-            {!! Form::label('localidade', 'Localidades') !!}
-            {!! Form::select('localidade_id', $localidades, null, ["class" => "form-control", "v-model" => "iniciativa.endereco.localidade_id"]) !!}
         </div>
     </div>
 </div>
@@ -244,7 +235,7 @@
 {{-- Dimensoes --}}
 <div class="form-group">
     <div class="panel panel-default">
-        <div class="panel-heading"><i class="glyphicon glyphicon-list"></i> Dimensões</div>
+        <div class="panel-heading"><i class="glyphicon glyphicon-list"></i> Dimensões de Inclusão Digital</div>
         <div class="panel-body">
             <div class="row">
                 @foreach($dimensoes as $index => $dimensao)
