@@ -9,7 +9,10 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidStatusTitle"><strong>Pontos de Inclusão Digital: Status</strong></small></div>
+                        <div class="col-sm-10">
+                            <small id="PidStatusTitle"><strong>Pontos de Inclusão Digital: Status</strong></small>
+                            <a class="openModal" href="#" data-chart="PidStatus" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
+                        </div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidStatus" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
@@ -22,7 +25,10 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidTiposTitle"><strong>Pontos de Inclusão Digital: Tipo</strong></small></div>
+                        <div class="col-sm-10">
+                            <small id="PidTiposTitle"><strong>Pontos de Inclusão Digital: Tipo</strong></small>
+                            <a class="openModal" href="#" data-chart="PidTipos" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
+                        </div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidTipos" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
@@ -38,7 +44,10 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidIniciativaTitle"><strong>Pontos de Inclusão Digital: Vinculados à Inicativas</strong></small></div>
+                        <div class="col-sm-10">
+                            <small id="PidIniciativaTitle"><strong>Pontos de Inclusão Digital: Vinculados à Inicativas</strong></small>
+                            <a class="openModal" href="#" data-chart="PidIniciativa" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
+                        </div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidIniciativa" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
@@ -51,7 +60,10 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidInstituicaoTitle"><strong>Pontos de Inclusão Digital: Instituições Mantenedoras</strong></small></div>
+                        <div class="col-sm-10">
+                            <small id="PidInstituicaoTitle"><strong>Pontos de Inclusão Digital: Instituições Mantenedoras</strong></small>
+                            <a class="openModal" href="#" data-chart="PidInstituicao" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
+                        </div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidInstituicao" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
@@ -66,7 +78,10 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidLocalizcaoTitle"><strong>Pontos de Inclusão Digital: Localização</strong></small></div>
+                        <div class="col-sm-10">
+                            <small id="PidLocalizcaoTitle"><strong>Pontos de Inclusão Digital: Localização</strong></small>
+                            <a class="openModal" href="#" data-chart="PidLocalizcao" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
+                        </div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidLocalizcao" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
@@ -79,7 +94,10 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidLocalidadeTitle"><strong>Pontos de Inclusão Digital: Localidade</strong></small></div>
+                        <div class="col-sm-10">
+                            <small id="PidLocalidadeTitle"><strong>Pontos de Inclusão Digital: Localidade</strong></small>
+                            <a class="openModal" href="#" data-chart="PidLocalidade" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
+                        </div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidLocalidade" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
@@ -94,7 +112,10 @@
             <div class="thumbnail">
                 <div class="caption">
                     <div class="row">
-                        <div class="col-sm-10"><small id="PidServicoTitle"><strong>Pontos de Inclusão Digital: Serviços</strong></small></div>
+                        <div class="col-sm-10">
+                            <small id="PidServicoTitle"><strong>Pontos de Inclusão Digital: Serviços</strong></small>
+                            <a class="openModal" href="#" data-chart="PidServico" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
+                        </div>
                         <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidServico" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
@@ -105,6 +126,7 @@
     </div>
 
     @include('relatorios.partials.modal_conf')
+    @include('relatorios.partials.modal_ajuda')
 @endsection
 @section('script')
     @parent

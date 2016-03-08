@@ -28,6 +28,7 @@ $('#exibir').on('change',function() {
 var chart = '', url = '', title = '', dados, txtTitle = '';
 $(".openModal").on('click', function() {
     chart = $(this).data('chart');
+    ajuda.$data.chart = chart;
 });
 
 $("#apply").on('click', function() {
@@ -466,3 +467,11 @@ function setTitle(chart)
             break;
     }
 }
+
+var ajuda = new Vue({
+    el: '#modalAjuda',
+
+    data:{
+        chart: ''
+    }
+});
