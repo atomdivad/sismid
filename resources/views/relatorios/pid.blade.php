@@ -89,6 +89,21 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="thumbnail">
+                <div class="caption">
+                    <div class="row">
+                        <div class="col-sm-10"><small id="PidServicoTitle"><strong>Pontos de Inclusão Digital: Serviços</strong></small></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidServico" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
+                    </div>
+                </div>
+                <div id="pidServico"></div>
+                @piechart('PidServico', 'pidServico')
+            </div>
+        </div>
+    </div>
+
     @include('relatorios.partials.modal_conf')
 @endsection
 @section('script')

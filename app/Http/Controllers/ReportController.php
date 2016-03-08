@@ -29,9 +29,10 @@ class ReportController extends Controller
         $pidInstituicao = $this->reportPidInstituicao();
         $pidLocalizcao = $this->reportPidLocalizacao();
         $pidLocalidade = $this->reportPidLocalidade();
+        $pidServico = $this->reportPidServico();
 
         return view('relatorios.pid', compact('uf', 'pidStatus', 'pidTipo', 'pidIniciativa', 'pidInstituicao',
-            'pidLocalizcao', 'pidLocalidade'
+            'pidLocalizcao', 'pidLocalidade', 'pidServico'
         ));
     }
 
@@ -884,6 +885,136 @@ class ReportController extends Controller
             $dados->addRow(["Não Informado", $qt]);
         return $dados;
     }
+    /*---------------------------------------------------------------------------------------------------------------------*/
+    /**
+     * @return mixed
+     */
+    public function reportPidServico(Request $request = null)
+    {
+        if($request != null) {
+            switch($request['type']) {
+                case 'geral':
+                    return $this->reportPidServicoGeral()->toJson();
+                    break;
+
+                case 'regiao':
+                    switch($request['regiao']) {
+                        case 1:
+                            return $this->reportPidServicoByUf([50, 51, 52, 53])->toJson();
+                            break;
+
+                        case 2:
+                            return $this->reportPidServicoByUf([11, 12, 13, 14, 15, 16, 17])->toJson();
+                            break;
+
+                        case 3:
+                            return $this->reportPidServicoByUf([21, 22, 23, 24, 25, 26, 27, 28, 29])->toJson();
+                            break;
+
+                        case 4:
+                            return $this->reportPidServicoByUf([41, 42, 43])->toJson();
+                            break;
+
+                        case 5:
+                            return $this->reportPidServicoByUf([31, 32, 33, 35])->toJson();
+                            break;
+                    }
+                    break;
+
+                case 'estado':
+                    if($request['cidade'] != '') {
+                        return $this->reportPidServicoByCidade($request['cidade'])->toJson();
+                    }
+                    else {
+                        return $this->reportPidServicoByUf([$request['uf']])->toJson();
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            $dados = $this->reportPidServicoGeral();
+            $graph = \Lava::PieChart('PidServico')
+                ->setOptions([
+                    'datatable' => $dados,
+                    'is3D' => true
+                ]);
+            return $graph;
+        }
+    }
+
+    private function reportPidServicoGeral()
+    {
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Serviços')
+            ->addNumberColumn('Qtd');
+
+        $servicos = Servico::all();
+        foreach($servicos as $sv) {
+            $qt = Pid::whereHas('servicos', function($query) use ($sv){
+                $query->where('idServico', $sv->idServico);
+            })->count();
+
+            $dados->addRow([$sv->servico, $qt]);
+        }
+        $dados->addRow(['Nenhum', Pid::has('servicos', '=', 0)->count()]);
+        return $dados;
+    }
+
+    private function reportPidServicoByUf($uf)
+    {
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Serviços')
+            ->addNumberColumn('Qtd');
+
+        $servicos = Servico::all();
+        foreach($servicos as $sv) {
+            $qt = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->whereIn('cidades.uf_id', $uf)
+                ->whereRaw('pids.idPid IN (SELECT pid_id FROM pid_servicos WHERE servico_id ='.$sv->idServico.' )')
+                ->count();
+
+            $dados->addRow([$sv->servico, $qt]);
+        }
+
+        $qt = DB::table('pids')
+            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+            ->whereIn('cidades.uf_id', $uf)
+            ->whereRaw('pids.idPid NOT IN (SELECT pid_id FROM pid_servicos)')
+            ->count();
+        $dados->addRow(['Nenhum', $qt]);
+        return $dados;
+    }
+
+    private function reportPidServicoByCidade($cidade)
+    {
+        $dados = \Lava::DataTable();
+        $dados->addStringColumn('Serviços')
+            ->addNumberColumn('Qtd');
+
+        $servicos = Servico::all();
+        foreach($servicos as $sv) {
+            $qt = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->where('enderecos.cidade_id', $cidade)
+                ->whereRaw('pids.idPid IN (SELECT pid_id FROM pid_servicos WHERE servico_id ='.$sv->idServico.' )')
+                ->count();
+
+            $dados->addRow([$sv->servico, $qt]);
+        }
+
+        $qt = DB::table('pids')
+            ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+            ->where('enderecos.cidade_id', $cidade)
+            ->whereRaw('pids.idPid NOT IN (SELECT pid_id FROM pid_servicos)')
+            ->count();
+        $dados->addRow(['Nenhum', $qt]);
+
+        return $dados;
+    }
 
 /*---------------------------------------------------------------------------------------------------------------------*/
 
@@ -900,13 +1031,11 @@ class ReportController extends Controller
 
         $iniciativaTipo = $this->reportIniciativaTipo();
         $iniciativaCategoria = $this->reportInicativaCategoria();
-        $iniciativaNatureza = $this->reportInicativaNatureza();
         $iniciativaLocalizacao = $this->reportIniciativaLocalizacao();
         $iniciativaDimensao = $this->reportIniciativaDimensao();
-        $iniciativaServico = $this->reportIniciativaServico();
         $iniciativaInstituicao = $this->reportIniciativaInstituicao();
 
-        return view('relatorios.iniciativa', compact('uf', 'iniciativaTipo', 'iniciativaCategoria', 'iniciativaNatureza',
+        return view('relatorios.iniciativa', compact('uf', 'iniciativaTipo', 'iniciativaCategoria',
             'iniciativaLocalizacao', 'iniciativaDimensao', 'iniciativaServico', 'iniciativaInstituicao'
         ));
     }
@@ -1177,139 +1306,7 @@ class ReportController extends Controller
             $dados->addRow(['Não Informado', $aux]);
         return $dados;
     }
-/*---------------------------------------------------------------------------------------------------------------------*/
-    /**
-     * @return mixed
-     */
-    public function reportInicativaNatureza(Request $request = null)
-    {
-        if($request != null) {
-            switch($request['type']) {
-                case 'geral':
-                    return $this->reportInicativaNaturezaGeral()->toJson();
-                    break;
 
-                case 'regiao':
-                    switch($request['regiao']) {
-                        case 1:
-                            return $this->reportInicativaNaturezaByUf([50, 51, 52, 53])->toJson();
-                            break;
-
-                        case 2:
-                            return $this->reportInicativaNaturezaByUf([11, 12, 13, 14, 15, 16, 17])->toJson();
-                            break;
-
-                        case 3:
-                            return $this->reportInicativaNaturezaByUf([21, 22, 23, 24, 25, 26, 27, 28, 29])->toJson();
-                            break;
-
-                        case 4:
-                            return $this->reportInicativaNaturezaByUf([41, 42, 43])->toJson();
-                            break;
-
-                        case 5:
-                            return $this->reportInicativaNaturezaByUf([31, 32, 33, 35])->toJson();
-                            break;
-                    }
-                    break;
-
-                case 'estado':
-                    if($request['cidade'] != '') {
-                        return $this->reportInicativaNaturezaByCidade($request['cidade'])->toJson();
-                    }
-                    else {
-                        return $this->reportInicativaNaturezaByUf([$request['uf']])->toJson();
-                    }
-                    break;
-            }
-        }
-        else {
-            $dados = $this->reportInicativaNaturezaGeral();
-
-            $graph = \Lava::PieChart('InicativaNaturezas')
-                ->setOptions([
-                    'datatable' => $dados,
-                    'is3D' => true,
-                    'slices' => [
-                        \Lava::Slice(['offset' => 0.2]),
-                        \Lava::Slice(['offset' => 0.2]),
-                    ]
-                ]);
-
-            return $graph;
-        }
-    }
-    private function reportInicativaNaturezaGeral()
-    {
-        $dados = \Lava::DataTable();
-        $dados->addStringColumn('Natureza Jurídica')
-            ->addNumberColumn('Qtd');
-
-        $naturezas = DB::table('naturezasJuridicas')->get();
-        foreach($naturezas as $nt) {
-            $dados->addRow([$nt->naturezaJuridica, Iniciativa::where('naturezaJuridica_id', '=', $nt->idNatureza)->count()]);
-        }
-        $aux = Iniciativa::where('naturezaJuridica_id', '=', null)->count();
-        if($aux > 0)
-            $dados->addRow(['Não Informado', $aux]);
-
-        return $dados;
-    }
-    private function reportInicativaNaturezaByUf($uf)
-    {
-        $dados = \Lava::DataTable();
-        $dados->addStringColumn('Categorias')
-            ->addNumberColumn('Qtd');
-
-        $naturezas = DB::table('naturezasJuridicas')->get();
-        foreach($naturezas as $nt) {
-            $qt = DB::table('iniciativas')
-                ->where('iniciativas.naturezaJuridica_id', $nt->idNatureza)
-                ->join('enderecos', 'enderecos.idEndereco', '=', 'iniciativas.endereco_id')
-                ->join('cidades', 'cidades.idCidade', '=', 'enderecos.cidade_id')
-                ->whereIn('cidades.uf_id', $uf)
-                ->count();
-
-            $dados->addRow([$nt->naturezaJuridica, $qt]);
-        }
-        $aux = DB::table('iniciativas')
-            ->where('iniciativas.naturezaJuridica_id', null)
-            ->join('enderecos', 'enderecos.idEndereco', '=', 'iniciativas.endereco_id')
-            ->join('cidades', 'cidades.idCidade', '=', 'enderecos.cidade_id')
-            ->whereIn('cidades.uf_id', $uf)
-            ->count();
-        if ($aux > 0)
-            $dados->addRow(['Não Informado', $aux]);
-        return $dados;
-    }
-    private function reportInicativaNaturezaByCidade($cidade)
-    {
-        $dados = \Lava::DataTable();
-        $dados->addStringColumn('Tipos')
-            ->addNumberColumn('Qtd');
-
-        $naturezas = DB::table('naturezasJuridicas')->get();
-        foreach($naturezas as $nt) {
-            $qt = DB::table('iniciativas')
-                ->where('iniciativas.naturezaJuridica_id', $nt->idNatureza)
-                ->join('enderecos', 'enderecos.idEndereco', '=', 'iniciativas.endereco_id')
-                ->join('cidades', 'cidades.idCidade', '=', 'enderecos.cidade_id')
-                ->where('enderecos.cidade_id', $cidade)
-                ->count();
-
-            $dados->addRow([$nt->naturezaJuridica, $qt]);
-        }
-        $aux = DB::table('iniciativas')
-            ->where('iniciativas.naturezaJuridica_id', null)
-            ->join('enderecos', 'enderecos.idEndereco', '=', 'iniciativas.endereco_id')
-            ->join('cidades', 'cidades.idCidade', '=', 'enderecos.cidade_id')
-            ->where('enderecos.cidade_id', $cidade)
-            ->count();
-
-        if ($aux > 0)
-            $dados->addRow(['Não Informado', $aux]);
-        return $dados;
-    }
 /*---------------------------------------------------------------------------------------------------------------------*/
     /**
      * @return mixed
@@ -1570,137 +1567,6 @@ class ReportController extends Controller
             ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
             ->where('enderecos.cidade_id', $cidade)
             ->whereRaw('iniciativas.idIniciativa NOT IN (SELECT iniciativa_id FROM iniciativa_dimensoes)')
-            ->count();
-        $dados->addRow(['Nenhum', $qt]);
-
-        return $dados;
-    }
-
-/*---------------------------------------------------------------------------------------------------------------------*/
-    /**
-     * @return mixed
-     */
-    public function reportIniciativaServico(Request $request = null)
-    {
-        if($request != null) {
-            switch($request['type']) {
-                case 'geral':
-                    return $this->reportIniciativaServicoGeral()->toJson();
-                    break;
-
-                case 'regiao':
-                    switch($request['regiao']) {
-                        case 1:
-                            return $this->reportIniciativaServicoByUf([50, 51, 52, 53])->toJson();
-                            break;
-
-                        case 2:
-                            return $this->reportIniciativaServicoByUf([11, 12, 13, 14, 15, 16, 17])->toJson();
-                            break;
-
-                        case 3:
-                            return $this->reportIniciativaServicoByUf([21, 22, 23, 24, 25, 26, 27, 28, 29])->toJson();
-                            break;
-
-                        case 4:
-                            return $this->reportIniciativaServicoByUf([41, 42, 43])->toJson();
-                            break;
-
-                        case 5:
-                            return $this->reportIniciativaServicoByUf([31, 32, 33, 35])->toJson();
-                            break;
-                    }
-                    break;
-
-                case 'estado':
-                    if($request['cidade'] != '') {
-                        return $this->reportIniciativaServicoByCidade($request['cidade'])->toJson();
-                    }
-                    else {
-                        return $this->reportIniciativaServicoByUf([$request['uf']])->toJson();
-                    }
-                    break;
-            }
-        }
-        else
-        {
-            $dados = $this->reportIniciativaServicoGeral();
-            $graph = \Lava::PieChart('IniciativaServico')
-                ->setOptions([
-                    'datatable' => $dados,
-                    'is3D' => true
-                ]);
-            return $graph;
-        }
-    }
-
-    private function reportIniciativaServicoGeral()
-    {
-        $dados = \Lava::DataTable();
-        $dados->addStringColumn('Serviços')
-            ->addNumberColumn('Qtd');
-
-        $servicos = Servico::all();
-        foreach($servicos as $sv) {
-            $qt = Iniciativa::whereHas('servicos', function($query) use ($sv){
-                $query->where('idServico', $sv->idServico);
-            })->count();
-
-            $dados->addRow([$sv->servico, $qt]);
-        }
-        $dados->addRow(['Nenhum', Iniciativa::has('servicos', '=', 0)->count()]);
-        return $dados;
-    }
-
-    private function reportIniciativaServicoByUf($uf)
-    {
-        $dados = \Lava::DataTable();
-        $dados->addStringColumn('Serviços')
-            ->addNumberColumn('Qtd');
-
-        $servicos = Servico::all();
-        foreach($servicos as $sv) {
-            $qt = DB::table('iniciativas')
-                ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
-                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-                ->whereIn('cidades.uf_id', $uf)
-                ->whereRaw('iniciativas.idIniciativa IN (SELECT iniciativa_id FROM iniciativa_servicos WHERE servico_id ='.$sv->idServico.' )')
-                ->count();
-
-            $dados->addRow([$sv->servico, $qt]);
-        }
-
-        $qt = DB::table('iniciativas')
-            ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
-            ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
-            ->whereIn('cidades.uf_id', $uf)
-            ->whereRaw('iniciativas.idIniciativa NOT IN (SELECT iniciativa_id FROM iniciativa_servicos)')
-            ->count();
-        $dados->addRow(['Nenhum', $qt]);
-        return $dados;
-    }
-
-    private function reportIniciativaServicoByCidade($cidade)
-    {
-        $dados = \Lava::DataTable();
-        $dados->addStringColumn('Serviços')
-            ->addNumberColumn('Qtd');
-
-        $servicos = Servico::all();
-        foreach($servicos as $sv) {
-            $qt = DB::table('iniciativas')
-                ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
-                ->where('enderecos.cidade_id', $cidade)
-                ->whereRaw('iniciativas.idIniciativa IN (SELECT iniciativa_id FROM iniciativa_servicos WHERE servico_id ='.$sv->idServico.' )')
-                ->count();
-
-            $dados->addRow([$sv->servico, $qt]);
-        }
-
-        $qt = DB::table('iniciativas')
-            ->join('enderecos', 'iniciativas.endereco_id', '=', 'enderecos.idEndereco')
-            ->where('enderecos.cidade_id', $cidade)
-            ->whereRaw('iniciativas.idIniciativa NOT IN (SELECT iniciativa_id FROM iniciativa_servicos)')
             ->count();
         $dados->addRow(['Nenhum', $qt]);
 

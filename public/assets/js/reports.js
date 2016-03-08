@@ -147,6 +147,13 @@ $('#applyAll').on('click', function() {
                     setTitle('PidLocalidade');
                     $('#'+title).html(txtTitle);
                 });
+            }),
+
+            $.post('/report/pid/servico', dados, function (dataTableJson) {
+                lava.loadData('PidServico', dataTableJson, function (chart) {
+                    setTitle('PidServico');
+                    $('#'+title).html(txtTitle);
+                });
             })
 
         ).done(function() {
@@ -163,13 +170,6 @@ $('#applyAll').on('click', function() {
             $.post('/report/iniciativa/dimensao', dados, function (dataTableJson) {
                 lava.loadData('IniciativaDimensao', dataTableJson, function (chart) {
                     setTitle('IniciativaDimensao');
-                    $('#'+title).html(txtTitle);
-                });
-            }),
-
-            $.post('/report/iniciativa/servico', dados, function (dataTableJson) {
-                lava.loadData('IniciativaServico', dataTableJson, function (chart) {
-                    setTitle('IniciativaServico');
                     $('#'+title).html(txtTitle);
                 });
             }),
@@ -198,13 +198,6 @@ $('#applyAll').on('click', function() {
             $.post('/report/iniciativa/localizacao', dados, function (dataTableJson) {
                 lava.loadData('IniciativaLocalizacao', dataTableJson, function (chart) {
                     setTitle('IniciativaLocalizacao');
-                    $('#'+title).html(txtTitle);
-                });
-            }),
-
-            $.post('/report/iniciativa/natureza', dados, function (dataTableJson) {
-                lava.loadData('InicativaNaturezas', dataTableJson, function (chart) {
-                    setTitle('InicativaNaturezas');
                     $('#'+title).html(txtTitle);
                 });
             })
@@ -349,6 +342,27 @@ function setTitle(chart)
             }
             break;
 
+        case 'PidServico':
+            title = 'PidServicoTitle';
+            url = '/report/pid/servico';
+            switch (dados.type) {
+                case 'geral':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Serviços</strong>';
+                    break;
+
+                case 'regiao':
+                    txtTitle = '<strong>Pontos de Inclusão Digital: Serviços / Região: '+ $('#regioes option:selected').text() +' </strong>';
+                    break;
+
+                case 'estado':
+                    if(dados.cidade == '')
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Serviços / Estado: '+ $('#uf option:selected').text() +'</strong>';
+                    else
+                        txtTitle = '<strong>Pontos de Inclusão Digital: Serviços / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
+                    break;
+            }
+            break;
+
         case 'IniciativaDimensao':
             title = 'IniciativaDimensaoTitle';
             url = '/report/iniciativa/dimensao';
@@ -366,27 +380,6 @@ function setTitle(chart)
                         txtTitle = '<strong>Iniciativas: Dimensões / Estado: '+ $('#uf option:selected').text() +'</strong>';
                     else
                         txtTitle = '<strong>Iniciativas: Dimensões / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
-                    break;
-            }
-            break;
-
-        case 'IniciativaServico':
-            title = 'IniciativaServicoTitle';
-            url = '/report/iniciativa/servico';
-            switch (dados.type) {
-                case 'geral':
-                    txtTitle = '<strong>Iniciativas: Serviços</strong>';
-                    break;
-
-                case 'regiao':
-                    txtTitle = '<strong>Iniciativas: Serviços / Região: '+ $('#regioes option:selected').text() +' </strong>';
-                    break;
-
-                case 'estado':
-                    if(dados.cidade == '')
-                        txtTitle = '<strong>Iniciativas: Serviços / Estado: '+ $('#uf option:selected').text() +'</strong>';
-                    else
-                        txtTitle = '<strong>Iniciativas: Serviços / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
                     break;
             }
             break;
@@ -471,72 +464,5 @@ function setTitle(chart)
                     break;
             }
             break;
-        case 'InicativaNaturezas':
-            title = 'InicativaNaturezasTitle';
-            url = '/report/iniciativa/natureza';
-            switch (dados.type) {
-                case 'geral':
-                    txtTitle = '<strong>Iniciativas: Natureza Jurídica</strong>';
-                    break;
-
-                case 'regiao':
-                    txtTitle = '<strong>Iniciativas: Natureza Jurídica / Região: '+ $('#regioes option:selected').text() +' </strong>';
-                    break;
-
-                case 'estado':
-                    if(dados.cidade == '')
-                        txtTitle = '<strong>Iniciativas: Natureza Jurídica / Estado: '+ $('#uf option:selected').text() +'</strong>';
-                    else
-                        txtTitle = '<strong>Iniciativas: Natureza Jurídica / Estado: '+ $('#uf option:selected').text() +' / Cidade: '+ $('#cidade_id option:selected').text() +' </strong>';
-                    break;
-            }
-            break;
     }
 }
-
-/*
-$('a#pidStatusBtn').on('click', function(ev){
-    ev.preventDefault();
-    $.post('/report/pidStatus',{dados: 'dados'}, function (dataTableJson) {
-        lava.loadData('PidStatus', dataTableJson, function (chart) {
-            console.log(chart);
-        });
-    });
-
-    $.getJSON('/report/pidLocalizacao', function (dataTableJson) {
-        lava.loadData('PidLocalizcao', dataTableJson, function (chart) {
-            console.log(chart);
-        });
-    });
-
-    $.getJSON('/report/pidTipo', function (dataTableJson) {
-        lava.loadData('PidTipos', dataTableJson, function (chart) {
-            console.log(chart);
-        });
-    });
-
-    $.getJSON('/report/iniciativaTipo', function (dataTableJson) {
-        lava.loadData('InicativaTipos', dataTableJson, function (chart) {
-            console.log(chart);
-        });
-    });
-
-    $.getJSON('/report/iniciativaCategoria', function (dataTableJson) {
-        lava.loadData('InicativaCategorias', dataTableJson, function (chart) {
-            console.log(chart);
-        });
-    });
-
-    $.getJSON('/report/iniciativaNatureza', function (dataTableJson) {
-        lava.loadData('InicativaNaturezas', dataTableJson, function (chart) {
-            console.log(chart);
-        });
-    });
-
-    $.getJSON('/report/iniciativaLocalizacao', function (dataTableJson) {
-        lava.loadData('iniciativaLocalizcao', dataTableJson, function (chart) {
-            console.log(chart);
-        });
-    });
-
-});*/

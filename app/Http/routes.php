@@ -132,16 +132,15 @@ Route::group(['prefix' => 'report'], function(){
         Route::post('/instituicao',       ['as' => 'report.pidInstituicao',           'uses' => 'ReportController@reportPidInstituicao']);
         Route::post('/localizacao',       ['as' => 'report.pidLocalizacao',           'uses' => 'ReportController@reportPidLocalizacao']);
         Route::post('/localidade',        ['as' => 'report.pidLocalidade',            'uses' => 'ReportController@reportPidLocalidade']);
+        Route::post('/servico',           ['as' => 'report.pidServico',               'uses' => 'ReportController@reportPidServico']);
     });
 
     Route::group(['prefix' => 'iniciativa'], function(){
         Route::get('/',                      ['as' => 'report.indexIniciativa',          'uses' => 'ReportController@indexIniciativa']);
         Route::post('/tipo',                 ['as' => 'report.iniciativaTipo',           'uses' => 'ReportController@reportIniciativaTipo']);
         Route::post('/categoria',            ['as' => 'report.iniciativaCategoria',      'uses' => 'ReportController@reportInicativaCategoria']);
-        Route::post('/natureza',             ['as' => 'report.iniciativaNatureza',       'uses' => 'ReportController@reportInicativaNatureza']);
         Route::post('/localizacao',          ['as' => 'report.iniciativaLocalizacao',    'uses' => 'ReportController@reportIniciativaLocalizacao']);
         Route::post('/dimensao',             ['as' => 'report.iniciativaDimensao',       'uses' => 'ReportController@reportIniciativaDimensao']);
-        Route::post('/servico',              ['as' => 'report.iniciativaServico',        'uses' => 'ReportController@reportIniciativaServico']);
         Route::post('/instituicao',          ['as' => 'report.iniciativaInstituicao',    'uses' => 'ReportController@reportIniciativaInstituicao']);
     });
     Route::group(['prefix' => 'pivoteamento'], function() {
