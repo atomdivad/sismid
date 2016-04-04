@@ -166,7 +166,7 @@
         {{-- Rodape --}}
         <footer>
             <div class="row">
-                <div class="col-sm-8 text-center">
+                <div class="col-sm-7 text-center">
                     <p>
                         <small>
                             <strong>Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)</strong><br/>
@@ -177,9 +177,14 @@
                         </small>
                     </p>
                 </div>
-                <div class="text-right">
-                    <div class="col-sm-2 text-center">
+                <div class="">
+                    <div class="col-sm-2">
                         <a href="http://www.mcti.gov.br/"><img src="{{ asset('assets/images/mcti.png') }}" alt="Ministério da Ciência, Tecnologia e Inovação (MCTI)" class="img-responsive"></a>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="col-sm-3 text-right">
+                        <small><a href="{{ route('apiDoc') }}">Documentação API Pública</a></small>
                     </div>
                 </div>
 

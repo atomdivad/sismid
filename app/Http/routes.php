@@ -149,25 +149,33 @@ Route::group(['prefix' => 'report'], function(){
 
 Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
 
+    Route::get('/doc',  ['as' => 'apiDoc',  function(){
+        return view('apiDoc');
+    }]);
+
     Route::get('/uf',                       ['as' => 'getUf',                 'uses' => 'ApiController@getUf']);
     Route::get('/uf/{id}/cidades/',         ['as' => 'getCidades',            'uses' => 'ApiController@getCidades']);
 
-    /*Rota exclusiva para app mobile*/
-    Route::post('/app/mapa',                ['as' => 'appMapa',               'uses' => 'ApiController@appMapa']);
-
-    Route::post('/mapa/',                   ['as' => 'getMapa',               'uses' => 'MapaController@getMapa']);
+    Route::get('/pid',                      ['as' => 'getAllPids',            'uses' => 'ApiController@getPids']);
+    Route::get('/pid/{id}/show',            ['as' => 'getPid',                'uses' => 'ApiController@getPid']);
     Route::get('/{id}/fotos/{nome}',        ['as' => 'geFotos',               'uses' => 'ApiController@getFotos']);
+
+    Route::get('instituicao',               ['as' => 'getAllInstituicoes',    'uses' => 'ApiController@getInstituicoes']);
+    Route::get('/instituicao/{id}/show',    ['as' => 'getInstituicao',        'uses' => 'ApiController@getInstituicao']);
+
+    Route::get('iniciativa',                ['as' => 'getAllIniciativas',     'uses' => 'ApiController@getIniciativas']);
+    Route::get('/iniciativa/{id}/show',     ['as' => 'getIniciativa',         'uses' => 'ApiController@getIniciativa']);
+    Route::get('iniciativa/{id}/pid',       ['as' => 'getIniciativaPid',      'uses' => 'ApiController@getIniciativaPid']);
 
     Route::post('/pesquisar/instituicoes',  ['as' => 'pesquisarInstituicoes', 'uses' => 'ApiController@getInstituicoes']);
     Route::post('/pesquisar/iniciativas',   ['as' => 'pesquisarIniciativas',  'uses' => 'ApiController@getIniciativas']);
 
-    Route::get('/iniciativa/{id}/show',     ['as' => 'getIniciativa',         'uses' => 'ApiController@getIniciativa']);
-    Route::get('/pid/{id}/show',            ['as' => 'getPid',                'uses' => 'ApiController@getPid']);
-    Route::get('/instituicao/{id}/show',    ['as' => 'getInstituicao',        'uses' => 'ApiController@getInstituicao']);
+    /*Rota p/ o Mapa no site*/
+    Route::post('/mapa/',                   ['as' => 'getMapa',               'uses' => 'MapaController@getMapa']);
 
-    Route::get('/pid',                      ['as' => 'getAllPids',            'uses' => 'ApiController@getAllPids']);
-    Route::get('iniciativa',                ['as' => 'getAllIniciativas',     'uses' => 'ApiController@getIniciativas']);
-    Route::get('iniciativa/{id}/pid',       ['as' => 'getIniciativaPid',      'uses' => 'ApiController@getIniciativaPid']);
+    /*Rota exclusiva para app mobile*/
+    Route::post('/app/mapa',                ['as' => 'appMapa',               'uses' => 'ApiController@appMapa']);
+
 });
 
 route::group(['prefix' => 'auth'], function(){
