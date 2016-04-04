@@ -2,6 +2,11 @@
 @section('content')
     {!! Breadcrumbs::render('api') !!}
 
+    <p>
+        A API Pública do SISMID provê um meio para a obtenção de dados relacionados aos PIDs. <br/>
+        A API é desenvolvida utilizando padrão <a href="https://pt.wikipedia.org/wiki/REST" target="_blank">REST</a> e todos os dados são retornados em <a href="https://pt.wikipedia.org/wiki/JSON" target="_blank">JSON</a>.
+    </p>
+
     <h3>PID</h3>
     <div class="panel panel-default" id="getPids">
         <div class="panel-heading">Obter lista de PIDs</div>
