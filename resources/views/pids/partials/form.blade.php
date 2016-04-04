@@ -93,7 +93,7 @@
             {!! Form::text('longitude', null, ["class" => "form-control", "readonly", 'v-model' => 'pid.endereco.longitude']) !!}
         </div>
         <div class="col-sm-2">
-            <button class="btn btn-sm btn-primary" id="latlngSearch" type="button"><i class="glyphicon glyphicon-search"></i> Buscar Coordenadas</button>
+            <button class="btn btn-sm btn-primary" id="latlngSearch" type="button" title="Buscar coordenadas do endereço"><i class="glyphicon glyphicon-search"></i> Buscar Coordenadas</button>
         </div>
     </div>
 </div>
@@ -122,7 +122,7 @@
                             <i class="glyphicon glyphicon-phone-alt"></i> Telefones
                         </div>
                         <div class="col-sm-6 text-right">
-                            <button class="btn btn-xs btn-primary" v-on:click="cadastrarTelefone($event)"><i class="glyphicon glyphicon-plus"></i> Telefone</button>
+                            <button class="btn btn-xs btn-primary" v-on:click="cadastrarTelefone($event)" title="Cadastrar Telelcone"><i class="glyphicon glyphicon-plus"></i> Telefone</button>
                         </div>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><button class="btn btn-sm btn-danger" title="Remover Telefone" v-on:click="removerTelefone($event, $index)"><i class="glyphicon glyphicon-trash"></i></button></td>
+                        <td><button class="btn btn-sm btn-danger" title="Remover Telefone" v-on:click="removerTelefone($event, $index)" title="Remover Telefone"><i class="glyphicon glyphicon-trash"></i></button></td>
                     </tr>
                     </tbody>
                 </table>
@@ -166,7 +166,7 @@
                     <div class="row">
                         <div class="col-sm-6"><i class="glyphicon glyphicon-list"></i> Instituições Responsaveis</div>
                         <div class="col-sm-6 text-right">
-                            <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalIntituicoes"><i class="glyphicon glyphicon-plus"></i> Instituição</button>
+                            <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalIntituicoes" title="Adicionar Instituição"><i class="glyphicon glyphicon-plus"></i> Instituição</button>
                         </div>
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                         <td>@{{ i.nome }}</td>
                         <td>@{{ i.nomeCidade }}</td>
                         <td>@{{ i.uf }}</td>
-                        <td><button class="btn btn-sm btn-danger" v-on:click="removerInstituicao($event, $index)"><i class="glyphicon glyphicon-trash"></i></button></td>
+                        <td><button class="btn btn-sm btn-danger" v-on:click="removerInstituicao($event, $index)" title="Remover Instituição"><i class="glyphicon glyphicon-trash"></i></button></td>
                     </tr>
                     </tbody>
                 </table>
@@ -203,7 +203,7 @@
                     <div class="row">
                         <div class="col-sm-6"><i class="glyphicon glyphicon-list"></i> Iniciativas Vinculadas</div>
                         <div class="col-sm-6 text-right">
-                            <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalIniciativas"><i class="glyphicon glyphicon-plus"></i> Iniciativas</button>
+                            <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalIniciativas" title="Adicionar Iniciativa"><i class="glyphicon glyphicon-plus"></i> Iniciativas</button>
                         </div>
                     </div>
                 </div>
@@ -220,7 +220,7 @@
                         <td>@{{ i.nome }}</td>
                         <td>@{{ i.nomeCidade }}</td>
                         <td>@{{ i.uf }}</td>
-                        <td><button class="btn btn-sm btn-danger" v-on:click="removerIniciativa($event, $index)"><i class="glyphicon glyphicon-trash"></i></button></td>
+                        <td><button class="btn btn-sm btn-danger" v-on:click="removerIniciativa($event, $index)" title="Remover Iniciativa"><i class="glyphicon glyphicon-trash"></i></button></td>
                     </tr>
                     </tbody>
                 </table>

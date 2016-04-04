@@ -13,7 +13,7 @@
                             <small id="PidStatusTitle"><strong>Pontos de Inclusão Digital: Status</strong></small>
                             <a class="openModal" href="#" data-chart="PidStatus" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
                         </div>
-                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidStatus" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidStatus" data-toggle="modal" data-target="#modalConf" title="Pontos de Inclusão Digital: Status"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="pidStatus"></div>
@@ -29,7 +29,7 @@
                             <small id="PidTiposTitle"><strong>Pontos de Inclusão Digital: Tipo</strong></small>
                             <a class="openModal" href="#" data-chart="PidTipos" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
                         </div>
-                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidTipos" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidTipos" data-toggle="modal" data-target="#modalConf" title="Pontos de Inclusão Digital: Tipo"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="pidTipo"></div>
@@ -48,7 +48,7 @@
                             <small id="PidIniciativaTitle"><strong>Pontos de Inclusão Digital: Vinculados à Inicativas</strong></small>
                             <a class="openModal" href="#" data-chart="PidIniciativa" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
                         </div>
-                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidIniciativa" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidIniciativa" data-toggle="modal" data-target="#modalConf" title="Pontos de Inclusão Digital: Vinculados à Inicativas"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="pidIniciativa"></div>
@@ -64,7 +64,7 @@
                             <small id="PidInstituicaoTitle"><strong>Pontos de Inclusão Digital: Instituições Mantenedoras</strong></small>
                             <a class="openModal" href="#" data-chart="PidInstituicao" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
                         </div>
-                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidInstituicao" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidInstituicao" data-toggle="modal" data-target="#modalConf" title="Pontos de Inclusão Digital: Instituições Mantenedoras"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="pidInstituicao"></div>
@@ -82,7 +82,7 @@
                             <small id="PidLocalizcaoTitle"><strong>Pontos de Inclusão Digital: Localização</strong></small>
                             <a class="openModal" href="#" data-chart="PidLocalizcao" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
                         </div>
-                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidLocalizcao" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidLocalizcao" data-toggle="modal" data-target="#modalConf" title="Pontos de Inclusão Digital: Localização"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="pidLocalizcao"></div>
@@ -98,7 +98,7 @@
                             <small id="PidLocalidadeTitle"><strong>Pontos de Inclusão Digital: Localidade</strong></small>
                             <a class="openModal" href="#" data-chart="PidLocalidade" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
                         </div>
-                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidLocalidade" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidLocalidade" data-toggle="modal" data-target="#modalConf" title="Pontos de Inclusão Digital: Localidade"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="pidLocalidade"></div>
@@ -116,7 +116,7 @@
                             <small id="PidServicoTitle"><strong>Pontos de Inclusão Digital: Serviços</strong></small>
                             <a class="openModal" href="#" data-chart="PidServico" data-toggle="modal" data-target="#modalAjuda"  title="Ajuda!"><i class="fa fa-question"></i></a>
                         </div>
-                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidServico" data-toggle="modal" data-target="#modalConf"><i class="fa fa-cog"></i></a></div>
+                        <div class="col-sm-2 text-right"><a class="openModal" href="#" data-chart="PidServico" data-toggle="modal" data-target="#modalConf" title="Pontos de Inclusão Digital: Serviços"><i class="fa fa-cog"></i></a></div>
                     </div>
                 </div>
                 <div id="pidServico"></div>

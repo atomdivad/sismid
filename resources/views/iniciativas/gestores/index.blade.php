@@ -41,10 +41,10 @@
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-md btn-block btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
+                    <button class="btn btn-md btn-block btn-primary" type="submit" title="Pesquisar Gestor de Iniciativas"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
                 </div>
                 <div class="col-sm-4 text-right">
-                    <a class="btn btn-md btn-primary" href="{{ route('gestor.create') }}"><i class="glyphicon glyphicon-plus"></i> Novo Gestor</a>
+                    <a class="btn btn-md btn-primary" href="{{ route('gestor.create') }}" title="Cadastrar novo gestor de Iniciativa"><i class="glyphicon glyphicon-plus"></i> Novo Gestor</a>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                             <td>{{ $gestor->email }}</td>
                             <td>{{ $gestor->nomeIniciativa }}</td>
                             <td class="text-center">
-                                <a class="btn btn sm btn-success" title="Editar iniciativia: {{ $gestor->nome }}" href="{{ route('gestor.edit', $gestor->idUsuario) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                                <a class="btn btn sm btn-success" title="Editar gestor de iniciativia: {{ $gestor->nome }}" href="{{ route('gestor.edit', $gestor->idUsuario) }}"><i class="glyphicon glyphicon-edit"></i></a>
                             </td>
                         </tr>
                     @endforeach
