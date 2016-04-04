@@ -12,7 +12,6 @@ use Intervention\Image\Facades\Image;
 use SisMid\Models\Instituicao;
 use SisMid\Models\Pid;
 use SisMid\Models\Iniciativa;
-use Illuminate\Support\Facades\Mail;
 
 class ApiController extends Controller
 {
@@ -216,13 +215,16 @@ class ApiController extends Controller
 
     /**
      * Retorna a lista de iniciativas
-     * @param Request $request
+     * @param Request $request | nome, uf, cidade
      * @return array
      */
     public function getIniciativas(Request $request)
     {
         $nome = $request['nome'];
-        $uf = $request['uf'];
+        /*uf pode ser passado como numerico ou string, exemplo: 53 ou DF*/
+        $uf = 0;
+        if(isset($request['uf']))
+            (!is_numeric($request['uf'])) ? $uf = DB::table('uf')->select('idUf')->where('uf', 'like', $request['uf'])->first()->idUf : $uf = $request['uf'];
         $cidade = $request['cidade_id'];
 
         $iniciativas = [];
@@ -368,7 +370,6 @@ class ApiController extends Controller
                     'localidade' => isset($localidade->localidade)? $localidade->localidade : null,
                     'localizacao' => isset($localizacao->localizacao)? $localizacao->localizacao : null,
                 ],
-                'naturezaJuridica' => isset($naturezaJuridica->naturezaJuridica)? $naturezaJuridica->naturezaJuridica : null,
                 'email' => $iniciativa->email,
                 'url' => $iniciativa->url,
                 'objetivo' => $iniciativa->objetivo,
@@ -501,16 +502,75 @@ class ApiController extends Controller
         }
     }
 
-    public function feedback(Request $request)
+    /**
+     * Retorna informacoes basicas de todos os pids geral,uf ou cidade
+     * @param Request $request => [uf, cidade]
+     * @return mixed
+     */
+    public function getAllPids(Request $request)
     {
-        $msg = "Nome: $request[nome]\nEmail: $request[email]\nMensagem:\n$request[msg]";
-        Mail::raw($msg, function($message)
-        {
-            $message->to('mapinguarisoftware@gmail.com');
-            $message->subject("Feedback SisMid " . Carbon::now()->format('d/m/Y'));
-        });
-        return;
+        $uf = 0;
+        if(isset($request['uf']))
+            (!is_numeric($request['uf'])) ? $uf = DB::table('uf')->select('idUf')->where('uf', 'like', $request[ 'uf'])->first()->idUf : $uf = $request[ 'uf'];
+
+        isset($request['cidade']) ? $cidade = $request['cidade'] : $cidade = 0;
+
+        if($uf > 0 && $cidade == 0) {
+            $dados = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf')
+                ->where('pids.ativo', '=', 1)
+                ->where('cidades.uf_id', '=', $uf)
+                ->orderBy('pids.nome', 'asc')
+                ->get();
+            return $dados;
+        }
+        elseif($cidade > 0) {
+            $dados = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf')
+                ->where('pids.ativo', '=', 1)
+                ->where('enderecos.cidade_id', '=', $cidade)
+                ->orderBy('pids.nome', 'asc')
+                ->get();
+            return $dados;
+        }
+        else {
+            $dados = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf')
+                ->where('pids.ativo', '=', 1)
+                ->orderBy('pids.nome', 'asc')
+                ->get();
+            return $dados;
+        }
     }
 
-
+    /**
+     * Retorna os pids de uma iniciativa
+     * @param null $id
+     */
+    public function getIniciativaPid($id = null)
+    {
+        if($id != null) {
+            $dados = DB::table('pids')
+                ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
+                ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
+                ->join('pid_iniciativas', 'pid_id', '=', 'pids.idPid')
+                ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
+                ->select('pids.idPid', 'pids.nome', 'cidades.nomeCidade', 'uf.uf')
+                ->where('pids.ativo', '=', 1)
+                ->where('pid_iniciativas.iniciativa_id', '=', $id)
+                ->orderBy('pids.nome', 'asc')
+                ->get();
+            return $dados;
+        }
+        abort(400);
+    }
 }

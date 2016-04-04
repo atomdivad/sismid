@@ -35,6 +35,8 @@ class Iniciativa extends Model
 
     protected $guarded = ['idIniciativa'];
 
+    protected $hidden = ['pivot'];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

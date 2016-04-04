@@ -20,6 +20,8 @@ class Telefone extends Model
 
     public $timestamps = false;
 
+    protected $hidden = ['pivot'];
+
 
     /**
      * Relacionamento many to many
