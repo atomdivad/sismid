@@ -20,6 +20,18 @@
                 criação de conteúdos, entretenimento e comunicação com outras pessoas. Os PIDs incluem telecentros, infocentros, centros de inclusão digital, laboratórios de informática em
                 escolas públicas e projetos de extensão em instituições relacionadas à inclusão digital.
                 <br/><br/>
+                <strong>E o que Iniciativa?</strong><br/>
+                Para introduzir esse conceito devemos explicitar que iniciativas dividem-se em três grupos: programas, projetos e ações.
+                <ul>
+                <li>Programas de Implantação de Centros Públicos de Acesso à Internet - caracterizam-se pela oferta de infraestrutura de comunicação e acesso, treinamento e capacitação para instalação de pontos de inclusão digital(PID), comprometidos com o desenvolvimento social das comunidades envolvidas. Os PIDs  se constituem em rede, atuando em ambientes e lugares distintos, segundo um modelo definido pela instituição mantenedora. Ex. MC/GESAC; ATN / TIN.
+                </li>
+                <li>
+                Projetos de Implantação de Centros Públicos de Acesso à Internet - caracterizam-se pela oferta de infraestrutura de comunicação e acesso, treinamento e capacitação para instalação de pontos de inclusão digital. Caracterizam-se pela existência de um único PİD criado pela sociedade civil ou pelo governo para atendimento a uma situação em particular, sem subordinação direta a um dado programa existente.
+                </li>
+                <li>
+                Ações para Inclusão Social – inclui-se nesta denominação projetos e programas oriundos de políticas públicas ou de iniciativa da sociedade civil, sem a existência de PID. Ex. Programa Banda Larga; Cidades Digitais; Lugares de Saber; Ferramentas e Aplicativos de informática para produção de conteúdos digitais; programa de distribuição de computadores e ou dispositivos móveis.
+                 </li></ul>
+                <br/><br/>
                 <strong>Produtos e Serviços do MID</strong><br/>
                 <ul>
                 <li>
