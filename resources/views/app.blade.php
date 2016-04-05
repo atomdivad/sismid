@@ -44,7 +44,7 @@
 
             <div class="row" style="margin-bottom: 5px;">
                 <div class="col-sm-5">
-                    <img src="{{ asset('assets/images/ibictlogo.png') }}" class="img-responsive">
+                    <img src="{{ asset('assets/images/ibictlogo.png') }}" alt="Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)" class="img-responsive">
                 </div>
                 <div class="col-sm-7 text-right">
                     <h3><a href="{{ url('/') }}">Sistema de Mapeamento de Inclusão Digital</a></h3>
@@ -68,11 +68,11 @@
 
                 <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ route('mapa.index') }}">Mapa de Inclusão Digital</a></li>
+                        <li><a href="{{ route('mapa.index') }}" title="Mapa de Inclusão Digital">Mapa de Inclusão Digital</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ route('consulta.index') }}">Consultas</a></li>
+                        <li><a href="{{ route('consulta.index') }}" title="Consultas">Consultas</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav">
@@ -80,17 +80,17 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                aria-expanded="false">Infográficos <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ route('report.indexPid') }}">Infográficos PIDs</a></li>
-                                <li><a href="{{ route('report.pivoteamento.index') }}">Infográficos PIDs Pivoteamento</a>
+                                <li><a href="{{ route('report.indexPid') }}" title="Infográficos PIDs">Infográficos PIDs</a></li>
+                                <li><a href="{{ route('report.pivoteamento.index') }}" title="Infográficos PIDs Pivoteamento">Infográficos PIDs Pivoteamento</a>
                                 </li>
-                                <li><a href="{{ route('report.indexIniciativa') }}">Infográficos Iniciativas</a></li>
+                                <li><a href="{{ route('report.indexIniciativa') }}" title="Infográficos Iniciativas">Infográficos Iniciativas</a></li>
 
                             </ul>
                         </li>
                     </ul>
                     @if(Auth::guest())
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ route('sobre.index') }}">Sobre o SisMID</a></li>
+                            <li><a href="{{ route('sobre.index') }}" title="Sobre o SisMID">Sobre o SisMID</a></li>
                         </ul>
                     @endif
                     @if(!Auth::guest())
@@ -100,27 +100,27 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-haspopup="true" aria-expanded="false">Iniciativa <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('iniciativa.index') }}">Iniciativas</a></li>
-                                    <li><a href="{{ route('gestor.index') }}">Gestor de Iniciativa</a></li>
+                                    <li><a href="{{ route('iniciativa.index') }}" title="Iniciativas">Iniciativas</a></li>
+                                    <li><a href="{{ route('gestor.index') }}" title="Gestor de Iniciativa">Gestor de Iniciativa</a></li>
                                 </ul>
                             </li>
                             @endis
 
                             @is('gestor')
-                            <li><a href="{{ route('iniciativa.edit', Auth::user()->iniciativa_id) }}">Iniciativa</a></li>
+                            <li><a href="{{ route('iniciativa.edit', Auth::user()->iniciativa_id) }}" title="Iniciativa">Iniciativa</a></li>
                             @endis
 
-                            <li><a href="{{ route('pid.index') }}">Pontos de Inclusão Digital</a></li>
-                            <li><a href="{{ route('instituicao.index') }}">Instituições</a></li>
+                            <li><a href="{{ route('pid.index') }}" title="Pontos de Inclusão Digital">Pontos de Inclusão Digital</a></li>
+                            <li><a href="{{ route('instituicao.index') }}" title="Instituições">Instituições</a></li>
                             @is('admin')
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Configurações <span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false" title="Configurações">Configurações <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ route('admin.gerencia.index') }}">Gerenciar Administradores</a></li>
-                                    <li><a href="{{ route('admin.email.index') }}">Gerenciar Email</a></li>
-                                    <li><a href="{{ route('admin.endContato.index') }}">Gerenciar Endereço/Telefone</a></li>
-                                    <li><a href="{{ route('admin.infoEquipe.index') }}">Informações da equipe</a></li>
+                                    <li><a href="{{ route('admin.gerencia.index') }}" title="Gerenciar Administradores">Gerenciar Administradores</a></li>
+                                    <li><a href="{{ route('admin.email.index') }}" title="Gerenciar Email">Gerenciar Email</a></li>
+                                    <li><a href="{{ route('admin.endContato.index') }}" title="Gerenciar Endereço/Telefone">Gerenciar Endereço/Telefone</a></li>
+                                    <li><a href="{{ route('admin.infoEquipe.index') }}" title="Informações da equipe">Informações da equipe</a></li>
 
                                 </ul>
                             </li>
@@ -132,14 +132,14 @@
                                 <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button"
                                    aria-expanded="false">Sua Conta <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ route('password.getNewpassword') }}">Alterar Senha</a></li>
-                                    <li><a href="{{ route('auth.logout') }}">Sair</a></li>
+                                    <li><a href="{{ route('password.getNewpassword') }}" title="Alterar Senha">Alterar Senha</a></li>
+                                    <li><a href="{{ route('auth.logout') }}" title="Sair">Sair</a></li>
                                 </ul>
                             </li>
                         </ul>
                     @else
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="{{ route('auth.formLogin') }}">Acesso Restrito</a></li>
+                            <li><a href="{{ route('auth.formLogin') }}" title="Acesso Restrito">Acesso Restrito</a></li>
                             {{--<li><a href="{{ route('auth.formRegister') }}">Cadastrar-se</a></li>--}}
                         </ul>
                 </div>
@@ -166,20 +166,25 @@
         {{-- Rodape --}}
         <footer>
             <div class="row">
-                <div class="col-sm-8 text-center">
-                    <small>
-                        <p>
+                <div class="col-sm-7 text-center">
+                    <p>
+                        <small>
                             <strong>Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)</strong><br/>
                             Em Brasília: Setor de Autarquias Sul (SAUS) - Quadra 05 Lote 06 Bloco H <br/>
                             CEP: 70070-912 - Plano Piloto - DF <br/>
                             No Rio de Janeiro: Rua Lauro Muller, 455 - 4º Andar <br/>
                             CEP: 22290-160 - Botafogo - RJ
-                        </p>
-                    </small>
+                        </small>
+                    </p>
                 </div>
-                <div class="text-right">
-                    <div class="col-sm-2 text-center">
-                        <a href="http://www.mcti.gov.br/"><img src="{{ asset('assets/images/mcti.png') }}" class="img-responsive"></a>
+                <div class="">
+                    <div class="col-sm-2">
+                        <a href="http://www.mcti.gov.br/"><img src="{{ asset('assets/images/mcti.png') }}" alt="Ministério da Ciência, Tecnologia e Inovação (MCTI)" class="img-responsive"></a>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="col-sm-3 text-right">
+                        <small><a href="{{ route('apiDoc') }}">Documentação API Pública</a></small>
                     </div>
                 </div>
 
@@ -187,7 +192,6 @@
         </footer>
     </div>
 
-    <div class="help-block"></div>
     <script src="{{ asset('/assets/js/jquery-1.11.3.js') }}"></script>
     <script src="{{ asset('/assets/js/lodash.min.js') }}"></script>
     <script src="{{ asset('/assets/js/bootstrap.min.js') }}"></script>

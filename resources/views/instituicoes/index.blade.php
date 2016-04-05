@@ -39,10 +39,10 @@
                     <input class="form-control" type="text" name="nome" id="nome" value="{{ Input::get('nome') }}"/>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-md btn-block btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
+                    <button class="btn btn-md btn-block btn-primary" type="submit" title="Pesquisar em instituições"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
                 </div>
                 <div class="col-sm-4 text-right">
-                    <a class="btn btn-md btn-primary" href="{{ route('instituicao.create') }}"><i class="glyphicon glyphicon-plus"></i> Nova Instituicao</a>
+                    <a class="btn btn-md btn-primary" href="{{ route('instituicao.create') }}" title="Cadastrar Nova Instituição"><i class="glyphicon glyphicon-plus"></i> Nova Instituicao</a>
                 </div>
             </div>
         </div>

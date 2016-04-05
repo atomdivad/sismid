@@ -213,3 +213,11 @@ Breadcrumbs::register('sobreSismid', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Sobre o SisMID', route('sobre.index'));
 });
+
+//API
+//Home > Documentacao API
+Breadcrumbs::register('api', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Documentação API', route('apiDoc'));
+});

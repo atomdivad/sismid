@@ -51,10 +51,10 @@
                     <div class="col-sm-5 text-right">
                         <div class="row">
                             <div class="col-sm-6">
-                                <button class="btn btn-sm btn-primary btn-block" id="btnFiltrar"><i class="glyphicon glyphicon-search"></i> Consultar</button>
+                                <button class="btn btn-sm btn-primary btn-block" id="btnFiltrar" title="Realizar Consulta"><i class="glyphicon glyphicon-search"></i> Consultar</button>
                             </div>
                             <div class="col-sm-6">
-                                <button class="btn btn-sm btn-default btn-block" id="btnClear"><i class="glyphicon glyphicon-remove"></i> Limpar</button>
+                                <button class="btn btn-sm btn-default btn-block" id="btnClear" title="Limpar consulta"><i class="glyphicon glyphicon-remove"></i> Limpar</button>
                             </div>
                         </div>
                     </div>

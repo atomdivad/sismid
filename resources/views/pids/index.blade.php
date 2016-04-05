@@ -77,10 +77,10 @@
                     </select>
                 </div>
                 <div class="col-sm-4">
-                    <button class="btn btn-md btn-block btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
+                    <button class="btn btn-md btn-block btn-primary" type="submit" title="Pesquisar em Pontos de inclusão digital"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
                 </div>
                 <div class="col-sm-4 text-right">
-                    <a class="btn btn-md btn-primary" href="{{ route('pid.create') }}"><i class="glyphicon glyphicon-plus"></i> Novo PID</a>
+                    <a class="btn btn-md btn-primary" href="{{ route('pid.create') }}" title="Cadastrar novo ponto de inclusão digital"><i class="glyphicon glyphicon-plus"></i> Novo PID</a>
                 </div>
             </div>
         </div>

@@ -52,10 +52,10 @@
             <div class="col-sm-3">
                 <div class="row">
                     <div class="col-sm-6 text-right">
-                        <button class="btn btn-sm btn-primary" id="btnFiltrar"><i class="fa fa-search"></i> Consultar</button>
+                        <button class="btn btn-sm btn-primary" id="btnFiltrar" title="Realizar Consulta"><i class="fa fa-search"></i> Consultar</button>
                     </div>
                     <div class="col-sm-6 text-right">
-                        <button class="btn btn-sm btn-default" id="btnClear">Limpar</button>
+                        <button class="btn btn-sm btn-default" id="btnClear" title="Limpar Consulta">Limpar</button>
                     </div>
                 </div>
             </div>
