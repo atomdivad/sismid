@@ -60,7 +60,7 @@
 
         <div class="form-group">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-8">
                     <label for="nome">Nome</label>
                     <input class="form-control" type="text" name="nome" id="nome" value="{{ Input::get('nome') }}"/>
                 </div>
@@ -99,14 +99,14 @@
                         <th>Nome</th>
                         <th>Município / UF</th>
                         <th>E-mail</th>
-                        <th>Ultima Atulização</th>
+                        <th>Última Atualização</th>
                         <th colspan="2"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($pids as $pid)
                         <tr>
-                            <td class="col-md-2">{{ $pid->nome }}</td>
+                            <td class="col-md-2">{{ $pid->nome }} {!! ($pid->destaque)? '<i class="fa fa-star gold-star" title="PID Prêmiado/Destaque"></i>' : '' !!}</td>
                             <td class="col-md-1">{{ $pid->nomeCidade}} / {{ $pid->uf }}</td>
                             <td class="col-md-1">{{ $pid->email }}</td>
                             <td class="col-md-1" title="{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $pid->updated_at)->format('d-m-Y H:i:s')}}">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $pid->updated_at)->diffForHumans()}}</td>

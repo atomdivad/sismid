@@ -19,7 +19,8 @@ class Pid extends Model
         'url',
         'tipo_id',
         'endereco_id',
-        'ativo'
+        'ativo',
+        'destaque'
     ];
 
     protected $guarded = [

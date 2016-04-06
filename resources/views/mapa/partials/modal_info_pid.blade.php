@@ -19,9 +19,10 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="home">
                         <br/>
+                        <p v-if="info.destaque == 1"><i class="fa fa-star fa-2x gold-star"></i></p>
                         <p v-show="info.url.length > 6 "><i class="glyphicon glyphicon-link"></i> <a href="@{{ info.url }}">@{{ info.url }}</a></p>
                         <p v-show="info.email != ''"><i class="glyphicon glyphicon-envelope"></i> <a href="mailto:@{{ info.email }}">@{{ info.email }}</a></p>
-                        <p><strong>Ultima Atualização:</strong> @{{ info.updated_at }}</p>
+                        <p><strong>Última Atualização:</strong> @{{ info.updated_at }}</p>
                         <p>
                             <div v-for="t in info.telefones">
                             <i class="glyphicon"

@@ -26,10 +26,11 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading"><i class="fa fa-info"></i></div>
                                     <div class="panel-body">
+                                        <p v-if="info.destaque == 1"><i class="fa fa-star fa-2x gold-star"></i></p>
                                         <p v-show="info.tipo.length > 0 "><strong>Tipo:</strong> @{{ info.tipo | uppercase }}</p>
                                         <p v-show="info.url.length > 0 "><i class="glyphicon glyphicon-link"></i> <a href="@{{ info.url }}">@{{ info.url }}</a></p>
                                         <p v-show="info.email != ''"><i class="glyphicon glyphicon-envelope"></i> <a href="mailto:@{{ info.email }}">@{{ info.email }}</a></p>
-                                        <p><strong>Ultima Atualização:</strong> @{{ info.updated_at }}</p>
+                                        <p><strong>Última Atualização:</strong> @{{ info.updated_at }}</p>
                                     </div>
                                 </div>
                             </div>

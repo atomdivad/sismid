@@ -27,7 +27,8 @@ var pid = new Vue({
             instituicoes: [],
             iniciativas: [],
             servicos: [],
-            fotos: []
+            fotos: [],
+            destaque: false
         },
         novoTelefone: {
             idTelefone: null,

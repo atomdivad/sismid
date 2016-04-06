@@ -22,6 +22,10 @@
             {!! Form::label('tipo_id', 'Tipo') !!}
             {!! Form::select('tipo_id', $pidTipos, null, ["class" => "form-control", 'v-model' => 'pid.tipo_id']) !!}
         </div>
+        <div class="col-sm-6">
+            {!! Form::label('destaque', 'Prêmiado/Destaque') !!}
+            <input type="checkbox" name="destaque" class="form-control" v-model="pid.destaque"/>
+        </div>
     </div>
 </div>
 
