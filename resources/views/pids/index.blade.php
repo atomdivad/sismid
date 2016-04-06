@@ -1,5 +1,6 @@
 @extends('app')
 @section('content')
+    {{ \Carbon\Carbon::setLocale('pt') }}
     {!! Breadcrumbs::render('pid') !!}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="row">
@@ -98,15 +99,17 @@
                         <th>Nome</th>
                         <th>Município / UF</th>
                         <th>E-mail</th>
+                        <th>Ultima Atulização</th>
                         <th colspan="2"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($pids as $pid)
                         <tr>
-                            <td class="col-md-3">{{ $pid->nome }}</td>
+                            <td class="col-md-2">{{ $pid->nome }}</td>
                             <td class="col-md-1">{{ $pid->nomeCidade}} / {{ $pid->uf }}</td>
                             <td class="col-md-1">{{ $pid->email }}</td>
+                            <td class="col-md-1" title="{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $pid->updated_at)->format('d-m-Y H:i:s')}}">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $pid->updated_at)->diffForHumans()}}</td>
                             <td class="col-md-1 text-center">
                                 <a class="show-modal btn btn-sm btn-primary" title="Exbir PID: {{ $pid->nome }}" href="#" data-id="{{ $pid->idPid }}" data-toggle="modal" data-target="#modalInfo"><i class="glyphicon glyphicon-eye-open"></i></a>
                                 <a class="btn btn sm btn-success" title="Editar PID: {{ $pid->nome }}" href="{{ route('pid.edit', $pid->idPid) }}"><i class="glyphicon glyphicon-edit"></i></a>

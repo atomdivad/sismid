@@ -29,6 +29,7 @@
                                         <p v-show="info.tipo.length > 0 "><strong>Tipo:</strong> @{{ info.tipo | uppercase }}</p>
                                         <p v-show="info.url.length > 0 "><i class="glyphicon glyphicon-link"></i> <a href="@{{ info.url }}">@{{ info.url }}</a></p>
                                         <p v-show="info.email != ''"><i class="glyphicon glyphicon-envelope"></i> <a href="mailto:@{{ info.email }}">@{{ info.email }}</a></p>
+                                        <p><strong>Ultima Atualização:</strong> @{{ info.updated_at }}</p>
                                     </div>
                                 </div>
                             </div>

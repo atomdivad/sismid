@@ -381,7 +381,8 @@ class ApiController extends Controller
                 'instituicoes' => $instituicoes,
                 'iniciativas' => $iniciativas,
                 'servicos' => $servicos,
-                'fotos' => $pid->fotos
+                'fotos' => $pid->fotos,
+                'updated_at' => $pid->updated_at->format('d/m/Y')
             ];
         }
     }

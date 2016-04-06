@@ -3,6 +3,7 @@
 namespace SisMid\Http\Controllers;
 
 use Artesaos\Defender\Facades\Defender;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -509,6 +510,7 @@ class PidController extends Controller
 
         $pid->endereco()->update($request['endereco']);
         $pid->update($request->all());
+        $pid->touch();
 
         $telefones = [];
         foreach($request['telefones'] as $telefone) {
