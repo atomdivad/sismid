@@ -149,7 +149,7 @@
                             <div class="col-sm-8">
                                 <div class="form-group">
                                     <p>
-                                        <strong>Link para visualização dos dados deste PID:</strong> <a href="{{ route('pid.ver', $pid->idPid) }}" target="_blank">{{ route('pid.ver',$pid->idPid) }}</a>
+                                        <strong>Link para visualização dos dados deste PID:</strong> <a href="/pid/@{{ info.idPid }}/ver" target="_blank">{{ url('/') }}/pid/@{{ info.idPid }}/ver</a>
                                     </p>
                                 </div>
                             </div>
