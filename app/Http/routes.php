@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor']
         Route::post('/fotos/remover', ['as' => 'pid.fotos.remover', 'uses' => 'PidController@fotosDestroy']);
         Route::get('/{id}/fotos/{nome}', ['as' => 'pid.fotos', 'uses' => 'PidController@fotos']);
         Route::post('/active', ['as' => 'pid.active', 'uses' => 'PidController@active']);
+        Route::post('/sendlink', ['as' => 'pid.sendLink', 'uses' => 'PidController@sendLink']);
     });
 
     Route::group(['prefix' => 'instituicao'], function() {
@@ -177,6 +178,9 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
     Route::post('/app/mapa',                ['as' => 'appMapa',               'uses' => 'ApiController@appMapa']);
 
 });
+
+/* Rota publica p/ mostrar os dados de um pid */
+Route::get('/pid/{id}/ver', ['as' => 'pid.ver', 'uses' => 'PidController@ver']);
 
 route::group(['prefix' => 'auth'], function(){
 

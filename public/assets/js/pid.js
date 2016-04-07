@@ -40,6 +40,12 @@ var pid = new Vue({
         instituicoes: [],
         iniciativas: [],
 
+        sendEmail: {
+            email : '',
+            error: false,
+            success: false
+        },
+
         response: {
             show: false,
             error: false,
@@ -136,6 +142,27 @@ var pid = new Vue({
         limparModalFotos: function() {
             jQuery('#progress .progress-bar').css('width', '0%');
             jQuery('#modalFotos').modal('hide');
+        },
+
+        enviarLink: function(ev) {
+            ev.preventDefault();
+            jQuery('#btnSendLink').prop( "disabled", true);
+            jQuery('#btnClose').prop( "disabled", true);
+            jQuery('#btnSendLink').html('<i class="fa fa-refresh fa-spin"></i> Enviando');
+            var self = this;
+            self.sendEmail.error = false;
+            self.sendEmail.success = false;
+            self.$http.post('/pid/sendlink', {idPid: self.pid.idPid, email: self.sendEmail.email}, function(response){
+                self.sendEmail.success = true;
+                jQuery('#btnSendLink').html('<i class="fa fa-refresh fa-send"></i> Enviar');
+                jQuery('#btnSendLink').prop( "disabled", false);
+                jQuery('#btnClose').prop( "disabled", false);
+            }).error(function(response) {
+                self.sendEmail.error = true;
+                jQuery('#btnSendLink').html('<span class="glyphicon glyphicon-send"></span> Enviar');
+                jQuery('#btnSendLink').prop( "disabled", false);
+                jQuery('#btnClose').prop( "disabled", false);
+            });
         },
 
         salvarPid: function(ev) {

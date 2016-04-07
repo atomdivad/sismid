@@ -14,6 +14,7 @@
                     <li role="presentation"><a href="#iniciativas" aria-controls="iniciativas" role="tab" data-toggle="tab">Iniciativa</a></li>
                     <li role="presentation"><a href="#servicos" aria-controls="servicos" role="tab" data-toggle="tab">Serviços</a></li>
                     <li role="presentation"><a href="#fotos" aria-controls="fotos" role="tab" data-toggle="tab">Fotos</a></li>
+                    <li role="presentation"><a href="#sendLink" aria-controls="sendLink" role="tab" data-toggle="tab">Enviar Link</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -22,7 +23,7 @@
                     <div role="tabpanel" class="tab-pane active" id="home">
                         <br/>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="panel panel-default">
                                     <div class="panel-heading"><i class="fa fa-info"></i></div>
                                     <div class="panel-body">
@@ -35,8 +36,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
-                                <div class="panel panel-default" v-show="info.telefones.length > 0">
+                            <div class="col-sm-5">
+                                <div class="panel panel-default">
                                     <div class="panel-heading"><i class="fa fa-phone"></i></div>
                                     <div class="panel-body">
                                         <div v-for="t in info.telefones">
@@ -141,11 +142,41 @@
                             </div>
                         </div>
                     </div>
+
+                    <div role="tabpanel" class="tab-pane" id="sendLink">
+                        <br/>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <p>
+                                        <strong>Link para visualização dos dados deste PID:</strong> <a href="{{ route('pid.ver', $pid->idPid) }}" target="_blank">{{ route('pid.ver',$pid->idPid) }}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label for="sendEmail">Enviar p/ o e-mail:</label>
+                                    <input type="text" name="sendEmail" class="form-control" value="@{{ info.email }}" v-model="sendEmail.email"/>
+                                </div>
+                                <div class="form-group">
+                                    <button id="btnSendLink" class="btn btn-success" v-on:click="enviarLink($event)""><span class="glyphicon glyphicon-send"></span> Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div v-show="sendEmail.error" class="alert alert-danger">Não foi possivel enviar o e-mail.</div>
+                                <div v-show="sendEmail.success" class="alert alert-success">E-mail enviado com sucesso.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Fechar</button>
+                <button id="btnClose" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Fechar</button>
             </div>
         </div>
     </div>

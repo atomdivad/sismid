@@ -4,10 +4,15 @@ $.ajaxSetup({
     }
 });
 
+Vue.http.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content');
+
 $("#iniciativa").select2();
 
 $('.show-modal').on('click', function(){
     info.$data.id = $(this).data('id');
+    info.$data.sendEmail.email = info.$data.info.email;
+    info.$data.sendEmail.error = false;
+    info.$data.sendEmail.success = false;
 });
 
 var info = new Vue({
@@ -15,10 +20,37 @@ var info = new Vue({
 
     data:{
         id: null,
-        info: ''
+        info: '',
+
+        sendEmail: {
+            email : '',
+            error: false,
+            success: false
+        }
     },
 
-    methods: {},
+    methods: {
+        enviarLink: function(ev) {
+            ev.preventDefault();
+            jQuery('#btnSendLink').prop( "disabled", true);
+            jQuery('#btnClose').prop( "disabled", true);
+            jQuery('#btnSendLink').html('<i class="fa fa-refresh fa-spin"></i> Enviando');
+            var self = this;
+            self.sendEmail.error = false;
+            self.sendEmail.success = false;
+            self.$http.post('/pid/sendlink', {idPid: self.id, email: self.sendEmail.email}, function(response){
+                self.sendEmail.success = true;
+                jQuery('#btnSendLink').html('<i class="fa fa-refresh fa-send"></i> Enviar');
+                jQuery('#btnSendLink').prop( "disabled", false);
+                jQuery('#btnClose').prop( "disabled", false);
+            }).error(function(response) {
+                self.sendEmail.error = true;
+                jQuery('#btnSendLink').html('<span class="glyphicon glyphicon-send"></span> Enviar');
+                jQuery('#btnSendLink').prop( "disabled", false);
+                jQuery('#btnClose').prop( "disabled", false);
+            });
+        }
+    },
 
     watch: {
         'id': function (val) {

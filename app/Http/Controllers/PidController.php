@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
@@ -616,6 +617,7 @@ class PidController extends Controller
     }
 
     /**
+     * Ativa ou desativa um pid
      * @param Request $request
      * @return int
      */
@@ -626,5 +628,23 @@ class PidController extends Controller
         $pid->update(['ativo' => !$pid->ativo]);
 
         return (int) $pid->ativo;
+    }
+
+    public  function ver($id)
+    {
+        return view('pids.show');
+    }
+    public function sendLink(Request $request)
+    {
+        $this->validate($request, [
+            'idPid' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        $pid = Pid::findOrFail($request['idPid']);
+
+        return Mail::send('emails.urlToPid', ["idPid" => $pid->idPid, "nome" => $pid->nome, 'email' => $request['email']], function($m) use ($request) {
+            $m->to($request['email'])->subject('SisMid: Dadods PID');
+        });
     }
 }

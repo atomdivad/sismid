@@ -383,7 +383,8 @@ class ApiController extends Controller
                 'servicos' => $servicos,
                 'fotos' => $pid->fotos,
                 'updated_at' => $pid->updated_at->format('d/m/Y'),
-                'destaque' => $pid->destaque
+                'destaque' => $pid->destaque,
+                'ativo' => $pid->ativo
             ];
         }
     }

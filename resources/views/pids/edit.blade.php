@@ -28,10 +28,14 @@
 
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <button class="btn btn-success" type="submit" v-on:click="salvarPid($event)"><span class="glyphicon glyphicon-save"></span> Salvar</button>
                     </div>
-                    <div class="col-sm-6 text-right">
+                    <div class="col-sm-3">
+                        @include('pids.partials.modal_sendEmail')
+                        <button class="btn btn-info" data-toggle="modal" data-target="#modalSendLink">Enviar Link</button>
+                    </div>
+                    <div class="col-sm-4 text-right">
                         <a class="btn btn-default" href="{{route('pid.index')}}">Cancerlar</a>
                     </div>
                 </div>
