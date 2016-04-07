@@ -20,7 +20,7 @@
                 criação de conteúdos, entretenimento e comunicação com outras pessoas. Os PIDs incluem telecentros, infocentros, centros de inclusão digital, laboratórios de informática em
                 escolas públicas e projetos de extensão em instituições relacionadas à inclusão digital.
                 <br/><br/>
-                <strong>E o que Iniciativa?</strong><br/>
+                <strong>O que é uma Iniciativa?</strong><br/>
                 Para introduzir esse conceito devemos explicitar que iniciativas dividem-se em três grupos: programas, projetos e ações.
                 <ul>
                 <li>Programas de Implantação de Centros Públicos de Acesso à Internet - caracterizam-se pela oferta de infraestrutura de comunicação e acesso, treinamento e capacitação para instalação de pontos de inclusão digital(PID), comprometidos com o desenvolvimento social das comunidades envolvidas. Os PIDs  se constituem em rede, atuando em ambientes e lugares distintos, segundo um modelo definido pela instituição mantenedora. Ex. MC/GESAC; ATN / TIN.
