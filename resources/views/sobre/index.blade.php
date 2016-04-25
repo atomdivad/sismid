@@ -80,13 +80,18 @@
             surge uma tabela com a lista de cada ponto de inclusão digital e um ícone para visualização dos dados, também é possível aproximar um agrupamento
                 de dados clicando no círculo enumerado para aproximar a região.
             </li>
-            <img src="{{ asset('assets/images/2.jpg') }}" alt="Mapa de Consulta" class="img-responsive">
+
+            <img src="{{ asset('assets/images/2.jpg') }}" alt="Mapa de Consulta Populado" class="img-responsive">
+            <li>Mapa após aproximação do grupo de PIDs</li>
+            <img src="{{ asset('assets/images/3.jpg') }}" alt="Mapa de Consulta Aproximado" class="img-responsive">
+            <li>teste</li>
         </ul>
+        <ul><li></li></ul>
 
-
+    </div>
 
             </p>
-</div>
+
 
     @yield('script')
 
