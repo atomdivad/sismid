@@ -90,7 +90,7 @@
                     </ul>
                     @if(Auth::guest())
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ route('sobre.index') }}" title="Sobre o SisMID">Sobre o SisMID</a></li>
+                            <li><a href="{{ route('sobre.index') }}" title="Guia do Usuário">Guia do Usuário</a></li>
                         </ul>
                     @endif
                     @if(!Auth::guest())
