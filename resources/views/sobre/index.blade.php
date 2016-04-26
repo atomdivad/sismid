@@ -2,7 +2,7 @@
 @section('content')
     @yield('content')
     {!! Breadcrumbs::render('sobreSismid') !!}
-
+    <div class="content-container" id="topo"></div>
     <div class="col-sm-2">
         {{--#<p class="text-justify">   </p>--}}
         <a href="#SisMID">O que é o SisMID</a><br/>
@@ -18,9 +18,8 @@
         <a href="#VisualizarInfoPid">Visualizando Informações do PID</a><br/>
 
 
-        <a href="#">Consulta Avançada</a><br/>
-        <a href="#">Explorando os Infográficos</a><br/>
-
+        <a href="#ConsultaAvançada">Consulta Avançada</a><br/>
+        <a href="#ExplorandoInfográficos">Explorando os Infográficos</a><br/>
 
 
         </div>
@@ -83,7 +82,7 @@
             </li><br/>
 
             <img src="{{ asset('assets/images/2.jpg') }}" alt="Mapa de Consulta Populado" class="img-responsive"><br/>
-            <li>Mapa após aproximação do grupo de PIDs</li><br/>
+            <li>Mapa após aproximação do grupo de PIDs: </li><br/>
             <img src="{{ asset('assets/images/3.jpg') }}" alt="Mapa de Consulta Aproximado" class="img-responsive"><br/>
 
             <li><strong id="PesquisandoPIDsestado">Pesquisando PIDs por estado</strong><br/></li>
@@ -127,11 +126,75 @@
             <img src="{{ asset('assets/images/14.png') }}" alt="Visualização das informações do PID" class="img-responsive"><br/>
             </ul>
 
+        <strong id="ConsultaAvançada">Consulta Avançada</strong><br/>
+        A consulta avançada possui filtros adicionais: PIDs ativos e inativos, programa, projeto, ação, busca por região, área urbana e área não urbana. <br/><br/>
+        <ul>
+            <img src="{{ asset('assets/images/15.png') }}" alt="Consulta Avançada" class="img-responsive"><br/>
+
+
+
+            <li>Opção para seleção de UF:<br/><br/>
+            </li>
+            <img src="{{ asset('assets/images/16.png') }}" alt="Seleção de UF" class="img-responsive"><br/>
+
+            <li>Opção para seleção de cidade:<br/><br/>
+            </li>
+            <img src="{{ asset('assets/images/17.png') }}" alt="Opção para seleção de cidade" class="img-responsive"><br/>
+
+            <li>Seleção dos itens para a consulta: Pid, programa, projeto e ação.<br/><br/>
+            </li>
+            <img src="{{ asset('assets/images/18.png') }}" alt="Campo para seleção dos itens para a consulta: Pid, programa, projeto e ação" class="img-responsive"><br/>
+
+            <li>Opção para seleção da região:<br/><br/>
+            </li>
+            <img src="{{ asset('assets/images/19.png') }}" alt="Opção para seleção da região" class="img-responsive"><br/>
+
+            <li>Opção para seleção de área urbana e área não urbana:<br/><br/>
+            </li>
+            <img src="{{ asset('assets/images/20.png') }}" alt="Opção para seleção de área urbana e área não urbana" class="img-responsive"><br/>
+
+            <li>Exemplo de filtros prontos para a consulta:<br/><br/>
+            </li>
+            <img src="{{ asset('assets/images/21.png') }}" alt="Exemplo de filtros prontos para a consulta" class="img-responsive"><br/>
+
+            <li>Consulta de PIDs utilizando os filtros DF, Brasília, região centro oeste e área urbana.<br/><br/>
+            </li>
+            <img src="{{ asset('assets/images/22.png') }}" alt="Consulta de PIDs utilizando os filtros DF, Brasília, região centro oeste e área urbana" class="img-responsive"><br/>
+
+
+            <strong id="ExplorandoInfográficos">Explorando os Infográficos</strong><br/>
+            Na sessão de infográficos foram incluidos botões de ajuda e configuração para melhorar a compreensão e o dinamismo,
+            utlizando "?" para informações e uma engrenagem para modificar os dados da amostra.
+            <br/><br/>
+            <img src="{{ asset('assets/images/23.png') }}" alt="Modificador do Infográfico" class="img-responsive"><br/>
+            <img src="{{ asset('assets/images/24.png') }}" alt="Modificador do Infográfico" class="img-responsive"><br/>
+            <li>Configuração do Infográfico para exibir todos os dados:</li><br/>
+            <img src="{{ asset('assets/images/25.png') }}" alt="Modificador do Infográfico" class="img-responsive"><br/>
+            <li>Configuração do Infográfico para exibir os dados por região:</li><br/>
+            <img src="{{ asset('assets/images/26.png') }}" alt="Modificador do Infográfico" class="img-responsive"><br/>
+            <li>Configuração do Infográfico para exibir os dados UF e cidade:</li><br/>
+            <img src="{{ asset('assets/images/27.png') }}" alt="Modificador do Infográfico" class="img-responsive"><br/>
+            <li>Botão "?" para informar o objetivo do infográfico.</li><br/>
+            <img src="{{ asset('assets/images/28.png') }}" alt="Ajuda do Infográfico" class="img-responsive"><br/>
+           
+        </ul>
+
     </div>
 
             </p>
 
-
+    <span id="top-link-block" class="hidden">
+    <a href="#topo" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
+        <i class="glyphicon glyphicon-chevron-up"></i>
+    </a>
+</span>
     @yield('script')
 
 @endsection
+@section('script')
+    @parent
+    <script src="{{ asset('/assets/js/guia.js') }}"></script>
+@endsection
+@section('css')
+    <link href="{{ asset('/assets/css/custom.css') }}" rel="stylesheet">
+@stop
