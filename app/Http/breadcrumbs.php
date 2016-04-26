@@ -211,7 +211,7 @@ Breadcrumbs::register('gerenciaAdminEdit', function($breadcrumbs)
 Breadcrumbs::register('sobreSismid', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Sobre o SisMID', route('sobre.index'));
+    $breadcrumbs->push('Guia do Usuário', route('sobre.index'));
 });
 
 //API

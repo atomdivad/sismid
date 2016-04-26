@@ -11,10 +11,11 @@
         <a href="#ProdutosServicos">Produtos e Serviços do MID</a><br/>
         <a href="#PesquisandoPIDs">Pesquisando PIDS</a><br/>
         <ul>
-            <li><a href="#">Por Estado</a><br/></li>
-            <li><a href="#">Por Cidade</a><br/></li>
-            <li> <a href="#">Por Agrupamento</a><br/></li>
+            <li><a href="#PesquisandoPIDsestado">Por Estado</a><br/></li>
+            <li><a href="#PesquisandoPIDcidade">Por Cidade</a><br/></li>
+            <li> <a href="#PesquisandoPIDagrupamento">Por Agrupamento</a><br/></li>
         </ul>
+        <a href="#VisualizarInfoPid">Visualizando Informações do PID</a><br/>
 
 
         <a href="#">Consulta Avançada</a><br/>
@@ -74,19 +75,57 @@
         <ul>
             <li>
                 Clicando no link Mapa de Inclusão obtém-se o acesso ao mapa pronto para uma consulta geral:
-            </li>
-            <img src="{{ asset('assets/images/1.png') }}" alt="Mapa de Consulta" class="img-responsive">
+            </li><br/>
+            <img src="{{ asset('assets/images/1.png') }}" alt="Mapa de Consulta" class="img-responsive"><br/>
             <li>Gerando uma consulta completa o mapa é populado com todos os dados de PIDs contidos no banco de dados e abaixo do mapa
             surge uma tabela com a lista de cada ponto de inclusão digital e um ícone para visualização dos dados, também é possível aproximar um agrupamento
                 de dados clicando no círculo enumerado para aproximar a região.
-            </li>
+            </li><br/>
 
-            <img src="{{ asset('assets/images/2.jpg') }}" alt="Mapa de Consulta Populado" class="img-responsive">
-            <li>Mapa após aproximação do grupo de PIDs</li>
-            <img src="{{ asset('assets/images/3.jpg') }}" alt="Mapa de Consulta Aproximado" class="img-responsive">
-            <li>teste</li>
+            <img src="{{ asset('assets/images/2.jpg') }}" alt="Mapa de Consulta Populado" class="img-responsive"><br/>
+            <li>Mapa após aproximação do grupo de PIDs</li><br/>
+            <img src="{{ asset('assets/images/3.jpg') }}" alt="Mapa de Consulta Aproximado" class="img-responsive"><br/>
+
+            <li><strong id="PesquisandoPIDsestado">Pesquisando PIDs por estado</strong><br/></li>
+            <li>Clique na opção UF, selecione um item da lista e faça a consulta.</li>
+            <img src="{{ asset('assets/images/4.png') }}" alt="Seleção de UF" class="img-responsive"><br/>
+            <img src="{{ asset('assets/images/5.png') }}" alt="UF Selecionado" class="img-responsive"><br/>
+            <li>Resultado da consulta por estado:</li><br/>
+            <img src="{{ asset('assets/images/6.png') }}" alt="Resultado da consulta" class="img-responsive"><br/><br/>
+
+            <li><strong id="PesquisandoPIDcidade">Pesquisando PIDs por Cidade</strong><br/></li>
+            <li>Opção para seleção de cidade:</li><br/>
+            <img src="{{ asset('assets/images/7.png') }}" alt="Opção para seleção da cidade" class="img-responsive"><br/>
+            <li>Após selecionar a cidade a consulta pode ser realizada</li><br/>
+            <img src="{{ asset('assets/images/8.png') }}" alt="Seleção da cidade" class="img-responsive"><br/>
+            <li>Resultado da consulta por cidade:</li><br/>
+            <img src="{{ asset('assets/images/9.png') }}" alt="Resultado da consulta por cidade" class="img-responsive"><br/>
+
+
+            <li><strong id="PesquisandoPIDagrupamento">Pesquisando PIDs por Agrupamento</strong><br/></li>
+            <li>A pesquisa por agrupamento, preenche com cores os estados e as regiões do Brasil. Informa o número de pids
+            por região e estados, porém nessa modalidade não é possível buscar PIDs pelo mapa.</li><br/>
+            <img src="{{ asset('assets/images/10.png') }}" alt="Pesquisando PIDs por Agrupamento" class="img-responsive"><br/>
+            <li>Agrupamento por estados:</li><br/>
+            <img src="{{ asset('assets/images/11.png') }}" alt="Agrupamento por estados" class="img-responsive"><br/>
+            <li>Agrupamento por regiões:</li><br/>
+            <img src="{{ asset('assets/images/12.png') }}" alt="Agrupamento por regiões" class="img-responsive"><br/>
         </ul>
-        <ul><li></li></ul>
+
+        <strong id="VisualizarInfoPid">Visualizando Informações do PID</strong><br/>
+        Após a consulta e navegação, encontra-se balões vermelhos que simboliza um PID, clicando nesse PID
+        a tabela resulta em dados parciais: tipo, nome, endereço, município, uf e o botão para visualização completa.<br/><br/>
+
+        <ul>
+            <img src="{{ asset('assets/images/13.jpg') }}" alt="Tabela com informações do PID" class="img-responsive"><br/>
+
+
+
+            <li>O ícone de visualização disponibiliza uma janela com abas contendo todas os dados do PID que está
+                sendo consultado.<br/><br/>
+            </li>
+            <img src="{{ asset('assets/images/14.png') }}" alt="Visualização das informações do PID" class="img-responsive"><br/>
+            </ul>
 
     </div>
 
