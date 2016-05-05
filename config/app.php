@@ -233,7 +233,6 @@ return [
         'Defender' => \Artesaos\Defender\Facades\Defender::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
-
     ],
 
 ];

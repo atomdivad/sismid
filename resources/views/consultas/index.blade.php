@@ -41,20 +41,24 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-7">
+                    <div class="col-sm-4">
                         <select name="ativo" id="ativo" class="form-control">
                             <option value="1">Ativos</option>
                             <option value="2">Desativados</option>
                             <option value="3">Todos</option>
                         </select>
                     </div>
-                    <div class="col-sm-5 text-right">
+                    <div class="col-sm-8">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <button class="btn btn-sm btn-primary btn-block" id="btnFiltrar" title="Realizar Consulta"><i class="glyphicon glyphicon-search"></i> Consultar</button>
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary" id="btnFiltrar" title="Realizar Consulta"><i class="glyphicon glyphicon-search"></i> Consultar</button>
                             </div>
-                            <div class="col-sm-6">
-                                <button class="btn btn-sm btn-default btn-block" id="btnClear" title="Limpar consulta"><i class="glyphicon glyphicon-remove"></i> Limpar</button>
+                            <div class="col-sm-5" id="divDownload">
+                                <button class="btn btn-success" id="btnDownload" title="Gerar arquivo desta consulta"><i class="glyphicon glyphicon-download-alt"></i> Baixar arquivo</button>
+                                <iframe id="frameDownload" style="display:none;"></iframe>
+                            </div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-default" id="btnClear" title="Limpar consulta"><i class="glyphicon glyphicon-remove"></i> Limpar</button>
                             </div>
                         </div>
                     </div>

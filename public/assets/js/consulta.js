@@ -1,5 +1,6 @@
 $("#tipoBusca").select2();
 $('#grid').hide();
+$("#divDownload").hide();
 
 var grid = $("#grid-data").bootgrid({
     labels: {
@@ -35,10 +36,23 @@ var grid = $("#grid-data").bootgrid({
     });
 });
 
-
 $('#searchInput').on('keyup', function() {
     var pesq = $('#searchInput').val();
     $("#grid-data").bootgrid("search", pesq);
+});
+
+$('#btnDownload').on('click', function(){
+    var dados = {
+        agrupamento: $("#agrupamento").val(),
+        uf: $("#uf").val(),
+        cidade: $("#cidade_id").val(),
+        tipo: $("#tipoBusca").val(),
+        ativo: $("#ativo").val(),
+        localizacao: $("#localizacao").val()
+    }
+    var param = $.param(dados);
+    var url = '/consulta/download?'+param;
+    document.getElementById('frameDownload').src = url;
 });
 
 $.ajaxSetup({
@@ -72,6 +86,12 @@ function buscaDados() {
         markerDesagrupados(data.pids, 'PID');
         markerDesagrupados(data.iniciativas, 'Iniciativa');
         $('#loading').modal('hide');
+        if(data.pids.length > 0 || data.iniciativas.length > 0) {
+            $("#divDownload").show();
+        }
+        else {
+            $("#divDownload").hide();
+        }
     }).error( function() {
         alert('Ocorreu um erro ao buscar os dados! Por favor atualize a página!');
         $('#loading').modal('hide');
@@ -105,6 +125,7 @@ $( "#btnClear" ).click(function() {
     $("#agrupamento").val(0);
     $("#ativo").val(1);
     $("#localizacao").val(3);
+    $("#divDownload").hide();
 
     //buscaDados();
 });
