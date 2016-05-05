@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
-use Maatwebsite\Excel\Facades\Excel;
 use SisMid\Http\Requests;
 use SisMid\Http\Controllers\Controller;
 use SisMid\Models\Iniciativa;
@@ -385,6 +384,9 @@ class ConsultaController extends Controller
         $zip->addFile($pathPid, 'Pids.csv');
         $zip->addFile($pathIniciativa, 'Iniciativas.csv');
         $zip->close();
+
+        unlink($pathPid);
+        unlink($pathIniciativa);
 
         return Response::download($zipPath);
     }
