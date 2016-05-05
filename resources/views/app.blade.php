@@ -46,8 +46,8 @@
                 <div class="col-sm-5">
                     <img src="{{ asset('assets/images/ibictlogo.png') }}" alt="Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)" class="img-responsive">
                 </div>
-                <div class="col-sm-7 text-right">
-                    <h3><a href="{{ url('/') }}">Sistema de Mapeamento de Inclusão Digital</a></h3>
+                <div class="col-sm-7 text-center">
+                    <h3><a href="{{ url('/') }}">Mapa de Inclusão Digital</a></h3>
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@
                     </ul>
                     @if(Auth::guest())
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ route('sobre.index') }}" title="Sobre o SisMID">Sobre o SisMID</a></li>
+                            <li><a href="{{ route('sobre.index') }}" title="Guia do Usuário">Guia do Usuário</a></li>
                         </ul>
                     @endif
                     @if(!Auth::guest())
