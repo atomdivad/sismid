@@ -176,7 +176,7 @@
             <img src="{{ asset('assets/images/27.png') }}" alt="Modificador do Infográfico" class="img-responsive"><br/>
             <li>Botão "?" para informar o objetivo do infográfico.</li><br/>
             <img src="{{ asset('assets/images/28.png') }}" alt="Ajuda do Infográfico" class="img-responsive"><br/>
-           
+
         </ul>
 
     </div>
