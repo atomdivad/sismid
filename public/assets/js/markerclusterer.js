@@ -1613,7 +1613,6 @@ MarkerClusterer.BATCH_SIZE_IE = 500;
  */
 MarkerClusterer.IMAGE_PATH = "https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m";
 
-
 /**
  * The default extension name for the marker cluster images.
  *
