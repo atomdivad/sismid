@@ -417,14 +417,14 @@ class ConsultaController extends Controller
                 ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                 ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                 ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                ->select('pids.idPid as id', 'pids.nome', 'pids.email', 'pids.url', 'pids.tipo_id', 'pids.destaque', 'pids.ativo', 'pids.updated_at', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                 ->where('cidades.idCidade', '=', $idCidade)
                 ->whereIn('pids.ativo', $ativo)
                 ->whereIn('enderecos.localizacao_id', $localizacao)
                 ->get();
         }
 
-        return response()->json(['pids' => $pids, 'iniciativas' => $iniciativas]);
+        return (['pids' => $pids, 'iniciativas' => $iniciativas]);
 
     }
 
@@ -455,14 +455,14 @@ class ConsultaController extends Controller
                 ->join('enderecos', 'pids.endereco_id', '=', 'enderecos.idEndereco')
                 ->join('cidades', 'enderecos.cidade_id', '=', 'cidades.idCidade')
                 ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
-                ->select('pids.idPid as id', 'pids.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
+                ->select('pids.idPid as id', 'pids.nome', 'pids.email', 'pids.url', 'pids.tipo_id', 'pids.destaque', 'pids.ativo', 'pids.updated_at', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
                 ->whereIn('cidades.uf_id', $uf)
                 ->whereIn('pids.ativo', $ativo)
                 ->whereIn('enderecos.localizacao_id', $localizacao)
                 ->orderBy('cidades.nomeCidade', 'asc')
                 ->get();
         }
-        return response()->json(['pids' => $pids, 'iniciativas' => $iniciativas]);
+        return (['pids' => $pids, 'iniciativas' => $iniciativas]);
     }
 
     /**
