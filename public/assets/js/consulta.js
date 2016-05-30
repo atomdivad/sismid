@@ -61,8 +61,6 @@ $.ajaxSetup({
     }
 });
 
-//buscaDados();
-
 function buscaDados() {
     $('#grid').show();
     $("#msg").hide();
@@ -118,7 +116,7 @@ $( "#btnFiltrar" ).click(function() {
 });
 
 $( "#btnClear" ).click(function() {
-    $("#grid-data").bootgrid("destroy").bootgrid("search",  $('#searchInput').val());
+    $("#grid-data").bootgrid('clear').bootgrid("search",  $('#searchInput').val());
     $('#searchInput').val('');
     $("#uf").val(0);
     $("#cidade_id").html('');
@@ -126,8 +124,6 @@ $( "#btnClear" ).click(function() {
     $("#ativo").val(1);
     $("#localizacao").val(3);
     $("#divDownload").hide();
-
-    //buscaDados();
 });
 
 var infoPid = new Vue({
