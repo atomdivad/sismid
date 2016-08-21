@@ -180,6 +180,28 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function(){
 
 });
 
+Route::group(['prefix' => 'revisao'], function(){
+
+    Route::group(['prefix' => 'pid'], function(){
+
+        Route::get('/{id}/show', ['as' => 'review.pid.show', 'uses' => 'PidReviewController@show']);
+
+        Route::get('/{id}/edit', ['as' => 'review.pid.edit', 'uses' => 'PidReviewController@edit']);
+
+        Route::get('/{id}/confirm', ['as' => 'review.pid.review', 'uses' => 'PidReviewController@confirm']);
+
+        Route::get('/{id}/review', ['as' => 'review.pid.review', 'uses' => 'PidReviewController@review']);
+
+        Route::post('/update', ['as' => 'review.pid.update', 'uses' => 'PidReviewController@update']);
+
+        Route::post('/fotos', ['as' => 'review.pid.fotos.upload', 'uses' => 'PidReviewController@fotosUpload']);
+
+        Route::post('/fotos/remover', ['as' => 'review.pid.fotos.remover', 'uses' => 'PidReviewController@fotosDestroy']);
+
+        Route::get('/{id}/fotos/{nome}', ['as' => 'review.pid.fotos', 'uses' => 'PidReviewController@fotos']);
+    });
+});
+
 /* Rota publica p/ mostrar os dados de um pid */
 Route::get('/pid/{id}/ver', ['as' => 'pid.ver', 'uses' => 'PidController@ver']);
 

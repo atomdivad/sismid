@@ -630,10 +630,19 @@ class PidController extends Controller
         return (int) $pid->ativo;
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public  function ver($id)
     {
         return view('pids.show');
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function sendLink(Request $request)
     {
         $this->validate($request, [

@@ -221,3 +221,10 @@ Breadcrumbs::register('api', function($breadcrumbs)
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Documentação API', route('apiDoc'));
 });
+
+//Home > Revisão Pid
+Breadcrumbs::register('pidReviewEdit', function($breadcrumbs)
+{
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Revisão PID', route('review.pid.edit'));
+});
