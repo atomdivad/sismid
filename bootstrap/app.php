@@ -38,7 +38,7 @@ $app->singleton(
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    SisMid\Exceptions\WhoopsHandler::class,
+    //SisMid\Exceptions\WhoopsHandler::class,
     SisMid\Exceptions\Handler::class
 );
 
