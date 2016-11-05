@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-sm-3">
                         @include('pids.partials.modal_sendEmail')
-                        <button class="btn btn-info" data-toggle="modal" data-target="#modalSendLink">Enviar Link</button>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#modalSendLink">Enviar p/ Revisão</button>
                     </div>
                     <div class="col-sm-4 text-right">
                         <a class="btn btn-default" href="{{route('pid.index')}}">Cancerlar</a>

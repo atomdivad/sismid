@@ -1,16 +1,19 @@
+{{-- Modal p/ exibir msg de sucesso e fazer o redirecionamento apos o OK --}}
+@include('revisao.pids.partials.confirm_modal')
+
 <div class="form-group">
-    {!! Form::label('nome', 'Nome') !!} <span class="label label-info">@{{ pidOriginal.nome }}</span>
+    {!! Form::label('nome', 'Nome') !!}
     {!! Form::text('nome', null, ["class" => "form-control", "autofocus", 'v-model' => 'pid.nome']) !!}
 </div>
 
 <div class="form-group">
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::label('email', 'E-mail') !!} <span class="label label-info">@{{ pidOriginal.email }}</span>
+            {!! Form::label('email', 'E-mail') !!}
             {!! Form::input('email', 'email', null, ["class" => "form-control", 'v-model' => 'pid.email']) !!}
         </div>
         <div class="col-sm-6">
-            {!! Form::label('url', 'URL') !!}  <span class="label label-info">@{{ pidOriginal.url }}</span>
+            {!! Form::label('url', 'URL') !!}
             {!! Form::input('url', 'url', null, ["class" => "form-control", 'v-model' => 'pid.url']) !!}
         </div>
     </div>
@@ -19,11 +22,11 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::label('tipo_id', 'Tipo') !!} <span class="label label-info">@{{ pidOriginal.tipo }}</span>
+            {!! Form::label('tipo_id', 'Tipo') !!}
             {!! Form::select('tipo_id', $pidTipos, null, ["class" => "form-control", 'v-model' => 'pid.tipo_id']) !!}
         </div>
         <div class="col-sm-6">
-            {!! Form::label('destaque', 'Prêmiado/Destaque') !!} <span class="label label-info">@{{ pidOriginal.destaque }}</span>
+            {!! Form::label('destaque', 'Prêmiado/Destaque') !!}
             <input type="checkbox" name="destaque" class="form-control" v-model="pid.destaque"/>
         </div>
     </div>
@@ -32,15 +35,15 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::label('cep', 'CEP') !!} <span class="label label-info">@{{ pidOriginal.endereco.cep }}</span>
+            {!! Form::label('cep', 'CEP') !!}
             {!! Form::text('cep', null, ["class" => "form-control cep", 'v-model' => 'pid.endereco.cep']) !!}
         </div>
         <div class="col-sm-4">
-            {!! Form::label('logradouro', 'Logradouro') !!} <span class="label label-info">@{{ pidOriginal.endereco.logradouro }}</span>
+            {!! Form::label('logradouro', 'Logradouro') !!}
             {!! Form::text('logradouro', null, ["class" => "form-control", 'v-model' => 'pid.endereco.logradouro']) !!}
         </div>
         <div class="col-sm-2">
-            {!! Form::label('numero', 'Nº') !!} <span class="label label-info">@{{ pidOriginal.endereco.numero }}</span>
+            {!! Form::label('numero', 'Nº') !!}
             {!! Form::text('numero', null, ["class" => "form-control", 'v-model' => 'pid.endereco.numero']) !!}
         </div>
     </div>
@@ -49,7 +52,7 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::label('complemento', 'Complemento') !!} <span class="label label-info">@{{ pidOriginal.endereco.complemento }}</span>
+            {!! Form::label('complemento', 'Complemento') !!}
             {!! Form::text('complemento', null, ["class" => "form-control", 'v-model' => 'pid.endereco.complemento']) !!}
         </div>
     </div>
@@ -58,15 +61,15 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::label('bairro', 'Bairro') !!} <span class="label label-info">@{{ pidOriginal.endereco.bairro }}</span>
+            {!! Form::label('bairro', 'Bairro') !!}
             {!! Form::text('bairro', null, ["class" => "form-control", 'v-model' => 'pid.endereco.bairro']) !!}
         </div>
         <div class="col-sm-2">
-            {!! Form::label('uf', 'UF') !!} <span class="label label-info">@{{ pidOriginal.endereco.uf }}</span>
-            {!! Form::select('uf', $uf, $json['endereco']['uf'], ["class" => "form-control"]) !!}
+            {!! Form::label('uf', 'UF') !!}
+            {!! Form::select('uf', $uf, null, ["class" => "form-control", 'v-model' => 'pid.endereco.idUf']) !!}
         </div>
         <div class="col-sm-4">
-            {!! Form::label('cidade_id', 'Cidade') !!} <span class="label label-info">@{{ pidOriginal.endereco.cidade }}</span>
+            {!! Form::label('cidade_id', 'Cidade') !!}
             {!! Form::select('cidade_id', [], null, ["class" => "form-control", 'v-model' => 'pid.endereco.cidade_id']) !!}
         </div>
     </div>
@@ -83,10 +86,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-5">
-            {!! Form::label('latitude', 'Latitude') !!}  <span class="label label-info">@{{ pidOriginal.endereco.latitude }}</span>
+            {!! Form::label('latitude', 'Latitude') !!}
         </div>
         <div class="col-sm-5">
-            {!! Form::label('longitude', 'Longitude') !!}  <span class="label label-info">@{{ pidOriginal.endereco.longitude }}</span>
+            {!! Form::label('longitude', 'Longitude') !!}
         </div>
     </div>
     <div class="row">
@@ -105,11 +108,11 @@
 <div class="form-group">
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::label('localizacao', 'Localização') !!}  <span class="label label-info">@{{ pidOriginal.endereco.localizacao }}</span>
+            {!! Form::label('localizacao', 'Localização') !!}
             {!! Form::select('localizacao_id', $localizacoes, null, ["class" => "form-control", 'v-model' => 'pid.endereco.localizacao_id']) !!}
         </div>
         <div class="col-sm-6">
-            {!! Form::label('localidade', 'Localidades') !!}  <span class="label label-info">@{{ pidOriginal.endereco.localidade }}</span>
+            {!! Form::label('localidade', 'Localidades') !!}
             {!! Form::select('localidade_id', $localidades, null, ["class" => "form-control", 'v-model' => 'pid.endereco.localidade_id']) !!}
         </div>
     </div>
@@ -118,7 +121,7 @@
 {{-- Telefones --}}
 <div class="form-group">
     <div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
@@ -156,11 +159,6 @@
                 <div class="text-center" v-else><strong>Nenhum telefone cadastrado</strong></div>
             </div>
         </div>
-        <div class="col-sm-5">
-            <div v-for="i in pid.telefones">
-                <span class="label label-info">@{{ i.telefone }} @{{ i.responsavel }}</span>
-            </div>
-        </div>
     </div>
 </div>
 {{-- Fim Telefones --}}
@@ -169,7 +167,7 @@
 @include('pids.partials.modal_instituicoes')
 <div class="form-group">
     <div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
@@ -198,12 +196,6 @@
                 </table>
             </div>
         </div>
-
-        <div class="col-sm-5">
-            <div v-for="i in pidOriginal.instituicoes">
-                <span class="label label-info">@{{ i.nome }} - @{{ i.nomeCidade }} - @{{ i.uf }}</span>
-            </div>
-        </div>
     </div>
 </div>
 {{-- Fim Instituições Responsaveis --}}
@@ -213,7 +205,7 @@
 <div class="form-group">
     <div class="row">
         {{-- Iniciativas vinculadas revisao--}}
-        <div class="col-sm-7">
+        <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
@@ -242,20 +234,11 @@
                 </table>
             </div>
         </div>
-        {{-- Iniciativas ja vinculadas --}}
-        <div class="col-sm-5">
-            <div v-for="i in pidOriginal.iniciativas">
-                <span class="label label-info">@{{ i.nome }} - @{{ i.nomeCidade }} - @{{ i.uf }}</span>
-            </div>
-        </div>
     </div>
 </div>
 {{-- Fim Iniciativas Vinculadas --}}
 
 {{-- Servicos --}}
-<div v-for="i in pid.servicos">
-    <span class="label label-info">@{{ i }}</span>
-</div>
 <div class="form-group">
     <div class="panel panel-default">
         <div class="panel-heading"><i class="glyphicon glyphicon-list"></i> Servicos</div>
@@ -277,7 +260,7 @@
 
 {{-- Fotos --}}
 @include('pids.partials.modal_fotos')
-<div class="form-group" v-show="pid.idPid != null">
+{{--<div class="form-group" v-show="pid.idPid != null">
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
@@ -302,7 +285,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>--}}
 {{-- Fim Fotos --}}
 
 @section('script')
@@ -311,7 +294,8 @@
     <script src="{{ asset('/assets/js/jquery.fileupload.js') }}"></script>
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
     <script src="{{ asset('/assets/js/component-listagem.js') }}"></script>
-    <script src="{{ asset('/assets/js/pidReview.js') }}"></script>
+    <script src="{{ asset('/assets/js/pidReviewConfirm.js') }}"></script>
+    if
     <script src="{{ asset('/assets/js/masks.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsOdEoVwUQhPynqvu6OeA6qC9jsVniSlE&signed_in=true&callback=initMap" async defer></script>
 @endsection

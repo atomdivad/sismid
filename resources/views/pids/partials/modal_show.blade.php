@@ -14,7 +14,7 @@
                     <li role="presentation"><a href="#iniciativas" aria-controls="iniciativas" role="tab" data-toggle="tab">Iniciativa</a></li>
                     <li role="presentation"><a href="#servicos" aria-controls="servicos" role="tab" data-toggle="tab">Serviços</a></li>
                     <li role="presentation"><a href="#fotos" aria-controls="fotos" role="tab" data-toggle="tab">Fotos</a></li>
-                    <li role="presentation"><a href="#sendLink" aria-controls="sendLink" role="tab" data-toggle="tab">Enviar Link</a></li>
+                    <li role="presentation"><a href="#sendLink" aria-controls="sendLink" role="tab" data-toggle="tab">Enviar p/ Revisão</a></li>
                 </ul>
 
                 <!-- Tab panes -->

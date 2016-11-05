@@ -1,9 +1,9 @@
 @extends('app')
 @section('content')
-    {!! Breadcrumbs::render('pidReviewEdit') !!}
+    {!! Breadcrumbs::render('pidReviewConfirm') !!}
     <div class="row">
         <div class="col-sm-12">
-            <legend><i class="glyphicon glyphicon-edit"></i> Atualizar PID</legend>
+            <legend><i class="glyphicon glyphicon-edit"></i> Revisão de PID</legend>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
                         <button class="btn btn-success" type="submit" v-on:click="salvarPid($event)"><span class="glyphicon glyphicon-save"></span> Enviar</button>
                     </div>
                     <div class="col-sm-6 text-right">
-                        <a class="btn btn-default" href="#cancelar">Cancerlar</a>
+                        <a class="btn btn-default" href="{{ route('review.pid.index') }}">Cancerlar</a>
                     </div>
                 </div>
             </div>

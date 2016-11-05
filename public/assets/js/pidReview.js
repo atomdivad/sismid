@@ -1,361 +1,120 @@
-Vue.http.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content');
-
-var pid = new Vue({
-    el: "#PID",
-
-    data: {
-        /* contem os dados salvos no DB */
-        pid: {
-            idPid: null,
-            nome: '',
-            email: '',
-            url: '',
-            tipo_id: 'null',
-            endereco: {
-                cep: '',
-                logradouro: '',
-                numero: '',
-                complemento: '',
-                bairro: '',
-                uf: '',
-                cidade_id: '',
-                latitude: '',
-                longitude: '',
-                localidade_id: '',
-                localizacao_id: ''
-            },
-            telefones: [],
-            instituicoes: [],
-            iniciativas: [],
-            servicos: [],
-            fotos: [],
-            destaque: false
-        },
-
-        /* contem os dados enviados p/ revisao */
-        pidOriginal: {
-            idPid: null,
-            nome: '',
-            email: '',
-            url: '',
-            tipo_id: 'null',
-            endereco: {
-                cep: '',
-                logradouro: '',
-                numero: '',
-                complemento: '',
-                bairro: '',
-                uf: '',
-                cidade_id: '',
-                latitude: '',
-                longitude: '',
-                localidade_id: '',
-                localizacao_id: ''
-            },
-            telefones: [],
-            instituicoes: [],
-            iniciativas: [],
-            servicos: [],
-            fotos: [],
-            destaque: false
-        },
-
-        novoTelefone: {
-            idTelefone: null,
-            telefone: '',
-            responsavel: '',
-            telefoneTipo_id: '1'
-        },
-
-        instituicoes: [],
-        iniciativas: [],
-
-        sendEmail: {
-            email : '',
-            error: false,
-            success: false
-        },
-
-        response: {
-            show: false,
-            error: false,
-            msg:[]
-        }
-    },
-
-    methods: {
-        cadastrarTelefone: function(ev) {
-            ev.preventDefault();
-            var self = this;
-            self.pid.telefones.push(jQuery.extend({}, self.novoTelefone));
-        },
-
-        removerTelefone: function(ev, index) {
-            ev.preventDefault();
-            var self = this;
-            self.pid.telefones.splice(index, 1);
-        },
-
-        pesquisarInstituicoes: function(ev) {
-            ev.preventDefault();
-            jQuery('#gridLoaded').hide();
-            jQuery('#gridLoading').show();
-            var self = this;
-            var busca = {
-                nome: jQuery('input[name="buscaNome"]').val(),
-                uf: jQuery('select[name="buscaUF"]').val(),
-                cidade_id: jQuery('select[name="buscaCidade"]').val()
-            }
-
-            self.$http.post('/api/pesquisar/instituicoes', busca, function(response){
-                self.$set('instituicoes', _.chunk(response,5));
-                pid.$refs.listaInstituicoes.$data.page = 0;
-                jQuery('#gridLoading').hide();
-                jQuery('#gridLoaded').show();
-            });
-        },
-
-        removerInstituicao: function(ev, index) {
-            ev.preventDefault();
-            var self = this;
-            self.pid.instituicoes.splice(index, 1);
-        },
-
-        cancelarInstituicoes: function(ev) {
-            this.instituicoes = [];
-            jQuery('#modalIntituicoes').modal('toggle');
-            pid.$refs.listaInstituicoes.$data.page = 0;
-        },
-
-        pesquisarIniciativas: function(ev, btn) {
-            ev.preventDefault();
-            jQuery('#gridLoaded1').hide();
-            jQuery('#gridLoading1').show();
-            var self = this;
-            var busca = {
-                nome: jQuery('input[name="iniciativaBuscaNome"]').val(),
-                uf: jQuery('select[name="iniciativaBuscaUF"]').val(),
-                cidade_id: jQuery('select[name="iniciativaBuscaCidade"]').val()
-            }
-
-            self.$http.post('/api/pesquisar/iniciativas', busca, function(response){
-                self.$set('iniciativas', _.chunk(response,5));
-                pid.$refs.listaIniciativas.$data.page = 0;
-                jQuery('#gridLoading1').hide();
-                jQuery('#gridLoaded1').show();
-            });
-        },
-
-        removerIniciativa: function(ev, index) {
-            ev.preventDefault();
-            var self = this;
-            self.pid.iniciativas.splice(index, 1);
-        },
-
-        cancelarIniciativas: function(ev) {
-            this.iniciativas = [];
-            jQuery('#modalIniciativas').modal('toggle');
-            pid.$refs.listaIniciativas.$data.page = 0;
-        },
-
-        removerFoto: function(ev, index) {
-            ev.preventDefault();
-            var self = this;
-            jQuery('#removeFoto-'+index).html('<i class="fa fa-refresh fa-spin"></i>');
-            self.$http.post('/revisao/pid/fotos/remover', {idFoto: self.pid.fotos[index].idFoto}, function(response){
-                self.pid.fotos.splice(index, 1);
-            }).error(function() {
-                jQuery('#removeFoto-'+index).html('<span>&times;</span>');
-            });
-        },
-
-        limparModalFotos: function() {
-            jQuery('#progress .progress-bar').css('width', '0%');
-            jQuery('#modalFotos').modal('hide');
-        },
-
-        salvarPid: function(ev) {
-            jQuery('#loading').modal('show');
-            ev.preventDefault();
-            var self = this;
-            self.$set('pid.endereco.latitude', jQuery("#latitude").val());
-            self.$set('pid.endereco.longitude', jQuery("#longitude").val());
-            if(self.pid.idPid === null) {
-                self.$http.post('/revisao/pid/store', self.pid, function (response){
-                    self.alerta(false, {msg:['Salvo com sucesso!']})
-                    self.$set('pid', response);
-                    window.location.pathname = '/pid/'+response.idPid+'/edit';
-
-                }).error(function (response){
-                    jQuery('#loading').modal('hide');
-                    self.alerta(true, response);
-                });
-            }
-            else {
-                jQuery('#loading').modal('show');
-                self.$http.post('/revisao/pid/update', self.pid, function (response){
-                    self.$set('pid', response);
-                    jQuery('#loading').modal('hide');
-                    self.alerta(false, {msg:['Atualizado com sucesso!']})
-
-                }).error(function (response){
-                    jQuery('#loading').modal('hide');
-                    self.alerta(true, response);
-                });
-            }
-        },
-
-        alerta: function(error, msg) {
-            var self = this;
-            jQuery('html,body').scrollTop(0);
-            self.$set('response.error', error);
-            self.$set('response.msg', msg);
-            self.$set('response.show', true);
-            if(!self.response.error)
-                setTimeout(function(){ self.$set('response.show', false);}, 5000);
-        }
-    },
-
-    ready: function() {
-        var self = this, url;
-
-        var param = window.location.pathname.split( '/' )[3];
-
-        if(param != 'create') {
-            jQuery('#loading').modal('show');
-            url = '/revisao/pid/'+param+'/review';
-
-            self.$http.get(url, function(response) {
-                /* Adicionando os dados retornados */
-                self.$set('pid', response);
-                jQuery(getCidades(self.pid.endereco.uf,self.pid.endereco.cidade_id ));
-                if (typeof google === 'object' && typeof google.maps === 'object')
-                    jQuery(setPosition(self.pid.endereco.latitude, self.pid.endereco.longitude, map));
-                jQuery('#loading').modal('hide');
-
-                /*Upload Anexos Projeto*/
-                var fileUpload = jQuery('#fileupload');
-                fileUpload.fileupload({
-                    url: '/revisao/pid/fotos',
-                    acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-                    dataType: 'json',
-                    formData: {
-                        _token: jQuery('meta[name=csrf-token]').attr('content'),
-                        idPid: self.pid.idPid
-                    },
-                    done: function (e, data) {
-                        self.pid.fotos.push(data.result);
-                    },
-                    progressall: function (e, data) {
-                        var progress = parseInt(data.loaded / data.total * 100, 10);
-                        jQuery('#progress .progress-bar').css('width',progress + '%');
-                    }
-                });
-                /* Fim do upload de anexos */
-            });
-
-            url = '/revisao/pid/'+param+'/show';
-            self.$http.get(url, function(response) {
-                /* Adicionando os dados retornados */
-                self.$set('pidOriginal', response);
-            });
-        }
-    },
-
-    attached: function() {}
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
 });
 
-var map;
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        streetViewControl: false,
-        center: {lat: -15.780, lng: -47.929}
-    });
-    var geocoder = new google.maps.Geocoder();
-    document.getElementById('latlngSearch').addEventListener('click', function() {
-        geocodeAddress(geocoder, map);
-    });
+moment.locale('pt-BR');
 
-    var param = window.location.pathname.split( '/' )[2];
-    if(param != 'create') {
-        setPosition(pid.$data.pid.endereco.latitude, pid.$data.pid.endereco.longitude, map);
+var grid = $("#grid-data").bootgrid({
+    labels: {
+        noResults: "Nenhum resultado",
+        all: 'Todos',
+        search: "Pesquisar",
+        infos: "Exibindo {{ctx.start}} - {{ctx.end}} de {{ctx.total}} entradas"
+    },
+    caseSensitive: false,
+    searchSettings: {
+        delay: 100,
+        characters: 3
+    },
+    formatters: {
+        commands: function (column, row)
+        {
+            if(row.submetido == 1)
+                return '<a href="/revisao/pid/'+row.idPid+'/confirm" class="btn btn-sm btn-primary" title="Finalizar Edição do item: '+row.nome+'" data-id="'+row.idPid+'"><span class="glyphicon glyphicon-edit"></span></a>';
+
+            if(row.submetido == 0)
+                return '<a href="#" class="btn btn-sm btn-danger command-edit" title="Cancelar revisão do item: '+row.nome+'" data-id="'+row.idRevisao+'"><span class="glyphicon glyphicon-trash"></span></a>';
+        }
+    },
+    converters: {
+        datetime: {
+            from: function (value) { return moment(value); },
+            to: function (value) { return moment(value).format('LLL'); }
+        },
+
+        boolean: {
+            from: function (value) { return value; },
+            to: function (value) { if(value == '1'){ return 'Sim' } else{ return 'Não'}; }
+        }
     }
-    else {
-        //HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                map.setCenter(pos);
+}).on("loaded.rs.jquery.bootgrid", function()
+{
+    grid.find(".command-edit").on("click", function(e)
+    {
+        removerID = $(this).data('id');
+        e.preventDefault();
+        $('#modalRemoveReview').modal('show');
+    });
+});
+
+var dados = null;
+function buscaDados() {
+    $('#loading').modal('show');
+    $("#grid-data").bootgrid('clear');
+
+    $.get("/revisao/pid/listar", function (data) {
+        dados = data;
+        $("#grid-data").bootgrid('append', data);
+        $('#loading').modal('hide');
+    }).error( function() {
+        alert('Ocorreu um erro ao buscar os dados! Por favor atualize a página!');
+        $('#loading').modal('hide');
+    });
+}
+
+
+var removerID = null;
+var i =0;
+$('#modalRemoveReview').on('show.bs.modal', function(e) {
+    $("#btnConfirm").off().on('click', function(ee){
+        $.get('/revisao/pid/'+removerID+'/remove')
+            .done(function(data){
+                $("#grid-data").bootgrid('clear');
+                $(buscaDados);
+                alerta(1,'Cancelado com sucesso.');
+            })
+            .fail(function(data){
+                alerta(0,'<strong>Ops!</strong> Algo inesperado aconteceu. Atualize a página e tente novamente.');
             });
-        }
-    }
 
-    /*Desativa o zoom com duplo click p/ pegar a posição*/
-    map.set("disableDoubleClickZoom", true);
-    google.maps.event.addListener(map,"dblclick", function (e) { setNewPosition(e.latLng, map); });
-
-}
-
-var marker = null;
-
-function geocodeAddress(geocoder, resultsMap) {
-    var logradouro = document.getElementById('logradouro').value;
-    var numero = document.getElementById('numero').value;
-    var bairro = document.getElementById('bairro').value;
-    var cidade = $('#cidade_id').find(":selected").text();
-    var uf = $('#uf').find(":selected").text();
-    var cep = document.getElementById('cep').value;
-    var address = logradouro+','+numero+','+bairro+','+cidade+','+uf+','+cep;
-    geocoder.geocode({'address': address}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-            resultsMap.setCenter(results[0].geometry.location);
-            if(marker != null) {
-                marker.setPosition(results[0].geometry.location);
-            }
-            else {
-                marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location,
-                    visible: true
-                });
-            }
-            /*Adiconar o valor de lat a lng aos inputs*/
-            var latlng = results[0].geometry.location.toJSON();
-            $("#latitude").val(latlng.lat);
-            $("#longitude").val(latlng.lng);
-        } else {
-            alert('Falha ao buscar endereço!');
-        }
+        $('#modalRemoveReview').modal('hide');
     });
+});
+
+function alerta(tipo, msg) {
+    /*sucesso*/
+    if(tipo == 1)
+        $('#alerta').attr('class', 'alert alert-info alert-dismissable')
+    /*erro*/
+    if(tipo == 0)
+        $('#alerta').attr('class', 'alert alert-warning alert-dismissable')
+    $('.alert').show()
+    $('#mensagem').html(msg);
+    setTimeout(function(){ $('.alert').hide() }, 5000);
 }
 
 
-function setPosition(lat, long, map) {
-    latLng = new google.maps.LatLng(lat, long);
-    marker = new google.maps.Marker({
-        map: map,
-        position: latLng,
-        visible: true
-    });
-    map.setCenter(latLng);
-}
+$('#filter').on('change', function(){
+    var filter = this.value;
 
-function setNewPosition(pos, map) {
-    if(marker != null) {
-        marker.setPosition(pos);
-    }
-    else {
-        marker = new google.maps.Marker({
-            map: map,
-            position: pos,
-            visible: true
+    if(filter != 3) {
+        var d = $.grep(dados,function(n){
+            return n.submetido == filter;
         });
     }
-    map.setCenter(pos);
-    $("#latitude").val(pos.lat);
-    $("#longitude").val(pos.lng);
-}
+    else {
+        var d = dados;
+    }
+
+    $('#grid-data').bootgrid('clear');
+    $('#grid-data').bootgrid('append', d);
+
+});
+
+
+
+
+
+$(buscaDados)

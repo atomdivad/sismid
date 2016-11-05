@@ -1,6 +1,8 @@
 /vendor
 /node_modules
 /storage
+/storage/revisao/*
+!/storage/revisao
 Homestead.yaml
 Homestead.json
 .env

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use SisMid\Http\Requests;
@@ -385,6 +386,7 @@ class PidController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+
      * @return \Illuminate\Http\Response
      */
     public function show($id = null)
@@ -651,9 +653,13 @@ class PidController extends Controller
         ]);
 
         $pid = Pid::findOrFail($request['idPid']);
+        $email = $request['email'];
+        $pass = str_random(8);
 
-        return Mail::send('emails.urlToPid', ["idPid" => $pid->idPid, "nome" => $pid->nome, 'email' => $request['email']], function($m) use ($request) {
-            $m->to($request['email'])->subject('SisMid: Dadods PID');
+        DB::table('pid_revisao')->insert(['pid_id' => $pid->idPid, 'email' => $email, 'pass' => $pass, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
+
+        return Mail::send('emails.pidRevisao', ["idPid" => $pid->idPid, "nome" => $pid->nome, 'email' => $request['email'], 'pass' => $pass], function($m) use ($request) {
+            $m->to($request['email'])->subject('SisMid: Revisão de PID');
         });
     }
 }

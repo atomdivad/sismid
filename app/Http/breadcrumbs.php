@@ -223,8 +223,23 @@ Breadcrumbs::register('api', function($breadcrumbs)
 });
 
 //Home > Revisão Pid
-Breadcrumbs::register('pidReviewEdit', function($breadcrumbs)
+Breadcrumbs::register('pidReview', function($breadcrumbs)
 {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Revisão PID', route('review.pid.edit'));
+    if(Auth::guest())
+        $breadcrumbs->push('Revisão PID');
+    else
+        $breadcrumbs->push('Revisão PID', route('review.pid.index'));
+});
+
+Breadcrumbs::register('pidReviewEdit', function($breadcrumbs)
+{
+    $breadcrumbs->parent('pidReview');
+    $breadcrumbs->push('Editar', route('review.pid.edit'));
+});
+
+Breadcrumbs::register('pidReviewConfirm', function($breadcrumbs)
+{
+    $breadcrumbs->parent('pidReview');
+    $breadcrumbs->push('Confirmar', route('review.pid.review'));
 });

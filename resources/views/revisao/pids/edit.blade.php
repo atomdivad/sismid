@@ -22,9 +22,21 @@
         </div>
         {{-- Fim Div Mensagem Alerta --}}
 
-        <div class="col-sm-12">
+        {{-- Div Mensagem Final--}}
+        <div class="col-sm-12" v-show="sent">
+            <p>
+                Os dados foram enviados para revisão. Assim que possível será publicado. <br/>
+                Agradecemos a sua contribuição
+            <p/>
+        </div>
+        {{-- Fim Div Mensagem Final--}}
+
+        <div class="col-sm-12" v-show="!sent">
 
             @include('revisao.pids.partials.form')
+
+            <input type="hidden" name="session_email" id="session_email" value="{{ session('email') }}" v-model="session_email"/>
+            <input type="hidden" name="session_pass" id="session_pass" value="{{ session('pass') }}" v-model="session_pass"/>
 
             <div class="form-group">
                 <div class="row">

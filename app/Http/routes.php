@@ -184,21 +184,41 @@ Route::group(['prefix' => 'revisao'], function(){
 
     Route::group(['prefix' => 'pid'], function(){
 
+        Route::get('/login', ['as' => 'review.pid.login', 'uses' => function(){
+            return view('revisao.pids.login');
+        }]);
+
+        Route::post('/logar', ['as' => 'review.pid.logar', 'uses' => 'PidReviewController@logar']);
+
         Route::get('/{id}/show', ['as' => 'review.pid.show', 'uses' => 'PidReviewController@show']);
 
         Route::get('/{id}/edit', ['as' => 'review.pid.edit', 'uses' => 'PidReviewController@edit']);
 
-        Route::get('/{id}/confirm', ['as' => 'review.pid.review', 'uses' => 'PidReviewController@confirm']);
 
         Route::get('/{id}/review', ['as' => 'review.pid.review', 'uses' => 'PidReviewController@review']);
 
-        Route::post('/update', ['as' => 'review.pid.update', 'uses' => 'PidReviewController@update']);
 
-        Route::post('/fotos', ['as' => 'review.pid.fotos.upload', 'uses' => 'PidReviewController@fotosUpload']);
+        Route::post('/store', ['as' => 'review.pid.store', 'uses' => 'PidReviewController@store']);
+
+        /* Rotas para acesso somente por adminitradores */
+        Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin'], 'any' => true], function(){
+
+            Route::get('/', ['as' => 'review.pid.index', 'uses' => 'PidReviewController@index']);
+
+            Route::get('/listar', ['as' => 'review.pid.listar', 'uses' => 'PidReviewController@lists']);
+
+            Route::get('/{id}/confirm', ['as' => 'review.pid.confirm', 'uses' => 'PidReviewController@confirm']);
+
+            Route::post('/update', ['as' => 'review.pid.update', 'uses' => 'PidReviewController@update']);
+
+            Route::get('/{id}/remove', ['as' => 'review.pid.remove', 'uses' => 'PidReviewController@remove']);
+        });
+
+        /*Route::post('/fotos', ['as' => 'review.pid.fotos.upload', 'uses' => 'PidReviewController@fotosUpload']);
 
         Route::post('/fotos/remover', ['as' => 'review.pid.fotos.remover', 'uses' => 'PidReviewController@fotosDestroy']);
 
-        Route::get('/{id}/fotos/{nome}', ['as' => 'review.pid.fotos', 'uses' => 'PidReviewController@fotos']);
+        Route::get('/{id}/fotos/{nome}', ['as' => 'review.pid.fotos', 'uses' => 'PidReviewController@fotos']);*/
     });
 });
 

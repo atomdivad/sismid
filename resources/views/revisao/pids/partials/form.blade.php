@@ -63,7 +63,7 @@
         </div>
         <div class="col-sm-2">
             {!! Form::label('uf', 'UF') !!}
-            {!! Form::select('uf', $uf, null, ["class" => "form-control", 'v-model' => 'pid.endereco.uf']) !!}
+            {!! Form::select('uf', $uf, null, ["class" => "form-control", 'v-model' => 'pid.endereco.idUf']) !!}
         </div>
         <div class="col-sm-4">
             {!! Form::label('cidade_id', 'Cidade') !!}
@@ -255,7 +255,7 @@
 {{-- Fim Servicos --}}
 
 {{-- Fotos --}}
-@include('pids.partials.modal_fotos')
+{{--@include('pids.partials.modal_fotos')
 <div class="form-group" v-show="pid.idPid != null">
     <div class="row">
         <div class="col-sm-12">
@@ -281,7 +281,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>--}}
 {{-- Fim Fotos --}}
 
 @section('script')
@@ -290,7 +290,7 @@
     <script src="{{ asset('/assets/js/jquery.fileupload.js') }}"></script>
     <script src="{{ asset('/assets/js/cidades.js') }}"></script>
     <script src="{{ asset('/assets/js/component-listagem.js') }}"></script>
-    <script src="{{ asset('/assets/js/pidReview.js') }}"></script>
+    <script src="{{ asset('/assets/js/pidReviewEdit.js') }}"></script>
     <script src="{{ asset('/assets/js/masks.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsOdEoVwUQhPynqvu6OeA6qC9jsVniSlE&signed_in=true&callback=initMap" async defer></script>
 @endsection

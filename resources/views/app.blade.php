@@ -110,8 +110,18 @@
                             <li><a href="{{ route('iniciativa.edit', Auth::user()->iniciativa_id) }}" title="Iniciativa">Iniciativa</a></li>
                             @endis
 
-                            <li><a href="{{ route('pid.index') }}" title="Pontos de Inclusão Digital">Pontos de Inclusão Digital</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pontos de Inclusão Digital <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('pid.index') }}" title="Pontos de Inclusão Digital">Buscar PID</a></li>
+                                    @is('admin')
+                                        <li><a href="{{ route('review.pid.index') }}" title="Pontos de Inclusão Digital">Revisão de PID</a></li>
+                                    @endis
+                                </ul>
+                            </li>
+
                             <li><a href="{{ route('instituicao.index') }}" title="Instituições">Instituições</a></li>
+
                             @is('admin')
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -199,6 +209,6 @@
     <script src="{{ asset('/assets/js/vue-resource.min.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery.mask.min.js') }}"></script>
     @yield('script')
-    <script defer="defer" src="//barra.brasil.gov.br/barra.js" type="text/javascript"></script>
+    {{--<script defer="defer" src="//barra.brasil.gov.br/barra.js" type="text/javascript"></script>--}}
 </body>
 </html>

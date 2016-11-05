@@ -2,6 +2,7 @@
 
 namespace SisMid\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use SisMid\Http\Requests;
@@ -14,42 +15,18 @@ use SisMid\Models\Servico;
 use SisMid\Models\Telefone;
 use SisMid\Models\Foto;
 use Intervention\Image\Facades\Image;
+use Symfony\Component\HttpFoundation\Response;
 
 class PidReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        return view('revisao.pids.index');
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Exibe os dados de PID.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -132,45 +109,109 @@ class PidReviewController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Formulario p/ edicao de PID.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
-        $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
-        $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
-        $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
-        $pidTipos = DB::table('pidTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
-        $servicos = Servico::all()->lists('servico', 'idServico');
+        if(session('email') && session('pass')) {
+            $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
+            $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
+            $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
+            $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
+            $pidTipos = DB::table('pidTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
+            $servicos = Servico::all()->lists('servico', 'idServico');
 
-        return view('revisao.pids.edit', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos', 'servicos', 'json'));
-    }
+            return view('revisao.pids.edit', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos', 'servicos'));
+        }
 
-    public function confirm($id)
-    {
-        $json =  json_decode(file_get_contents(storage_path().'/revisao/pid_'.$id.'.json'), true);
-
-        $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
-        $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
-        $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
-        $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
-        $pidTipos = DB::table('pidTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
-        $servicos = Servico::all()->lists('servico', 'idServico');
-
-        return view('revisao.pids.review', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos', 'servicos', 'json'));
-    }
-
-    public function review($id = null)
-    {
-        if($id)
-            return json_decode(file_get_contents(storage_path().'/revisao/pid_'.$id.'.json'), true);
+        return redirect()->route('review.pid.login');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cria uma copia dos dados enviados p/ a revisao.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'nome' => 'required|min:5',
+            'email' => 'required|email',
+            'url' => 'url',
+            'tipo_id' => 'exists:pidTipos,idTipo',
+            'endereco.logradouro' => 'required|min:3|max:150',
+            'endereco.bairro' => 'required|min:3|max:150',
+            'endereco.uf' => 'required',
+            'endereco.cidade_id' => 'required|exists:cidades,idCidade',
+            'endereco.latitude' => 'numeric',
+            'endereco.longitude' => 'numeric',
+            'endereco.localidade_id'=> 'exists:localidades,idLocalidade',
+            'endereco.localizacao_id'=> 'exists:localizacoes,idLocalizacao',
+        ]);
+
+        $email = $request['session_email'];
+        $pass = $request['session_pass'];
+
+        $review = DB::table('pid_revisao')
+            ->where('email', $email)
+            ->where('pass', $pass)
+            ->where('valido', 1)
+            ->where('submetido', 0)
+            ->select('pid_id', 'idRevisao')
+            ->get();
+
+        if(empty($review)) {
+            abort(401, 'Acesso Inválido');
+        }
+        else if($review[0]->pid_id != $request['idPid']) {
+            abort(401, 'Acesso Inválido');
+        }
+
+        file_put_contents(storage_path().'/revisao/pid_'.$request['idPid'].'.json', json_encode($request->all()));
+        DB::table('pid_revisao')->where('idRevisao', '=', $review[0]->idRevisao)->update(['submetido' => 1, 'updated_at'=> Carbon::now()]);
+        return $request->all();
+    }
+
+    /**
+     * Confirma os dados de um PID editado
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function confirm($id)
+    {
+        //$json =  json_decode(file_get_contents(storage_path().'/revisao/pid_'.$id.'.json'), true);
+
+        $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
+        $localidades = DB::table('localidades')->orderBy('localidade')->lists('localidade','idLocalidade');
+        $localizacoes = DB::table('localizacoes')->orderBy('localizacao')->lists('localizacao','idLocalizacao');
+        $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
+        $pidTipos = DB::table('pidTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
+        $servicos = Servico::all()->lists('servico', 'idServico');
+
+        return view('revisao.pids.review', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos', 'servicos'));
+    }
+
+    /**
+     * Formulario p/ revisar os dados editados
+     * @param null $id
+     * @return mixed
+     */
+    public function review($id = null)
+    {
+        if($id)
+        {
+            $filePath = storage_path().'/revisao/pid_'.$id.'.json';
+            return file_exists($filePath)? json_decode(file_get_contents($filePath), true) : abort(404);
+        }
+    }
+
+    /**
+     * Atualiza na base os dados de um PID revisado.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -178,18 +219,143 @@ class PidReviewController extends Controller
      */
     public function update(Request $request)
     {
-        file_put_contents(storage_path().'/revisao/pid_'.$request['idPid'].'.json', json_encode($request->all()));
-        return $request->all();
+        $this->validate($request, [
+            'nome' => 'required|min:5',
+            'email' => 'required|email',
+            'url' => 'url',
+            'tipo_id' => 'exists:pidTipos,idTipo',
+            'endereco.logradouro' => 'required|min:3|max:150',
+            'endereco.bairro' => 'required|min:3|max:150',
+            'endereco.uf' => 'required',
+            'endereco.cidade_id' => 'required|exists:cidades,idCidade',
+            'endereco.latitude' => 'numeric',
+            'endereco.longitude' => 'numeric',
+            'endereco.localidade_id'=> 'exists:localidades,idLocalidade',
+            'endereco.localizacao_id'=> 'exists:localizacoes,idLocalizacao',
+        ]);
+
+        $pid = Pid::findOrFail($request['idPid']);
+
+        $email = $request['session_email'];
+        $pass = $request['session_pass'];
+
+        $review = DB::table('pid_revisao')
+            ->where('email', $email)
+            ->where('pass', $pass)
+            ->where('valido', 1)
+            ->where('submetido', 1)
+            ->select('pid_id', 'idRevisao')
+            ->get();
+
+        if(empty($review)) {
+            return ['error' => 'Acesso Inválido'];
+        }
+        else if($review[0]->pid_id != $request['idPid']) {
+            return ['error' => 'Acesso Inválido'];
+        }
+
+        DB::beginTransaction();
+        try {
+            $pid->endereco()->update($request['endereco']);
+            $pid->update($request->all());
+            $pid->touch();
+
+            $telefones = [];
+            foreach($request['telefones'] as $telefone) {
+                if($telefone['idTelefone'] == null) {
+                    $tel = $pid->telefones()->create($telefone);
+                    $telefones[] = $tel->idTelefone;
+                }
+                else {
+                    $tel = Telefone::find($telefone['idTelefone']);
+                    $tel->update($telefone);
+                    $telefones[] = $tel->idTelefone;
+                }
+            }
+            $pid->telefones()->sync($telefones);
+
+            $instituicoes = [];
+            foreach($request['instituicoes'] as $instituicao) {
+                $instituicoes[] = $instituicao['idInstituicao'];
+            }
+            $pid->instituicoes()->sync($instituicoes);
+
+            $iniciativas = [];
+            foreach($request['iniciativas'] as $iniciativa) {
+                $iniciativas[] = $iniciativa['idIniciativa'];
+            }
+            $pid->iniciativas()->sync($iniciativas);
+            $pid->servicos()->sync($request['servicos']);
+
+            DB::table('pid_revisao')->where('idRevisao', '=', $review[0]->idRevisao)->update(['valido' => 0, 'updated_at'=> Carbon::now()]);
+
+            DB::commit();
+
+        }
+        catch (\Exception $e) {
+            DB::rollback();
+            abort(400);
+        }
+        finally {
+            unlink(storage_path().'/revisao/pid_'.$pid->idPid.'.json');
+            return $this->show($pid->idPid);
+        }
+
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Retorna lista de pids em revisao
+     * @return mixed
      */
-    public function destroy($id)
+    public function lists()
     {
-        //
+        $pids = DB::table('pid_revisao')
+            ->join('pids', 'pids.idPid', '=', 'pid_revisao.pid_id')
+            ->select('pids.*', 'pid_revisao.*')
+            ->where('valido', '=', 1)
+            ->orderBy('pid_revisao.created_at', 'desc')
+            ->get();
+        return $pids;
+    }
+
+    /**
+     * @param null $id
+     * @return mixed
+     */
+    public function remove($id = null)
+    {
+        if($id)
+        {
+            return DB::table('pid_revisao')->where('idRevisao', '=', $id)->update(['valido' => 0, 'updated_at'=> Carbon::now()]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function logar(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required|min:8'
+        ]);
+
+        $email = $request->email;
+        $pass = $request->password;
+        /*buscar o pid o qual as credenciais pertencem*/
+        $review = DB::table('pid_revisao')
+            ->where('email', $email)
+            ->where('pass', $pass)
+            ->where('valido', 1)
+            ->where('submetido', 0)
+            ->get();
+
+        if($review)
+            return redirect()
+                ->route('review.pid.edit', $review[0]->pid_id)
+                ->with(['email' => $email, 'pass' => $pass] );
+        else
+            return redirect()->back()->withErrors('Senha de acesso Inválida! ');
     }
 }
