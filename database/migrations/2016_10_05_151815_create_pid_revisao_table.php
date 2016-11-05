@@ -13,6 +13,8 @@ class CreatePidRevisaoTable extends Migration
     public function up()
     {
         Schema::create('pid_revisao', function (Blueprint $table) {
+            $table->increments('idRevisao');
+
             $table->unsignedInteger('pid_id');
 
             $table->foreign('pid_id')
