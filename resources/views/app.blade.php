@@ -209,6 +209,6 @@
     <script src="{{ asset('/assets/js/vue-resource.min.js') }}"></script>
     <script src="{{ asset('/assets/js/jquery.mask.min.js') }}"></script>
     @yield('script')
-    {{--<script defer="defer" src="//barra.brasil.gov.br/barra.js" type="text/javascript"></script>--}}
+    <script defer="defer" src="//barra.brasil.gov.br/barra.js" type="text/javascript"></script>
 </body>
 </html>
