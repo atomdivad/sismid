@@ -3,7 +3,12 @@
     {!! Breadcrumbs::render('pidEdit') !!}
     <div class="row">
         <div class="col-sm-12">
-            <legend><i class="glyphicon glyphicon-edit"></i> Editar PID</legend>
+            <legend>
+                <i class="glyphicon glyphicon-edit"></i> Editar PID
+                @if($emRevisao > 0)
+                    <span class="alert-info badge">Em Revisão</span>
+                @endif
+            </legend>
         </div>
     </div>
 
@@ -33,7 +38,11 @@
                     </div>
                     <div class="col-sm-3">
                         @include('pids.partials.modal_sendEmail')
-                        <button class="btn btn-info" data-toggle="modal" data-target="#modalSendLink">Enviar p/ Revisão</button>
+                        @if($emRevisao == 0)
+                            <button class="btn btn-info" data-toggle="modal" data-target="#modalSendLink">Enviar p/ Revisão</button>
+                        @else
+                            <div class="alert alert-info text-center">Este PID já está em Revisão</div>
+                        @endif
                     </div>
                     <div class="col-sm-4 text-right">
                         <a class="btn btn-default" href="{{route('pid.index')}}">Cancerlar</a>

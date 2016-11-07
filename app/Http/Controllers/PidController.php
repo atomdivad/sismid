@@ -483,8 +483,9 @@ class PidController extends Controller
         $telefoneTipos = DB::table('telefoneTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
         $pidTipos = DB::table('pidTipos')->orderBy('tipo')->lists('tipo', 'idTipo');
         $servicos = Servico::all()->lists('servico', 'idServico');
+        $emRevisao = DB::table('pid_revisao')->where('pid_id', $id)->where('valido',1)->count();
 
-        return view('pids.edit', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos', 'servicos'));
+        return view('pids.edit', compact('uf','localidades','localizacoes', 'telefoneTipos','pidTipos', 'servicos', 'emRevisao'));
     }
 
     /**
@@ -651,6 +652,12 @@ class PidController extends Controller
             'idPid' => 'required',
             'email' => 'required|email',
         ]);
+
+        $emRevisao = DB::table('pid_revisao')->where('pid_id', $request['idPid'])->where('valido',1)->count();
+
+        if($emRevisao > 0) {
+            return 10;
+        }
 
         $pid = Pid::findOrFail($request['idPid']);
         $email = $request['email'];

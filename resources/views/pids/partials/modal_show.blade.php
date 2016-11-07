@@ -168,6 +168,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div v-show="sendEmail.error" class="alert alert-danger">Não foi possivel enviar o e-mail.</div>
+                                <div v-show="sendEmail.error_two" class="alert alert-danger">Este PID já se encontra em revisão.</div>
                                 <div v-show="sendEmail.success" class="alert alert-success">E-mail enviado com sucesso.</div>
                             </div>
                         </div>

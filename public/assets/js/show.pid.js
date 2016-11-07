@@ -12,7 +12,11 @@ $('.show-modal').on('click', function(){
     info.$data.id = $(this).data('id');
     info.$data.sendEmail.email = info.$data.info.email;
     info.$data.sendEmail.error = false;
+    info.$data.sendEmail.error_two = false;
     info.$data.sendEmail.success = false;
+    jQuery('#btnSendLink').html('<span class="glyphicon glyphicon-send"></span> Enviar');
+    jQuery('#btnSendLink').prop( "disabled", false);
+    jQuery('#btnClose').prop( "disabled", false);
 });
 
 var info = new Vue({
@@ -25,6 +29,7 @@ var info = new Vue({
         sendEmail: {
             email : '',
             error: false,
+            error_two: false,
             success: false
         }
     },
@@ -39,10 +44,17 @@ var info = new Vue({
             self.sendEmail.error = false;
             self.sendEmail.success = false;
             self.$http.post('/pid/sendlink', {idPid: self.id, email: self.sendEmail.email}, function(response){
-                self.sendEmail.success = true;
-                jQuery('#btnSendLink').html('<i class="fa fa-refresh fa-send"></i> Enviar');
-                jQuery('#btnSendLink').prop( "disabled", false);
-                jQuery('#btnClose').prop( "disabled", false);
+                if(response == 10) {
+                    self.sendEmail.error_two = true;
+                    jQuery('#btnSendLink').html('<i class="fa fa-refresh fa-send"></i> Enviar');
+                    jQuery('#btnClose').prop( "disabled", false);
+                }
+                else {
+                    self.sendEmail.success = true;
+                    jQuery('#btnSendLink').html('<i class="fa fa-refresh fa-send"></i> Enviar');
+                    jQuery('#btnSendLink').prop( "disabled", false);
+                    jQuery('#btnClose').prop( "disabled", false);
+                }
             }).error(function(response) {
                 self.sendEmail.error = true;
                 jQuery('#btnSendLink').html('<span class="glyphicon glyphicon-send"></span> Enviar');
