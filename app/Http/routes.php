@@ -15,7 +15,7 @@ Route::pattern('id', '[0-9]+');
 
 Route::get('/', function () {
     if(Auth::check())
-        return view('home');
+        return redirect()->route('home');
     return view('index');
 });
 
@@ -25,9 +25,10 @@ Route::get('/sobre/sismid', ['as' => 'sobre.index', function() {
 
 Route::group(['middleware' => ['auth', 'needsRole'], 'is' => ['admin', 'gestor'], 'any' => true], function() {
 
-    Route::get('/home', ['as' => 'home', function () {
-        return view('home');
-    }]);
+    Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
+
+    Route::get('/home/listar', ['as' => 'home.pid.listar', 'uses' => 'HomeController@lists']);
+
 
     Route::group(['prefix' => 'pid'], function() {
 

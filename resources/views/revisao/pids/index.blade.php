@@ -50,7 +50,6 @@
             </table>
         </div>
     </div>
-    </div>
 
     @include('revisao.pids.partials.remove_review_modal')
 @endsection
