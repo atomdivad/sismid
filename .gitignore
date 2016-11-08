@@ -2,7 +2,7 @@
 /node_modules
 /storage
 /storage/revisao/*
-!/storage/revisao
+!/storage/revisao/keepfile
 Homestead.yaml
 Homestead.json
 .env
