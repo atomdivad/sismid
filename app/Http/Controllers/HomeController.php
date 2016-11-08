@@ -54,10 +54,10 @@ class HomeController extends Controller
 
     private function reportPidStatusGeral()
     {
-        $sql = 'SELECT COUNT(idPid) AS total FROM pids WHERE (updated_at NOT BETWEEN "'.Carbon::now()->subMonth(1).'" AND "'.Carbon::now().'") AND idPid NOT IN (SELECT DISTINCT pid_id FROM pid_revisao)';
+        $sql = 'SELECT COUNT(idPid) AS total FROM pids WHERE (created_at = updated_at) AND (updated_at NOT BETWEEN "'.Carbon::now()->subMonth(12).'" AND "'.Carbon::now().'") AND ativo = 1 AND idPid NOT IN (SELECT DISTINCT pid_id FROM pid_revisao)';
         $total = DB::select($sql)[0]->total;;
 
-        $sql2 = 'SELECT COUNT(DISTINCT idPid) AS total FROM pids WHERE (updated_at BETWEEN "'.Carbon::now()->subMonth(1).'" AND "'.Carbon::now().'") OR idPid IN (SELECT DISTINCT pid_id FROM pid_revisao)';
+        $sql2 = 'SELECT COUNT(DISTINCT idPid) AS total FROM pids WHERE (created_at <> updated_at) AND (updated_at BETWEEN "'.Carbon::now()->subMonth(12).'" AND "'.Carbon::now().'") AND ativo = 1 AND idPid NOT IN (SELECT DISTINCT pid_id FROM pid_revisao)';
         $atualizados = DB::select($sql2)[0]->total;
 
         $revisao = DB::select('SELECT COUNT(DISTINCT pid_id) AS total FROM pid_revisao')[0]->total;
