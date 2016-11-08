@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pidStatus = $this->reportPidStatus();
+        //$pidStatus = $this->reportPidStatus();
         $review = DB::table('pid_revisao')->where('valido', 1)->count();
         return view('home', compact('pidStatus', 'review'));
     }

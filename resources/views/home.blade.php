@@ -5,24 +5,7 @@
 @is('admin')
     <legend><h6>Administrador</h6></legend>
     <div class="row">
-        <div class="col-sm-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><span class="fa fa-bar-chart"> Pontos de Inclusão Digital: Revisão</span></div>
-                <div class="panel-body">
-                    <div class="thumbnail">
-                        <div class="caption">
-                            <div class="row">
-                                <div class="col-sm-10">
-                                    <small id="PidStatusTitle"><strong>Pontos de Inclusão Digital: Revisão <small>(intervalo de 12 meses)</small></strong></small>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="pidStatus"></div>
-                        @barchart('PidStatus', 'pidStatus')
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="col-sm-4"><!-- Graph --></div>
         <div class="col-sm-2"> </div>
         @if($review >= 0)
             <div class="col-sm-6">
