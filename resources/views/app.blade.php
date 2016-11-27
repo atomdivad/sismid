@@ -43,12 +43,10 @@
             </div>
 
             <div class="row" style="margin-bottom: 5px;">
-                <div class="col-sm-5">
-                    <img src="{{ asset('assets/images/ibictlogo.png') }}" alt="Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)" class="img-responsive">
+                <div class="col-sm-12">
+                    <a href="{{ url('/') }}">  <img src="{{ asset('assets/images/logo-mid.png') }}" alt="Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)" width="430" height="130"></a>
                 </div>
-                <div class="col-sm-7 text-center">
-                    <h3><a href="{{ url('/') }}">Mapa de Inclusão Digital</a></h3>
-                </div>
+
             </div>
         </div>
 
@@ -68,7 +66,7 @@
 
                 <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbar-ex1-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ route('mapa.index') }}" title="Mapa de Inclusão Digital">Mapa de Inclusão Digital</a></li>
+                        <li><a href="{{ route('mapa.index') }}" title="Mapa da Inclusão Digital no Brasil">Mapa</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav">
@@ -182,22 +180,15 @@
                             <strong>Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)</strong><br/>
                             Em Brasília: Setor de Autarquias Sul (SAUS) - Quadra 05 Lote 06 Bloco H <br/>
                             CEP: 70070-912 - Plano Piloto - DF <br/>
-                            No Rio de Janeiro: Rua Lauro Muller, 455 - 4º Andar <br/>
-                            CEP: 22290-160 - Botafogo - RJ
+                            Telefone: (061) 3217-6439
                         </small>
                     </p>
                 </div>
-                <div class="">
-                    <div class="col-sm-2">
-                        <a href="http://www.mcti.gov.br/"><img src="{{ asset('assets/images/mcti.png') }}" alt="Ministério da Ciência, Tecnologia e Inovação (MCTI)" class="img-responsive"></a>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="col-sm-3 text-right">
+
+
+                    <div class="col-sm-5 text-center">
                         <small><a href="{{ route('apiDoc') }}">Documentação API Pública</a></small>
                     </div>
-                </div>
-
             </div>
         </footer>
     </div>

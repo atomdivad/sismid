@@ -4,7 +4,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="row">
         <div class="col-sm-12">
-            <legend><i class="glyphicon glyphicon-list"></i> Mapa de Inclusão Digital</legend>
+            <legend><i class="glyphicon glyphicon-list"></i>Mapa da Inclusão Digital no Brasil</legend>
         </div>
     </div>
     @is(['gestor', 'admin'])
