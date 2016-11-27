@@ -111,6 +111,9 @@ Route::group(['middleware' => ['auth', 'needsRole'], 'is' => 'admin'], function(
 Route::group(['prefix' => 'mapa'], function() {
 
     Route::get('/', ['as' => 'mapa.index', 'uses' => 'MapaController@index']);
+
+    Route::get('/iframe', ['as' => 'mapa.iframe', 'uses' => 'MapaController@iframe']);
+
     Route::get('/{id}/show', ['as' => 'mapa.show', 'uses' => 'MapaController@show']);
 
 });

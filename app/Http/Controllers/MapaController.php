@@ -22,6 +22,11 @@ class MapaController extends Controller
         return view("mapa.index", compact('uf'));
     }
 
+    public function iframe()
+    {
+        $uf = DB::table('uf')->orderBy('uf')->lists('uf','idUf');
+        return view("mapa.iframe", compact('uf'));
+    }
     /**
      * Retorna as info do mapa
      * @param Request $request
