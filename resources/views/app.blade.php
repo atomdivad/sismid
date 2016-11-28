@@ -44,7 +44,7 @@
 
             <div class="row" style="margin-bottom: 5px;">
                 <div class="col-sm-12">
-                    <a href="{{ url('/') }}">  <img src="{{ asset('assets/images/MIDLOGO1.png') }}" alt="Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)" width="580" height="130"></a>
+                    <a href="{{ url('/') }}">  <img src="{{ asset('assets/images/logomid.png') }}" alt="Instituto Brasileiro de Informação em Ciência e Tecnologia (IBICT)" class="img-responsive"></a>
                 </div>
 
             </div>
