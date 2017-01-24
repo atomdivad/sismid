@@ -134,7 +134,6 @@ class ConsultaController extends Controller
             ->select('iniciativas.idIniciativa as id', 'iniciativas.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
             ->where('cidades.idCidade', '=', $idCidade)
             ->whereIn('iniciativas.tipo_id', $tipo)
-            ->whereIn('enderecos.localizacao_id', $localizacao)
             ->get();
 
         if(in_array(0, $tipo)) {
@@ -171,7 +170,6 @@ class ConsultaController extends Controller
             ->select('iniciativas.idIniciativa as id', 'iniciativas.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
             ->whereIn('cidades.uf_id', $uf)
             ->whereIn('iniciativas.tipo_id', $tipo)
-            ->whereIn('enderecos.localizacao_id', $localizacao)
             ->orderBy('cidades.nomeCidade', 'asc')
             ->get();
 
@@ -206,7 +204,6 @@ class ConsultaController extends Controller
             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
             ->select('iniciativas.idIniciativa as id', 'iniciativas.nome', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
             ->whereIn('iniciativas.tipo_id', $tipo)
-            ->whereIn('enderecos.localizacao_id', $localizacao)
             ->orderBy('uf.uf', 'asc')
             ->get();
 
@@ -409,7 +406,6 @@ class ConsultaController extends Controller
             ->select('iniciativas.idIniciativa as id', 'iniciativas.tipo_id', 'iniciativas.nome', 'iniciativas.sigla', 'iniciativas.email', 'iniciativas.url', 'iniciativas.objetivo', 'iniciativas.informacaoComplementar', 'iniciativas.categoria_id', 'iniciativas.fonte', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
             ->where('cidades.idCidade', '=', $idCidade)
             ->whereIn('iniciativas.tipo_id', $tipo)
-            ->whereIn('enderecos.localizacao_id', $localizacao)
             ->get();
 
         if(in_array(0, $tipo)) {
@@ -446,7 +442,6 @@ class ConsultaController extends Controller
             ->select('iniciativas.idIniciativa as id', 'iniciativas.tipo_id', 'iniciativas.nome', 'iniciativas.sigla', 'iniciativas.email', 'iniciativas.url', 'iniciativas.objetivo', 'iniciativas.informacaoComplementar', 'iniciativas.categoria_id', 'iniciativas.fonte', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
             ->whereIn('cidades.uf_id', $uf)
             ->whereIn('iniciativas.tipo_id', $tipo)
-            ->whereIn('enderecos.localizacao_id', $localizacao)
             ->orderBy('cidades.nomeCidade', 'asc')
             ->get();
 
@@ -481,7 +476,6 @@ class ConsultaController extends Controller
             ->join('uf', 'cidades.uf_id', '=', 'uf.idUf')
             ->select('iniciativas.idIniciativa as id', 'iniciativas.tipo_id', 'iniciativas.nome', 'iniciativas.sigla', 'iniciativas.email', 'iniciativas.url', 'iniciativas.objetivo', 'iniciativas.informacaoComplementar', 'iniciativas.categoria_id', 'iniciativas.fonte', 'cidades.nomeCidade', 'uf.uf', 'enderecos.logradouro', 'enderecos.numero', 'enderecos.latitude', 'enderecos.longitude')
             ->whereIn('iniciativas.tipo_id', $tipo)
-            ->whereIn('enderecos.localizacao_id', $localizacao)
             ->orderBy('uf.uf', 'asc')
             ->get();
 
