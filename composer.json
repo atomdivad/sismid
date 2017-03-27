@@ -13,7 +13,7 @@
         "intervention/image": "^2.3",
         "captcha-com/laravel-captcha": "^3.3",
         "davejamesmiller/laravel-breadcrumbs": "^3.0",
-        "khill/lavacharts": "^2.5",
+        "khill/lavacharts": "3.*",
         "barryvdh/laravel-cors": "^0.7.3"
     },
     "require-dev": {

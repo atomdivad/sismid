@@ -85,7 +85,7 @@ class ReportController extends Controller
         else
         {
             $dados = $this->reportPidStatusGeral();
-            $graph = \Lava::BarChart('PidStatus')->setOptions(['datatable' => $dados]);
+            $graph = \Lava::BarChart('PidStatus', $dados, []);
             return $graph;
         }
     }
@@ -223,15 +223,13 @@ class ReportController extends Controller
         }
         else {
             $dados = $this->reportPidTipoGeral();
-            $graph = \Lava::PieChart('PidTipos')
-                ->setOptions([
-                    'datatable' => $dados,
-                    'is3D' => true,
-                    'slices' => [
-                        \Lava::Slice(['offset' => 0.1]),
-                        \Lava::Slice(['offset' => 0.1]),
-                    ]
-                ]);
+            $graph = \Lava::PieChart('PidTipos', $dados, [
+                'is3D' => true,
+                'slices' => [
+                    ['offset' => 0.1],
+                    ['offset' => 0.1],
+                ]
+            ]);
 
             return $graph;
         }
@@ -366,14 +364,12 @@ class ReportController extends Controller
         }
         else {
             $dados = $this->reportPidIniciativaGeral();
-            $graph = \Lava::PieChart('PidIniciativa')
-                ->setOptions([
-                    'datatable' => $dados,
-                    'is3D' => true,
-                    'slices' => [
-                        \Lava::Slice(['offset' => 0.1]),
-                    ]
-                ]);
+            $graph = \Lava::PieChart('PidIniciativa', $dados, [
+                'is3D' => true,
+                'slices' => [
+                    ['offset' => 0.1],
+                ]
+            ]);
 
             return $graph;
         }
@@ -500,13 +496,10 @@ class ReportController extends Controller
         }
         else {
             $dados = $this->reportPidInstituicaoGeral();
-            $graph = \Lava::ColumnChart('PidInstituicao')
-                ->setOptions([
-                    'datatable' => $dados,
-                    'legend' => \Lava::Legend([
-                        'position' => 'top'
-                    ])
-                ]);
+            $graph = \Lava::ColumnChart('PidInstituicao', $dados, [
+                'datatable' => $dados,
+                'legend' => ['position' => 'top']
+            ]);
             return $graph;
         }
     }
@@ -634,11 +627,7 @@ class ReportController extends Controller
         }
         else {
             $dados = $this->reportPidLocalizacaoGeral();
-            $graph = \Lava::PieChart('PidLocalizcao')
-                ->setOptions([
-                    'datatable' => $dados,
-                    'is3D' => true
-                ]);
+            $graph = \Lava::PieChart('PidLocalizcao', $dados, ['is3D' => true]);
 
             return $graph;
         }
@@ -782,14 +771,12 @@ class ReportController extends Controller
         }
         else {
             $dados = $this->reportPidLocalidadeGeral();
-            $graph = \Lava::PieChart('PidLocalidade')
-                ->setOptions([
-                    'datatable' => $dados,
-                    'is3D' => true,
-                    'slices' => [
-                        \Lava::Slice(['offset' => 0.2])
-                    ]
-                ]);
+            $graph = \Lava::PieChart('PidLocalidade', $dados, [
+                'is3D' => true,
+                'slices' => [
+                    ['offset' => 0.2]
+                ]
+            ]);
 
             return $graph;
         }
@@ -934,11 +921,9 @@ class ReportController extends Controller
         else
         {
             $dados = $this->reportPidServicoGeral();
-            $graph = \Lava::PieChart('PidServico')
-                ->setOptions([
-                    'datatable' => $dados,
-                    'is3D' => true
-                ]);
+            $graph = \Lava::PieChart('PidServico', $dados, [
+                'is3D' => true
+            ]);
             return $graph;
         }
     }
